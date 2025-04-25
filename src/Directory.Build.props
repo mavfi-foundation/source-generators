@@ -1,0 +1,30 @@
+<Project>
+	<PropertyGroup>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net8.0;net9.0</TargetFrameworks>
+		<AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+		<VersionPrefix>1.0.0</VersionPrefix>
+		<VersionSuffix>rc1</VersionSuffix>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<PackageReadmeFile>docs/README.md</PackageReadmeFile>
+		<Authors>MavFi Foundation</Authors>
+		<PackageProjectUrl>https://github.com/mavfi-foundation/mavfifoundation-generators</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/mavfi-foundation/mavfifoundation-generators</RepositoryUrl>
+		<PackageTags>Code Generation,Roslyn,IncrementalGenerator,Analyzer</PackageTags>
+		<PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
+		<copyright>© MavFi Foundation. All rights reserved.</copyright>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="docs/"/>
+	</ItemGroup>
+
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+			<_Parameter1>MavFiFoundation.SourceGenerators.Tests</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
+
+</Project>

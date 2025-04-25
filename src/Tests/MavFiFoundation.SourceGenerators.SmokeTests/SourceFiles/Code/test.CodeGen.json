@@ -1,0 +1,11 @@
+{
+    "srcLocatorType" : "Type",
+    "srcLocatorInfo": "Info",
+    "outputInfos": [
+		{
+			"FileNameBuilderInfo": "{{ srcType.Name }}BuilderInfo.g.cs", 
+			"SourceBuilderType": "MFFScribanBuilder", 
+			"SourceBuilderInfo": "{{ FullyQualifiedName }}BuilderInfo"
+		}
+	]
+}

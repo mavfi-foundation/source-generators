@@ -1,0 +1,48 @@
+using System;
+
+namespace MavFiFoundation.SourceGenerators;
+public static class GeneratorConstants
+{
+{{- for outputInfo in outputInfos }}
+        {{- if outputInfo.Item1 == "Builders" }}
+
+    public static class Builder
+    {
+            {{- for outputInfoValue in outputInfo.Item2 }}
+
+        public const string {{ outputInfoValue }} = "{{ outputInfoValue }}";
+            {{- end }}
+    }
+        {{- end }}
+        {{- if outputInfo.Item1 == "GeneratorTriggers" }}
+
+    public static class GeneratorTrigger
+    {
+            {{- for outputInfoValue in outputInfo.Item2 }}
+
+        public const string {{ outputInfoValue }} = "{{ outputInfoValue }}";
+            {{- end }}
+    }
+        {{- end }}
+        {{- if outputInfo.Item1 == "ResourceLoaders" }}
+
+    public static class ResourceLoader
+    {
+            {{- for outputInfoValue in outputInfo.Item2 }}
+
+        public const string {{ outputInfoValue }} = "{{ outputInfoValue }}";
+            {{- end }}
+    }
+        {{- end }}
+        {{- if outputInfo.Item1 == "TypeLocators" }}
+ 
+    public static class TypeLocator
+    {
+            {{- for outputInfoValue in outputInfo.Item2 }}
+
+        public const string {{ outputInfoValue }} = "{{ outputInfoValue }}";
+            {{- end }}
+    }
+        {{- end }}
+    {{- end }}
+}

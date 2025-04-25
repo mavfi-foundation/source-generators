@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>$(MSBuildProjectName.Replace(" ","_").Replace(".Shared",""))</RootNamespace>
+	  <IsRoslynComponent>true</IsRoslynComponent>
+ </PropertyGroup>
+
+  <ItemGroup>
+ 		<PackageReference Include="System.Collections.Immutable" />
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="YamlDotNet" />
+  </ItemGroup>
+</Project>

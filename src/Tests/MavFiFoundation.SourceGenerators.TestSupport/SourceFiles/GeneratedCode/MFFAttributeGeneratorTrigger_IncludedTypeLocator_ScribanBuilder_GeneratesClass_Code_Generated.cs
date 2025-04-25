@@ -1,0 +1,6 @@
+#nullable enable
+
+public partial class MFFAttributeGeneratorTrigger_IncludedTypeLocator_ScribanBuilder_GeneratesClass_Code_Generated
+{
+
+}

@@ -1,0 +1,102 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "src": "../src",
+          "files": [
+            "**/*.csproj"
+          ],
+          "exclude": [
+            "tests/**",
+            "MavFiFoundation.SourceGenerators/**",
+            "MavFiFoundation.SourceGenerators.MFFSourceGenerator/**"
+          ]
+        }
+      ],
+      "dest": "net8/api",
+      "outputFormat": "apiPage",
+      "version": "net8",
+      "properties": {
+        "TargetFramework": "net8.0"
+      }
+    },
+    {
+      "src": [
+        {
+          "src": "../src",
+          "files": [
+            "**/*.csproj"
+          ],
+          "exclude": [
+            "tests/**",
+            "MavFiFoundation.SourceGenerators/**",
+            "MavFiFoundation.SourceGenerators.MFFSourceGenerator/**"
+          ]
+        }
+      ],
+      "dest": "net9/api",
+      "outputFormat": "apiPage",
+      "version": "net9",
+      "properties": {
+        "TargetFramework": "net9.0"
+      }
+    },
+    {
+      "src": [
+        {
+          "src": "../src",
+          "files": [
+            "**/*.csproj"
+          ],
+          "exclude": [
+            "tests/**"
+          ]
+        }
+      ],
+      "dest": "netstandard2.0/api",
+      "outputFormat": "apiPage",
+      "version": "netstandard2.0",
+      "properties": {
+        "TargetFramework": "netstandard2.0"
+      }
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "src": "../src",
+        "files": [
+          "**/README.md"
+        ],
+        "dest": "docs/modules"
+      },
+      {
+        "files": [
+          "**/*.{md,yml}"
+        ],
+        "exclude": [
+          "_site/**"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "images/**"
+        ]
+      }
+    ],
+    "output": "_site",
+    "template": [
+      "default",
+      "modern"
+    ],
+    "globalMetadata": {
+      "_appName": "MavFi Foundation Source Generators",
+      "_appTitle": "MavFi Foundation Source Generators",
+      "_enableSearch": true,
+      "pdf": true
+    }
+  }
+}

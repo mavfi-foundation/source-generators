@@ -1,0 +1,9 @@
+{
+    "srcLocatorType" : "MFFAttributeTypeLocator",
+    "srcLocatorInfo": "TestSpace.MFFJsonGeneratorTrigger_AttributeTypeLocator_LiquidBuilder_GeneratesClass_AttributeAttribute",
+    "srcOutputInfos": [{
+		"FileNameBuilderInfo": "{{ srcType.Name }}_Generated.g.cs", 
+		"SourceBuilderType": "MFFLiquidBuilder", 
+		"SourceBuilderInfo": "#nullable enable\n\npublic partial class {{ srcType.Name }}_Generated\n{\n\n}"
+	}]
+}

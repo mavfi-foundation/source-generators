@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <EmbeddedResource Include="SourceFiles/**/*.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="SourceFiles/GeneratedCode/*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators\MavFiFoundation.SourceGenerators.csproj" PrivateAssets="all" SetTargetFramework="TargetFramework=netstandard2.0" />
+    <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators.MFFSourceGenerator\MavFiFoundation.SourceGenerators.MFFSourceGenerator.csproj" PrivateAssets="all" SetTargetFramework="TargetFramework=netstandard2.0" />
+    <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators.Shared\MavFiFoundation.SourceGenerators.Shared.csproj" SetTargetFramework="TargetFramework=netstandard2.0"/>
+    <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators.Extras\MavFiFoundation.SourceGenerators.Extras.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Remove="Xunit" />
+    <Using Remove="FluentAssertions" />
+    <Using Remove="Moq" />
+  </ItemGroup>
+
+</Project>

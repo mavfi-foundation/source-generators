@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="coverlet.collector">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="Moq" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators\MavFiFoundation.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" SetTargetFramework="TargetFramework=netstandard2.0" />
+    <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators.MFFSourceGenerator\MavFiFoundation.SourceGenerators.MFFSourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" SetTargetFramework="TargetFramework=netstandard2.0" />
+    <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators.Shared\MavFiFoundation.SourceGenerators.Shared.csproj" OutputItemType="Analyzer" SetTargetFramework="TargetFramework=netstandard2.0"/>
+    <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators.Extras\MavFiFoundation.SourceGenerators.Extras.csproj" />
+    <ProjectReference Include="..\MavFiFoundation.SourceGenerators.TestSupport\MavFiFoundation.SourceGenerators.TestSupport.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="SourceFiles/**/*.json" />
+  </ItemGroup>
+  
+</Project>

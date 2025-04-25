@@ -1,0 +1,1 @@
+# MavFiFoundation.SourceGenerators.Shared

@@ -1,0 +1,59 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>$(MSBuildProjectName.Replace(" ","_").Replace(".MFFSourceGenerator",""))</RootNamespace>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks></TargetFrameworks> <!-- Clear TargetFrameworks from Directory.Build.props -->
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <IsRoslynComponent>true</IsRoslynComponent>
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    <Description>Flexible template based Roslyn IncrementalGenerators</Description>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+
+    	<PackageReference Include="Newtonsoft.Json" PrivateAssets="all" GeneratePathProperty="true" />
+    	<PackageReference Include="Scriban" PrivateAssets="all" GeneratePathProperty="true" />
+
+    	<!-- Package the generator in the analyzer directory of the nuget package -->
+    	<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+
+    	<!-- Package the generator dependencies in the analyzer directory of the nuget package -->
+    	<None Include="$(PkgNewtonsoft_Json)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+
+		<!-- Suppress NU5128-->
+    	<None Include="_._" Pack="true" PackagePath="lib/netstandard2.0" Visible="false" />
+
+		<!--<None Include="README.md" Pack="true" PackagePath="docs/"/>-->
+	</ItemGroup>
+
+	<PropertyGroup>
+		<GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
+	</PropertyGroup>
+
+	<Target Name="GetDependencyTargetPaths">
+		<ItemGroup>
+			<TargetPathWithTargetPlatformMoniker Include="$(PkgNewtonsoft_Json)\lib\netstandard2.0\*.dll" IncludeRuntimeDependency="false" />
+			<TargetPathWithTargetPlatformMoniker Include="$(PkgScriban)\lib\netstandard2.0\*.dll" IncludeRuntimeDependency="false" />
+		</ItemGroup>
+	</Target>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\MavFiFoundation.SourceGenerators\MavFiFoundation.SourceGenerators.csproj" OutputItemType="Analyzer" PrivateAssets="all" SetTargetFramework="TargetFramework=netstandard2.0"/>
+    <ProjectReference Include="..\MavFiFoundation.SourceGenerators.Shared\MavFiFoundation.SourceGenerators.Shared.csproj" OutputItemType="Analyzer" SetTargetFramework="TargetFramework=netstandard2.0"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="AnalyzerReleases.Shipped.md" />
+    <AdditionalFiles Include="AnalyzerReleases.Unshipped.md" />
+  </ItemGroup>
+
+</Project>
