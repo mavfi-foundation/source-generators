@@ -2,7 +2,7 @@ using MavFiFoundation.SourceGenerators.Models;
 using MavFiFoundation.SourceGenerators.Serializers;
 
 
-namespace MavFiFoundation.SourceGenerators.UnitTests;
+namespace MavFiFoundation.SourceGenerators.Serializers.UnitTests;
 
 public class MFFXmlSerializersTests
 {

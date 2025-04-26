@@ -17,6 +17,8 @@ public class MFFGeneratorPluginsProvider : IMFFGeneratorPluginsProvider
 
     public IMFFBuilder? DefaultFileNameBuilder { get; protected set;}
 
+    public IMFFSerializer DefaultSerializer { get; protected set;}
+
     #endregion
 
     #region Constructors
@@ -27,6 +29,7 @@ public class MFFGeneratorPluginsProvider : IMFFGeneratorPluginsProvider
         ResourceLoaders = new Dictionary<string, IMFFResourceLoader>();
         TypeLocators = new Dictionary<string, IMFFTypeLocator>();
         Builders = new Dictionary<string, IMFFBuilder>();
+        DefaultSerializer = new MFFJsonSerializer();
 
         AddDefaultGeneratorTriggers();
         AddDefaultResourceLoaders();
@@ -44,7 +47,7 @@ public class MFFGeneratorPluginsProvider : IMFFGeneratorPluginsProvider
 
     protected virtual void AddDefaultGeneratorTriggers()
     {
-        AddDefaultGeneratorTrigger(new MFFAttributeGeneratorTrigger());
+        AddDefaultGeneratorTrigger(new MFFAttributeGeneratorTrigger(DefaultSerializer));
         AddDefaultGeneratorTrigger(new MFFXmlGeneratorTrigger(new MFFXmlSerializer()));
         AddDefaultGeneratorTrigger(new MFFJsonGeneratorTrigger(new MFFJsonSerializer()));
     }  
@@ -67,7 +70,7 @@ public class MFFGeneratorPluginsProvider : IMFFGeneratorPluginsProvider
     protected virtual void AddDefaultTypeLocators()
     {
         AddDefaultSourceTypeLocator(new MFFIncludedTypeLocator());
-        AddDefaultSourceTypeLocator(new MFFAttributeTypeLocator());
+        AddDefaultSourceTypeLocator(new MFFAttributeTypeLocator(DefaultSerializer));
     }  
 
     protected void AddDefaultBuilder(IMFFBuilder builder)

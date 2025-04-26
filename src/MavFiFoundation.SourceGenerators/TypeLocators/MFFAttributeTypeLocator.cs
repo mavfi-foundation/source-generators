@@ -1,7 +1,8 @@
 using Microsoft.CodeAnalysis;
 using MavFiFoundation.SourceGenerators.Models;
 using System.Collections.Immutable;
-using Newtonsoft.Json;
+using System.Text.Json;
+using MavFiFoundation.SourceGenerators.Serializers;
 
 namespace MavFiFoundation.SourceGenerators.TypeLocators;
 
@@ -9,11 +10,17 @@ public class MFFAttributeTypeLocator : MFFGeneratorPluginBase, IMFFTypeLocator
 {
     public const string DEFAULT_NAME = nameof(MFFAttributeTypeLocator);
 
-    public MFFAttributeTypeLocator() : base(
-        DEFAULT_NAME) { }
+    protected IMFFSerializer Serializer { get; private set; }
+
+    public MFFAttributeTypeLocator(IMFFSerializer serializer) : base(
+        DEFAULT_NAME)
+    {
+        Serializer = serializer;
+    }
+
 
     public IncrementalValuesProvider<MFFGeneratorInfoWithSrcTypesRecord?> GetTypeSymbolsProvider(
-        IncrementalGeneratorInitializationContext genContext, 
+        IncrementalGeneratorInitializationContext genContext,
         IncrementalValuesProvider<MFFGeneratorInfoRecord?> genInfos,
         IncrementalValuesProvider<MFFTypeSymbolSources> allTypes)
     {
@@ -26,20 +33,20 @@ public class MFFAttributeTypeLocator : MFFGeneratorPluginBase, IMFFTypeLocator
             {
                 cancellationToken.ThrowIfCancellationRequested();
 
-                if(genInfo is null) continue;
+                if (genInfo is null) continue;
 
                 //TODO: MFFTypeNameTypeLocator.cs string[] of type names, string[] Assemblies2Search - wildcard/regex find
                 //TODO: dynamic linq where typelocator
 
-				var serializedLocatorInfo = genInfo.SrcLocatorInfo as string;
+                var serializedLocatorInfo = genInfo.SrcLocatorInfo as string;
 
                 MFFAttributeTypeLocatorInfo? locatorInfo = null;
 
-				if (serializedLocatorInfo is not null)
-				{
+                if (serializedLocatorInfo is not null)
+                {
                     if (serializedLocatorInfo.TrimStart().StartsWith("{"))
                     {
-    					locatorInfo = JsonConvert.DeserializeObject<MFFAttributeTypeLocatorInfo?>(serializedLocatorInfo);
+                        locatorInfo = Serializer.DeserializeObject<MFFAttributeTypeLocatorInfo?>(serializedLocatorInfo);
                     }
                     else
                     {
@@ -48,33 +55,33 @@ public class MFFAttributeTypeLocator : MFFGeneratorPluginBase, IMFFTypeLocator
                             Attribute2Find = serializedLocatorInfo
                         };
                     }
-				}
+                }
 
                 if (locatorInfo is not null && !string.IsNullOrWhiteSpace(locatorInfo.Attribute2Find))
                 {
                     var typeSymbols = ImmutableArray.CreateBuilder<MFFTypeSymbolRecord>();
                     string[] sources2Check;
 
-                    if(locatorInfo.NoSearchProjectTypes)
+                    if (locatorInfo.NoSearchProjectTypes)
                     {
                         sources2Check = locatorInfo.Assemblies2Search;
                     }
                     else
                     {
-                        sources2Check = [.. locatorInfo.Assemblies2Search, 
+                        sources2Check = [.. locatorInfo.Assemblies2Search,
                             MFFGeneratorConstants.Generator.COMPILING_PROJECT];
                     }
 
-                    foreach (var source in combined.Right.Where(s=>sources2Check.Contains(s.Source)))
+                    foreach (var source in combined.Right.Where(s => sources2Check.Contains(s.Source)))
                     {
                         cancellationToken.ThrowIfCancellationRequested();
-                        
-                        var typeQuery = source.Types
-                            .Where(t=>t.Attributes.Any(a=>a.Name == locatorInfo.Attribute2Find));
 
-                        if(locatorInfo.Types2Exclude.Any())
+                        var typeQuery = source.Types
+                            .Where(t => t.Attributes.Any(a => a.Name == locatorInfo.Attribute2Find));
+
+                        if (locatorInfo.Types2Exclude.Any())
                         {
-                            typeQuery = typeQuery.Where(t=> locatorInfo
+                            typeQuery = typeQuery.Where(t => locatorInfo
                                 .Types2Exclude.Contains(t.FullyQualifiedName));
                         }
 
@@ -82,9 +89,9 @@ public class MFFAttributeTypeLocator : MFFGeneratorPluginBase, IMFFTypeLocator
                     }
 
                     genInfoWithSrcsBuilder.Add(new MFFGeneratorInfoWithSrcTypesRecord(
-                        genInfo, 
+                        genInfo,
                         typeSymbols.ToImmutable()
-                    )); 
+                    ));
                 }
             }
 
@@ -92,6 +99,6 @@ public class MFFAttributeTypeLocator : MFFGeneratorPluginBase, IMFFTypeLocator
         });
 
         return pipeline;
- 
+
     }
 }

@@ -16,10 +16,7 @@ $"\n		\"SourceBuilderType\": \"{ MFFScribanBuilder.DEFAULT_NAME }\",\n" +
 		"SourceBuilderInfo": "#nullable enable\n\n
 """ +
 """
-public partial class {{ srcType.Name }}_Generated
-{
-
-}"
+public partial class {{ srcType.Name }}_Generated\n{\n\n}"
 """ + 
 """
 	}

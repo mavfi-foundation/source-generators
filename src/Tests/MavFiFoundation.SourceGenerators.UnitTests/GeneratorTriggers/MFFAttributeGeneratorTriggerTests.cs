@@ -1,6 +1,7 @@
 using MavFiFoundation.SourceGenerators.GeneratorTriggers;
 using MavFiFoundation.SourceGenerators.Models;
 using MavFiFoundation.SourceGenerators.ResourceLoaders;
+using MavFiFoundation.SourceGenerators.Serializers;
 
 using System.Collections.Immutable;
 
@@ -8,6 +9,11 @@ namespace MavFiFoundation.SourceGenerators.UnitTests.GeneratorTriggers;
 
 public class MFFAttributeGeneratorTriggerTests : MFFAttributeGeneratorTrigger
 {
+
+    public MFFAttributeGeneratorTriggerTests() : base(new MFFJsonSerializer())
+    {
+
+    }
 
     [Fact]
     public void GetTypesWithAttribute_NothingIn_NothingOut ()
