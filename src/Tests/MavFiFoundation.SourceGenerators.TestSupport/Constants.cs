@@ -43,7 +43,7 @@ public static class Constants
             public const string MFFJSONGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS_GENERATE = 
                 "MFFJsonGeneratorTrigger_AttributeTypeLocator_LiquidBuilder_GeneratesClass.CodeGen.json";
             public const string MFFYAMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS_GENERATE = 
-                "MFFYamlGeneratorTrigger_AttributeTypeLocator_LiquidBuilder_GeneratesClass.CodeGen.yml";
+                "MFFYamlGeneratorTrigger_AttributeTypeLocator_LiquidBuilder_GeneratesClass.codegen.yAml";
         }
 
         public static class GeneratedCode
