@@ -2,6 +2,7 @@ using Microsoft.CodeAnalysis;
 using MavFiFoundation.SourceGenerators.Models;
 using MavFiFoundation.SourceGenerators.ResourceLoaders;
 using MavFiFoundation.SourceGenerators.Serializers;
+using System.Text.RegularExpressions;
 
 
 namespace MavFiFoundation.SourceGenerators.GeneratorTriggers;
@@ -9,6 +10,7 @@ namespace MavFiFoundation.SourceGenerators.GeneratorTriggers;
 public abstract class MFFFileGeneratorTriggerBase : MFFGeneratorTriggerBase, IMFFGeneratorTrigger
 {
     protected string FileNameSuffix { get; private set; }
+    protected Regex FileNameSuffixRegex { get; private set; }
     protected IMFFSerializer Serializer { get; private set; } 
 
     public MFFFileGeneratorTriggerBase(
@@ -17,6 +19,7 @@ public abstract class MFFFileGeneratorTriggerBase : MFFGeneratorTriggerBase, IMF
         IMFFSerializer serializer) : base(name) 
     { 
         FileNameSuffix = fileNameSuffix;
+        FileNameSuffixRegex = new Regex($"{fileNameSuffix}$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         Serializer = serializer;
     }
 
@@ -28,8 +31,7 @@ public abstract class MFFFileGeneratorTriggerBase : MFFGeneratorTriggerBase, IMF
     {
         
         IncrementalValuesProvider<MFFGeneratorInfoRecord?> pipeline = allResources
-        //FIXME: FileName suffix compare should be case insensitive
-            .Where((resource) => resource.Name.EndsWith(FileNameSuffix))
+            .Where((resource) => FileNameSuffixRegex.IsMatch(resource.Name))
             .Combine(allResources.Collect())
             .Select((combined, cancellationToken) =>
             {
