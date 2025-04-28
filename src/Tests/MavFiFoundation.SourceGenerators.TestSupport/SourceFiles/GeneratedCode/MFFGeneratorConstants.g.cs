@@ -20,6 +20,8 @@ public static class GeneratorConstants
         public const string MFFXmlGeneratorTrigger = "MFFXmlGeneratorTrigger";
 
         public const string MFFJsonGeneratorTrigger = "MFFJsonGeneratorTrigger";
+
+        public const string MFFYamlGeneratorTrigger = "MFFYamlGeneratorTrigger";
     }
 
     public static class ResourceLoader

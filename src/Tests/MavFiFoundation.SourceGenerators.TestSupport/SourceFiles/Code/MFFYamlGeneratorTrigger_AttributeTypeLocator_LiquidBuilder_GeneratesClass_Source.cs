@@ -1,0 +1,9 @@
+using System;
+
+namespace TestSpace;
+
+[MFFYamlGeneratorTrigger_AttributeTypeLocator_LiquidBuilder_GeneratesClass_Attribute]
+public class MFFYamlGeneratorTrigger_AttributeTypeLocator_LiquidBuilder_GeneratesClass_Source
+{
+
+}

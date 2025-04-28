@@ -50,6 +50,7 @@ public class MFFGeneratorPluginsProvider : IMFFGeneratorPluginsProvider
         AddDefaultGeneratorTrigger(new MFFAttributeGeneratorTrigger(DefaultSerializer));
         AddDefaultGeneratorTrigger(new MFFXmlGeneratorTrigger(new MFFXmlSerializer()));
         AddDefaultGeneratorTrigger(new MFFJsonGeneratorTrigger(new MFFJsonSerializer()));
+        AddDefaultGeneratorTrigger(new MFFYamlGeneratorTrigger(new MFFYamlSerializer()));
     }  
 
     protected void AddDefaultResourceLoader(IMFFResourceLoader loader)

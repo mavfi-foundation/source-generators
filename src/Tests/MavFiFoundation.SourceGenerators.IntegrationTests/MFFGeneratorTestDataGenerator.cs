@@ -175,6 +175,36 @@ public class MFFGeneratorTestDataGenerator : IEnumerable<object[]>
 
         _data.Add(testDataBuilder.BuildTestData());
 
+        // MFFYamlGeneratorTrigger_AttributeTypeLocator_LiquidBuilder_GeneratesClass
+        testDataBuilder.BeginTest(
+            "MFFYamlGeneratorTrigger_AttributeTypeLocator_LiquidBuilder_GeneratesClass");
+
+        testDataBuilder.AddSource(
+            EmbeddedResourceHelper.ReadEmbeddedSource(
+                Constants.SourceFiles.Code.MFFYAMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS_ATTRIBUTE, 
+                EmbeddedResourceHelper.EmbeddedResourceType.Code));
+
+        testDataBuilder.AddSource(
+            EmbeddedResourceHelper.ReadEmbeddedSource(
+                Constants.SourceFiles.Code.MFFYAMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS_SOURCE, 
+                EmbeddedResourceHelper.EmbeddedResourceType.Code));
+
+        testDataBuilder.AddAdditionalFile((
+            Constants.SourceFiles.AdditionalFile.MFFYAMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS_GENERATE,
+            EmbeddedResourceHelper.ReadEmbeddedSource(
+                Constants.SourceFiles.AdditionalFile.MFFYAMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS_GENERATE, 
+                EmbeddedResourceHelper.EmbeddedResourceType.Code)));
+
+        testDataBuilder.AddGeneratedSource((
+            generatorType,
+            Constants.SourceFiles.OutputFileName.MFFYAMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS,
+             EmbeddedResourceHelper.ReadEmbeddedSource(
+                Constants.SourceFiles.GeneratedCode.MFFYAMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS,
+                EmbeddedResourceHelper.EmbeddedResourceType.GeneratedCode)
+        ));
+
+        _data.Add(testDataBuilder.BuildTestData());
+
         // ResourceLoader_LoadsIncludedResources
         testDataBuilder.BeginTest(
             "ResourceLoader_LoadsIncludedResources");

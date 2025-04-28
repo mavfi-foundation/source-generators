@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <AdditionalFiles Include="SourceFiles/**/*.json" />
+    <AdditionalFiles Include="SourceFiles/**/*.yml" />
   </ItemGroup>
   
 </Project>
