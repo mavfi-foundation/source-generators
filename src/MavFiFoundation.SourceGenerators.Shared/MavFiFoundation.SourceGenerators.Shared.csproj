@@ -7,7 +7,7 @@
 
   <ItemGroup>
  		<PackageReference Include="System.Collections.Immutable" />
-    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="System.Text.Json" />
     <PackageReference Include="YamlDotNet" />
   </ItemGroup>
 </Project>

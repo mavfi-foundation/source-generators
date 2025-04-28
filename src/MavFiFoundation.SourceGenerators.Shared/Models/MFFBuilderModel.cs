@@ -1,6 +1,4 @@
 
-using System.Xml.Serialization;
-
 namespace MavFiFoundation.SourceGenerators.Models;
 
 public class MFFBuilderModel

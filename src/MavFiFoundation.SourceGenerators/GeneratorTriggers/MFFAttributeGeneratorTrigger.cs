@@ -1,8 +1,9 @@
 using Microsoft.CodeAnalysis;
-using Newtonsoft.Json;
 using MavFiFoundation.SourceGenerators.Models;
 using System.Collections.Immutable;
 using MavFiFoundation.SourceGenerators.ResourceLoaders;
+using System.Text.Json;
+using MavFiFoundation.SourceGenerators.Serializers;
 
 namespace MavFiFoundation.SourceGenerators.GeneratorTriggers;
 
@@ -25,20 +26,24 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
 	#region Private/Protected Properties
 
 	protected string ConfigAttributeName { get; private set; }
+    protected IMFFSerializer Serializer { get; private set; }
+
 
 	#endregion
 
 	#region Constructors
-    public MFFAttributeGeneratorTrigger() 
+    public MFFAttributeGeneratorTrigger(IMFFSerializer serializer) 
 		: this(
 			DEFAULT_NAME, 
-			DEFAULT_ATTRIBUTE_NAME)
+			DEFAULT_ATTRIBUTE_NAME,
+            serializer)
     {
     }
 
-    public MFFAttributeGeneratorTrigger(string name, string configAttributeName) : base(name)
+    public MFFAttributeGeneratorTrigger(string name, string configAttributeName,IMFFSerializer serializer) : base(name)
     {
         ConfigAttributeName = configAttributeName;
+        Serializer = serializer;
     }
 
 	#endregion
@@ -111,8 +116,7 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
 							var outputInfo = (string?)attProp.Value;
 							if (outputInfo is not null)
 							{
-                                //TODO: Use IMFFSerializer - Special handling for List
-								sourceInfo.SrcOutputInfos = JsonConvert.DeserializeObject<List<MFFBuilderModel>?>(outputInfo);
+                                sourceInfo.SrcOutputInfos = Serializer.DeserializeObject<List<MFFBuilderModel>?>(outputInfo);
 							}
 							break;
 						default: //do nothing
