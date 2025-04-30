@@ -1,0 +1,9 @@
+{
+    "srcLocatorType" : "MFFAttributeTypeLocator",
+    "srcLocatorInfo": "TestSpace.AttributeTestAttribute",
+    "srcOutputInfos": [{
+		"fileNameBuilderInfo": "GeneratedByJson{{ srcType.Name }}.g.cs", 
+		"sourceBuilderType": "MFFScribanBuilder", 
+		"sourceBuilderInfo": "#nullable enable\n\npublic partial class GeneratedByJson{{ srcType.Name }}\n{\n\n}"
+	}]
+}

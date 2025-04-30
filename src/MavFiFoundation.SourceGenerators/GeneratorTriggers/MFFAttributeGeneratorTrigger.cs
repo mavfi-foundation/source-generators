@@ -2,7 +2,6 @@ using Microsoft.CodeAnalysis;
 using MavFiFoundation.SourceGenerators.Models;
 using System.Collections.Immutable;
 using MavFiFoundation.SourceGenerators.ResourceLoaders;
-using System.Text.Json;
 using MavFiFoundation.SourceGenerators.Serializers;
 
 namespace MavFiFoundation.SourceGenerators.GeneratorTriggers;
@@ -15,11 +14,11 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
 	public const string DEFAULT_ATTRIBUTE_NAME = "MavFiFoundation.SourceGenerators.MFFGenerateSourceAttribute";
 
 
-	private const string CTOR_ARG_SRCLOCATORTYPE = "srcLocatorType";
-	private const string CTOR_ARG_SRCLOCATORINFO = "srcLocatorInfo";
-	private const string CTOR_ARG_USESYMBOLFORLOCATORINFO = "useSymbolForLocatorInfo";
+	protected const string CTOR_ARG_SRCLOCATORTYPE = "srcLocatorType";
+	protected const string CTOR_ARG_SRCLOCATORINFO = "srcLocatorInfo";
+	protected const string CTOR_ARG_USESYMBOLFORLOCATORINFO = "useSymbolForLocatorInfo";
 
-	private const string CTOR_ARG_OUTPUTINFO = "outputInfo";
+	protected const string CTOR_ARG_OUTPUTINFO = "outputInfo";
 
 	#endregion
 

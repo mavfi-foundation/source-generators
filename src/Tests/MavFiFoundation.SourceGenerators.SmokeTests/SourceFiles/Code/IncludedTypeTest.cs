@@ -6,21 +6,21 @@ namespace TestSpace
 """
 [
 	{
-		"FileNameBuilderInfo": "{{ srcType.Name }}BuilderInfo.g.cs", 
+		"FileNameBuilderInfo": "GeneratedBy{{ srcType.Name }}.g.cs", 
 """ +
 $"\n		\"SourceBuilderType\": \"{GeneratorConstants.Builder.MFFScribanBuilder }\",\n" +
 """
 		"SourceBuilderInfo": "#nullable enable\n\n
 """ +
 """
-public partial class {{ srcType.Name }}BuilderInfo { }"
+public partial class GeneratedBy{{ srcType.Name }} { }"
 """ + 
 """
 	}
 ]
 """
 	)]
-	public class Test
+	public class IncludedTypeTest
 	{ 
 
 	}

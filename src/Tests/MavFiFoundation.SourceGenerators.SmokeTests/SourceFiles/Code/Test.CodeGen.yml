@@ -1,0 +1,13 @@
+srcLocatorType: MFFAttributeTypeLocator
+srcLocatorInfo: >-
+  TestSpace.AttributeTestAttribute
+srcOutputInfos:
+  - fileNameBuilderInfo: 'GeneratedByYaml{{ srcType.Name }}.g.cs'
+    sourceBuilderType: MFFLiquidBuilder
+    sourceBuilderInfo: |-
+      #nullable enable
+
+      public partial class GeneratedByYaml{{ srcType.Name }}
+      {
+
+      }

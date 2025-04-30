@@ -175,6 +175,36 @@ public class MFFGeneratorTestDataGenerator : IEnumerable<object[]>
 
         _data.Add(testDataBuilder.BuildTestData());
 
+        // MFFXmlGeneratorTrigger_AttributeTypeLocator_ScribanBuilder_GeneratesClass
+        testDataBuilder.BeginTest(
+            "MFFXmlGeneratorTrigger_AttributeTypeLocator_ScribanBuilder_GeneratesClass");
+
+        testDataBuilder.AddSource(
+            EmbeddedResourceHelper.ReadEmbeddedSource(
+                Constants.SourceFiles.Code.MFFXMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS_ATTRIBUTE, 
+                EmbeddedResourceHelper.EmbeddedResourceType.Code));
+
+        testDataBuilder.AddSource(
+            EmbeddedResourceHelper.ReadEmbeddedSource(
+                Constants.SourceFiles.Code.MFFXMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS_SOURCE, 
+                EmbeddedResourceHelper.EmbeddedResourceType.Code));
+
+        testDataBuilder.AddAdditionalFile((
+            Constants.SourceFiles.AdditionalFile.MFFXMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS_GENERATE,
+            EmbeddedResourceHelper.ReadEmbeddedSource(
+                Constants.SourceFiles.AdditionalFile.MFFXMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS_GENERATE, 
+                EmbeddedResourceHelper.EmbeddedResourceType.Code)));
+
+        testDataBuilder.AddGeneratedSource((
+            generatorType,
+            Constants.SourceFiles.OutputFileName.MFFXMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS,
+             EmbeddedResourceHelper.ReadEmbeddedSource(
+                Constants.SourceFiles.GeneratedCode.MFFXMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS,
+                EmbeddedResourceHelper.EmbeddedResourceType.GeneratedCode)
+        ));
+
+        _data.Add(testDataBuilder.BuildTestData());
+
         // MFFYamlGeneratorTrigger_AttributeTypeLocator_LiquidBuilder_GeneratesClass
         testDataBuilder.BeginTest(
             "MFFYamlGeneratorTrigger_AttributeTypeLocator_LiquidBuilder_GeneratesClass");

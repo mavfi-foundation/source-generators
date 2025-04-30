@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-16"?>
+<MFFGeneratorInfoModel>
+  <SrcLocatorType>MFFAttributeTypeLocator</SrcLocatorType>
+  <SrcLocatorInfo type="System.String">TestSpace.AttributeTestAttribute</SrcLocatorInfo>
+  <SrcOutputInfos>
+    <MFFBuilderModel>
+      <FileNameBuilderInfo>GeneratedByXml{{ srcType.Name }}.g.cs</FileNameBuilderInfo>
+      <SourceBuilderType>MFFScribanBuilder</SourceBuilderType>
+      <SourceBuilderInfo type="System.String">
+#nullable enable
+
+public partial class GeneratedByXml{{ srcType.Name }}
+{
+
+}
+      </SourceBuilderInfo>
+    </MFFBuilderModel>
+  </SrcOutputInfos>
+</MFFGeneratorInfoModel>

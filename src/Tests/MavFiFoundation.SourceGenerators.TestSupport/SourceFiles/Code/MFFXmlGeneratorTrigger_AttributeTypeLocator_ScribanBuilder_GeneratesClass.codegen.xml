@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-16"?>
+<MFFGeneratorInfoModel>
+  <SrcLocatorType>MFFAttributeTypeLocator</SrcLocatorType>
+  <SrcLocatorInfo type="System.String">TestSpace.MFFXmlGeneratorTrigger_AttributeTypeLocator_ScribanBuilder_GeneratesClass_AttributeAttribute</SrcLocatorInfo>
+  <SrcOutputInfos>
+    <MFFBuilderModel>
+      <FileNameBuilderInfo>{{ srcType.Name }}_Generated.g.cs</FileNameBuilderInfo>
+      <SourceBuilderType>MFFScribanBuilder</SourceBuilderType>
+      <SourceBuilderInfo type="System.String">#nullable enable
+
+public partial class {{ srcType.Name }}_Generated
+{
+
+}</SourceBuilderInfo>
+    </MFFBuilderModel>
+  </SrcOutputInfos>
+</MFFGeneratorInfoModel>
