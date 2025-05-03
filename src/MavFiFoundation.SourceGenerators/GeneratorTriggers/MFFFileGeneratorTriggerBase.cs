@@ -3,6 +3,7 @@ using MavFiFoundation.SourceGenerators.Models;
 using MavFiFoundation.SourceGenerators.ResourceLoaders;
 using MavFiFoundation.SourceGenerators.Serializers;
 using System.Text.RegularExpressions;
+using System.Collections.Immutable;
 
 
 namespace MavFiFoundation.SourceGenerators.GeneratorTriggers;
@@ -34,31 +35,32 @@ public abstract class MFFFileGeneratorTriggerBase : MFFGeneratorTriggerBase, IMF
             .Where((resource) => FileNameSuffixRegex.IsMatch(resource.Name))
             .Combine(allResources.Collect())
             .Select((combined, cancellationToken) =>
-            {
-                var resourcePath = combined.Left.Name;
-                var sourceInfo = Deserialize(combined.Left.Text);
-
-                if (sourceInfo is not null)
-                {
-                    if(string.IsNullOrWhiteSpace(sourceInfo.ContainingNamespace))
-                    {
-                        sourceInfo.ContainingNamespace = Path.GetDirectoryName(resourcePath)
-                            ?.Replace(Path.DirectorySeparatorChar, '.') ?? string.Empty;
-                    }
-
-                    LoadResources(sourceInfo, combined.Right, resourceLoaders, cancellationToken);
-                    return sourceInfo.ToRecord();
-                }
-                
-                return null;
-            });
+                 GetGeneratorInfoFromFile(resourceLoaders, combined.Left, combined.Right, cancellationToken));
             
-
         return pipeline;
     }
 
-    protected virtual MFFGeneratorInfoModel? Deserialize(string serialized)
+    protected MFFGeneratorInfoRecord? GetGeneratorInfoFromFile(
+        IEnumerable<IMFFResourceLoader> resourceLoaders, 
+        MFFResourceRecord resource, 
+        ImmutableArray<MFFResourceRecord> resources,
+        CancellationToken cancellationToken)
     {
-        return Serializer.DeserializeObject<MFFGeneratorInfoModel>(serialized);
+        var resourcePath = resource.Name;
+        var sourceInfo = Serializer.DeserializeObject<MFFGeneratorInfoModel>(resource.Text);
+
+        if (sourceInfo is not null)
+        {
+            if (string.IsNullOrWhiteSpace(sourceInfo.ContainingNamespace))
+            {
+                sourceInfo.ContainingNamespace = Path.GetDirectoryName(resourcePath)
+                    ?.Replace(Path.DirectorySeparatorChar, '.') ?? string.Empty;
+            }
+
+            LoadResources(sourceInfo, resources, resourceLoaders, cancellationToken);
+            return sourceInfo.ToRecord();
+        }
+
+        return null;
     }
 }

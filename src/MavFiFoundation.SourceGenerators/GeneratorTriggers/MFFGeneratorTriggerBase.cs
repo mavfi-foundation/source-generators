@@ -10,7 +10,7 @@ public abstract class MFFGeneratorTriggerBase : MFFGeneratorPluginBase
 {
     public MFFGeneratorTriggerBase(string name) : base(name) { }
 
-    protected void LoadResources(
+    protected virtual void LoadResources(
         MFFGeneratorInfoModel genInfo,
         ImmutableArray<MFFResourceRecord> resources,
         IEnumerable<IMFFResourceLoader> resourceLoaders,
