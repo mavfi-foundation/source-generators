@@ -3,6 +3,7 @@ using MavFiFoundation.SourceGenerators.ResourceLoaders;
 using MavFiFoundation.SourceGenerators.Serializers;
 using System.Collections.Immutable;
 using Moq.Protected;
+using MavFiFoundation.SourceGenerators.Testing.Models;
 
 namespace MavFiFoundation.SourceGenerators.UnitTests.GeneratorTriggers;
 
@@ -25,7 +26,9 @@ public class MFFFileGeneratorTriggerBaseTests
     {
         //Arrange
         var loaders = Array.Empty<IMFFResourceLoader>();
-        var resource = new MFFResourceRecord(Path.Combine("TestSpace","Test.CodeGen.test"), "FileText");
+        var resource = new MFFResourceRecordBuilder()
+            .Name(Path.Combine("TestSpace","Test.CodeGen.test"))
+            .Build();
         var resources = Array.Empty<MFFResourceRecord>().ToImmutableArray();
         var cancellationToken = new CancellationToken();
         var cut = new MFFFileGeneratorTriggerBaseTestClass(_mockSerializer.Object);
@@ -45,7 +48,9 @@ public class MFFFileGeneratorTriggerBaseTests
     {
         //Arrange
         var loaders = Array.Empty<IMFFResourceLoader>();
-        var resource = new MFFResourceRecord(Path.Combine("TestSpace","Test.CodeGen.test"), "FileText");
+        var resource = new MFFResourceRecordBuilder()
+            .Name(Path.Combine("TestSpace","Test.CodeGen.test"))
+            .Build();
         var resources = Array.Empty<MFFResourceRecord>().ToImmutableArray();
         var cancellationToken = new CancellationToken();
         var cutMock = new Mock<MFFFileGeneratorTriggerBaseTestClass>(_mockSerializer.Object);

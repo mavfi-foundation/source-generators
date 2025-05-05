@@ -1,7 +1,7 @@
 using System.Collections.Immutable;
-
 using MavFiFoundation.SourceGenerators.Models;
 using MavFiFoundation.SourceGenerators.Serializers;
+using MavFiFoundation.SourceGenerators.Testing.Models;
 
 namespace MavFiFoundation.SourceGenerators.UnitTests.TypeLocators;
 
@@ -15,47 +15,26 @@ public class MFFAttributeTypeLocatorTests
     }
 
     [Fact]
-    public void GetTypesWithAttribute_ReturnsEmptySourceTypes_WhenNoClassesWithMatchingAttribteFound ()
+    public void GetTypesWithAttribute_ReturnsEmptySourceTypes_WhenNoClassesWithMatchingAttributeFound ()
     {
         //Arrange
 
         var genInfos = new MFFGeneratorInfoRecord?[]
         {
-            new MFFGeneratorInfoRecord
-            (
-                "TestSpace",
-                "MFFAttributeTypeLocator",
-                "SrcLocatorInfo",
-                Array.Empty<MFFBuilderRecord>().ToImmutableArray(),
-                Array.Empty<MFFBuilderRecord>().ToImmutableArray()
-            )
+            new MFFGeneratorInfoRecordBuilder()
+                .SrcLocatorType(GeneratorConstants.TypeLocator.MFFAttributeTypeLocator)
+                .Build()
         }.ToImmutableArray();
 
         var srcSymbols = new MFFTypeSymbolSources[] 
         {
-            new MFFTypeSymbolSources
-            (
-                MFFGeneratorConstants.Generator.COMPILING_PROJECT,
-                new MFFTypeSymbolRecord[]
-                {
-                    new MFFTypeSymbolRecord
-                    (
-                        "TestSpace",
-                        "Name",
-                        "GenericParameters",
-                        "FullyQualifiedName",
-                        "Contraints",
-                        false,
-                        new MFFPropertySymbolRecord[]{}.ToImmutableArray(),
-                        new MFFAttributeDataRecord[]{}.ToImmutableArray()
-                    )
-
-                }.ToImmutableArray()
-            )
+            new MFFTypeSymbolSourcesBuilder()
+                .AddType(new MFFTypeSymbolRecordBuilder()
+                    .Build())
+                .Build(),
         }.ToImmutableArray();
 
         var cancellationToken = new CancellationToken();
-
         var cut = new MFFAttributeTypeLocatorTestClass(_mockSerializer.Object);
 
         //Act

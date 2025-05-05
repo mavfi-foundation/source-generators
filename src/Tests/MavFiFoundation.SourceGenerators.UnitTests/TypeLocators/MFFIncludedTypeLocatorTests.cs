@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Immutable;
-
-using MavFiFoundation.SourceGenerators.Models;
+using MavFiFoundation.SourceGenerators.Testing.Models;
 
 namespace MavFiFoundation.SourceGenerators.UnitTests.TypeLocators;
 
@@ -13,25 +10,13 @@ public class MFFIncludedTypeLocatorTests
         //Arrange
 
         var includedType = 
-            new MFFTypeSymbolRecord
-            (
-                "TestSpace",
-                "Name",
-                "GenericParameters",
-                "FullyQualifiedName",
-                "Contraints",
-                false,
-                new MFFPropertySymbolRecord[]{}.ToImmutableArray(),
-                new MFFAttributeDataRecord[]{}.ToImmutableArray()
-            );
+            new MFFTypeSymbolRecordBuilder()                
+                .Build();
 
-        var genInfo = new MFFGeneratorInfoRecord(
-            "TestSpace",
-            "MFFIncludedTypeLocator",
-            includedType,
-            Array.Empty<MFFBuilderRecord>().ToImmutableArray(),
-            Array.Empty<MFFBuilderRecord>().ToImmutableArray()
-        );
+        var genInfo = new MFFGeneratorInfoRecordBuilder()
+            .SrcLocatorType(GeneratorConstants.TypeLocator.MFFIncludedTypeLocator)
+            .SrcLocatorInfo(includedType)
+            .Build();
 
         var cut = new MFFIncludedTypeLocatorTestClass();
 
@@ -49,13 +34,9 @@ public class MFFIncludedTypeLocatorTests
     {
         //Arrange
 
-        var genInfo = new MFFGeneratorInfoRecord(
-            "TestSpace",
-            "MFFIncludedTypeLocator",
-            "SrcLocatorInfo",
-            Array.Empty<MFFBuilderRecord>().ToImmutableArray(),
-            Array.Empty<MFFBuilderRecord>().ToImmutableArray()
-        );
+        var genInfo = new MFFGeneratorInfoRecordBuilder()
+            .SrcLocatorType(GeneratorConstants.TypeLocator.MFFIncludedTypeLocator)
+            .Build();
 
         var cut = new MFFIncludedTypeLocatorTestClass();
 

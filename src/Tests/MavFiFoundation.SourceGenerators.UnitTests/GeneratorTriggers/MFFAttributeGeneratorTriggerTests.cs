@@ -5,6 +5,7 @@ using MavFiFoundation.SourceGenerators.Serializers;
 using MavFiFoundation.SourceGenerators.TypeLocators;
 using System.Collections.Immutable;
 using Moq.Protected;
+using MavFiFoundation.SourceGenerators.Testing.Models;
 
 namespace MavFiFoundation.SourceGenerators.UnitTests.GeneratorTriggers;
 
@@ -34,7 +35,7 @@ public class MFFAttributeGeneratorTriggerTests
         var actual = cut.ExposedGetTypesWithAttribute(srcSymbols, resources, loaders, cancellationToken);
 
         //Assert
-        actual.Length.Should().Be(0);
+        actual.Should().HaveCount(0);
     }
 
     [Fact]
@@ -45,68 +46,31 @@ public class MFFAttributeGeneratorTriggerTests
 
         var srcSymbols = new MFFTypeSymbolSources[] 
         {
-            new MFFTypeSymbolSources
-            (
-                MFFGeneratorConstants.Generator.COMPILING_PROJECT,
-                new MFFTypeSymbolRecord[]
-                {
-                    new MFFTypeSymbolRecord
-                    (
-                        matchContainingNamespace,
-                        "Name",
-                        "GenericParameters",
-                        "FullyQualifiedName",
-                        "Contraints",
-                        false,
-                        new MFFPropertySymbolRecord[]{}.ToImmutableArray(),
-                        new MFFAttributeDataRecord[]
-                        {
-                            new MFFAttributeDataRecord
-                            (
-                                MFFAttributeGeneratorTrigger.DEFAULT_ATTRIBUTE_NAME,
-                                new MFFAttributePropertyRecord[]
-                                {
-                                    new MFFAttributePropertyRecord
-                                    (
-                                        MFFAttributeGeneratorTriggerTestClass.EXPOSED_CTOR_ARG_SRCLOCATORTYPE,
-                                        MFFAttributeTypeLocator.DEFAULT_NAME,
-                                        MFFAttributePropertyLocationType.Constructor
-                                    ),
-                                    new MFFAttributePropertyRecord
-                                    (
-                                        MFFAttributeGeneratorTriggerTestClass.EXPOSED_CTOR_ARG_SRCLOCATORINFO,
-                                        "SomeAttribute",
-                                        MFFAttributePropertyLocationType.Constructor
-                                    ),
-                                    new MFFAttributePropertyRecord
-                                    (
-                                        MFFAttributeGeneratorTriggerTestClass.EXPOSED_CTOR_ARG_USESYMBOLFORLOCATORINFO,
-                                        false,
-                                        MFFAttributePropertyLocationType.Constructor
-                                    ),
-                                    new MFFAttributePropertyRecord
-                                    (
-                                        MFFAttributeGeneratorTriggerTestClass.EXPOSED_CTOR_ARG_OUTPUTINFO,
-                                        "OutputInfo",
-                                        MFFAttributePropertyLocationType.Constructor
-                                    )
-                                }.ToImmutableArray()
-                            )
-                        }.ToImmutableArray()
-                    ),
-                    new MFFTypeSymbolRecord
-                    (
-                        "TestSpace",
-                        "Name",
-                        "GenericParameters",
-                        "FullyQualifiedName",
-                        "Contraints",
-                        false,
-                        new MFFPropertySymbolRecord[]{}.ToImmutableArray(),
-                        new MFFAttributeDataRecord[]{}.ToImmutableArray()
-                    )
-                }.ToImmutableArray()
-            )
+            new MFFTypeSymbolSourcesBuilder()
+                .AddType(new MFFTypeSymbolRecordBuilder()
+                    .ContainingNamespace(matchContainingNamespace)
+                    .AddAttribute(new MFFAttributeDataRecordBuilder()
+                        .Name(MFFAttributeGeneratorTrigger.DEFAULT_ATTRIBUTE_NAME)
+                        .AddProperty(new MFFAttributePropertyRecordBuilder()
+                                .Name(MFFAttributeGeneratorTriggerTestClass.EXPOSED_CTOR_ARG_SRCLOCATORTYPE)
+                                .Value(MFFAttributeTypeLocator.DEFAULT_NAME)
+                                .Build())
+                        .AddProperty(new MFFAttributePropertyRecordBuilder()
+                                .Name(MFFAttributeGeneratorTriggerTestClass.EXPOSED_CTOR_ARG_SRCLOCATORINFO)
+                                .Value("SomeAttribute")
+                                .Build())
+                        .AddProperty(new MFFAttributePropertyRecordBuilder()
+                                .Name(MFFAttributeGeneratorTriggerTestClass.EXPOSED_CTOR_ARG_USESYMBOLFORLOCATORINFO)
+                                .Value(false)
+                                .Build())
+                        .AddProperty(new MFFAttributePropertyRecordBuilder()
+                                .Name(MFFAttributeGeneratorTriggerTestClass.EXPOSED_CTOR_ARG_OUTPUTINFO)
+                                .Value("OutputInfo")
+                                .Build())
+                        .Build())
+                    .Build())
+                .AddType(new MFFTypeSymbolRecordBuilder().Build())
+                .Build(),
         }.ToImmutableArray();
         
         var resources = Array.Empty<MFFResourceRecord>().ToImmutableArray();
@@ -118,7 +82,7 @@ public class MFFAttributeGeneratorTriggerTests
         var actual = cut.ExposedGetTypesWithAttribute(srcSymbols, resources, loaders, cancellationToken);
 
         //Assert
-        actual.Length.Should().Be(1);
+        actual.Should().HaveCount(1);
         var actual_0 = actual[0];
         actual_0.Should().NotBeNull();
         actual_0.ContainingNamespace.Should().Be(matchContainingNamespace);
@@ -131,63 +95,27 @@ public class MFFAttributeGeneratorTriggerTests
 
         var srcSymbols = new MFFTypeSymbolSources[] 
         {
-            new MFFTypeSymbolSources
-            (
-                MFFGeneratorConstants.Generator.COMPILING_PROJECT,
-                new MFFTypeSymbolRecord[]
-                {
-                    new MFFTypeSymbolRecord
-                    (
-                        matchContainingNamespace,
-                        "Name",
-                        "GenericParameters",
-                        "FullyQualifiedName",
-                        "Contraints",
-                        false,
-                        new MFFPropertySymbolRecord[]{}.ToImmutableArray(),
-                        new MFFAttributeDataRecord[]
-                        {
-                            new MFFAttributeDataRecord
-                            (
-                                MFFAttributeGeneratorTrigger.DEFAULT_ATTRIBUTE_NAME,
-                                new MFFAttributePropertyRecord[]
-                                {
-                                    new MFFAttributePropertyRecord
-                                    (
-                                        MFFAttributeGeneratorTriggerTestClass.EXPOSED_CTOR_ARG_SRCLOCATORTYPE,
-                                        MFFAttributeTypeLocator.DEFAULT_NAME,
-                                        MFFAttributePropertyLocationType.Constructor
-                                    ),
-                                    new MFFAttributePropertyRecord
-                                    (
-                                        MFFAttributeGeneratorTriggerTestClass.EXPOSED_CTOR_ARG_USESYMBOLFORLOCATORINFO,
-                                        true,
-                                        MFFAttributePropertyLocationType.Constructor
-                                    ),
-                                    new MFFAttributePropertyRecord
-                                    (
-                                        MFFAttributeGeneratorTriggerTestClass.EXPOSED_CTOR_ARG_OUTPUTINFO,
-                                        "OutputInfo",
-                                        MFFAttributePropertyLocationType.Constructor
-                                    )
-                                }.ToImmutableArray()
-                            )
-                        }.ToImmutableArray()
-                    ),
-                    new MFFTypeSymbolRecord
-                    (
-                        "TestSpace",
-                        "Name",
-                        "GenericParameters",
-                        "FullyQualifiedName",
-                        "Contraints",
-                        false,
-                        new MFFPropertySymbolRecord[]{}.ToImmutableArray(),
-                        new MFFAttributeDataRecord[]{}.ToImmutableArray()
-                    )
-
-                }.ToImmutableArray()
-            )
+            new MFFTypeSymbolSourcesBuilder()
+                .AddType(new MFFTypeSymbolRecordBuilder()
+                    .ContainingNamespace(matchContainingNamespace)
+                    .AddAttribute(new MFFAttributeDataRecordBuilder()
+                        .Name(MFFAttributeGeneratorTrigger.DEFAULT_ATTRIBUTE_NAME)
+                        .AddProperty(new MFFAttributePropertyRecordBuilder()
+                                .Name(MFFAttributeGeneratorTriggerTestClass.EXPOSED_CTOR_ARG_SRCLOCATORTYPE)
+                                .Value(MFFAttributeTypeLocator.DEFAULT_NAME)
+                                .Build())
+                        .AddProperty(new MFFAttributePropertyRecordBuilder()
+                                .Name(MFFAttributeGeneratorTriggerTestClass.EXPOSED_CTOR_ARG_USESYMBOLFORLOCATORINFO)
+                                .Value(true)
+                                .Build())
+                        .AddProperty(new MFFAttributePropertyRecordBuilder()
+                                .Name(MFFAttributeGeneratorTriggerTestClass.EXPOSED_CTOR_ARG_OUTPUTINFO)
+                                .Value("OutputInfo")
+                                .Build())
+                        .Build())
+                    .Build())
+                .AddType(new MFFTypeSymbolRecordBuilder().Build())
+                .Build()
         }.ToImmutableArray();
         
         var resources = Array.Empty<MFFResourceRecord>().ToImmutableArray();
@@ -199,7 +127,7 @@ public class MFFAttributeGeneratorTriggerTests
         var actual = cut.ExposedGetTypesWithAttribute(srcSymbols, resources, loaders, cancellationToken);
 
         //Assert
-        actual.Length.Should().Be(1);
+        actual.Should().HaveCount(1);
         var actual_0 = actual[0];
         actual_0.Should().NotBeNull();
         actual_0.ContainingNamespace.Should().Be(matchContainingNamespace);
@@ -214,51 +142,26 @@ public class MFFAttributeGeneratorTriggerTests
 
         var srcSymbols = new MFFTypeSymbolSources[] 
         {
-            new MFFTypeSymbolSources
-            (
-                MFFGeneratorConstants.Generator.COMPILING_PROJECT,
-                new MFFTypeSymbolRecord[]
-                {
-                    new MFFTypeSymbolRecord
-                    (
-                        matchContainingNamespace,
-                        "Name",
-                        "GenericParameters",
-                        "FullyQualifiedName",
-                        "Contraints",
-                        false,
-                        new MFFPropertySymbolRecord[]{}.ToImmutableArray(),
-                        new MFFAttributeDataRecord[]
-                        {
-                            new MFFAttributeDataRecord
-                            (
-                                MFFAttributeGeneratorTrigger.DEFAULT_ATTRIBUTE_NAME,
-                                new MFFAttributePropertyRecord[]
-                                {
-                                    new MFFAttributePropertyRecord
-                                    (
-                                        MFFAttributeGeneratorTriggerTestClass.EXPOSED_CTOR_ARG_SRCLOCATORTYPE,
-                                        MFFAttributeTypeLocator.DEFAULT_NAME,
-                                        MFFAttributePropertyLocationType.Constructor
-                                    ),
-                                    new MFFAttributePropertyRecord
-                                    (
-                                        MFFAttributeGeneratorTriggerTestClass.EXPOSED_CTOR_ARG_USESYMBOLFORLOCATORINFO,
-                                        true,
-                                        MFFAttributePropertyLocationType.Constructor
-                                    ),
-                                    new MFFAttributePropertyRecord
-                                    (
-                                        MFFAttributeGeneratorTriggerTestClass.EXPOSED_CTOR_ARG_OUTPUTINFO,
-                                        "OutputInfo",
-                                        MFFAttributePropertyLocationType.Constructor
-                                    )
-                                }.ToImmutableArray()
-                            )
-                        }.ToImmutableArray()
-                    )
-                }.ToImmutableArray()
-            )
+            new MFFTypeSymbolSourcesBuilder()
+                .AddType(new MFFTypeSymbolRecordBuilder()
+                    .ContainingNamespace(matchContainingNamespace)
+                    .AddAttribute(new MFFAttributeDataRecordBuilder()
+                        .Name(MFFAttributeGeneratorTrigger.DEFAULT_ATTRIBUTE_NAME)
+                        .AddProperty(new MFFAttributePropertyRecordBuilder()
+                                .Name(MFFAttributeGeneratorTriggerTestClass.EXPOSED_CTOR_ARG_SRCLOCATORTYPE)
+                                .Value(MFFAttributeTypeLocator.DEFAULT_NAME)
+                                .Build())
+                        .AddProperty(new MFFAttributePropertyRecordBuilder()
+                                .Name(MFFAttributeGeneratorTriggerTestClass.EXPOSED_CTOR_ARG_USESYMBOLFORLOCATORINFO)
+                                .Value(true)
+                                .Build())
+                        .AddProperty(new MFFAttributePropertyRecordBuilder()
+                                .Name(MFFAttributeGeneratorTriggerTestClass.EXPOSED_CTOR_ARG_OUTPUTINFO)
+                                .Value("OutputInfo")
+                                .Build())
+                        .Build())
+                    .Build())
+                .Build()
         }.ToImmutableArray();
         
         var resources = Array.Empty<MFFResourceRecord>().ToImmutableArray();

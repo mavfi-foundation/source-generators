@@ -1,93 +1,15 @@
-using System.Collections;
+using MavFiFoundation.SourceGenerators.Testing;
 using MavFiFoundation.SourceGenerators.TestSupport;
 
 namespace MavFiFoundation.SourceGenerators.IntegrationTests;
-public class MFFGeneratorTestDataGenerator : IEnumerable<object[]>
+public class MFFGeneratorTestDataGenerator : MFFGeneratorTestDataGeneratorBase
 {
-
-    private class TestDataBuilder
-    {
-        private string _curName = string.Empty;
-        private readonly ICollection<string> _curSources = new HashSet<string>();
-        private readonly ICollection<(string, string)> _curAdditionalFiles = 
-            new HashSet<(string, string)>();
-        private readonly ICollection<(Type, string, string)> _curGeneratedSources = 
-            new HashSet<(Type, string, string)>();
-
-        private readonly ICollection<string> _allSources = new HashSet<string>();
-        private readonly ICollection<(string, string)> _allAdditionalFiles = 
-            new HashSet<(string, string)>();
-        private readonly ICollection<(Type, string, string)> _allGeneratedSources = 
-            new HashSet<(Type, string, string)>();
-
-        public void BeginTest(string testName)
-        {
-            _curName = testName;
-            _curSources.Clear();
-            _curAdditionalFiles.Clear();
-            _curGeneratedSources.Clear();
-        }
-
-        public void AddSource(string source)
-        {
-            _curSources.Add(source);
-            _allSources.Add(source);
-        }
-
-        public void AddAdditionalFile((string, string) additionalFile)
-        {
-            _curAdditionalFiles.Add(additionalFile);
-            _allAdditionalFiles.Add(additionalFile);
-        }
-
-        public void AddGeneratedSource((Type, string, string) generatedSource)
-        {
-            _curGeneratedSources.Add(generatedSource);
-            _allGeneratedSources.Add(generatedSource);
-        }
-
-        public object[] BuildTestData()
-        {
-            var ret = new object[] { new MFFGeneratorTestData {
-                Scenario = _curName.ToString(),
-                Sources = _curSources.ToArray(),
-                AdditionalFiles = _curAdditionalFiles.ToArray(),
-                GeneratedSources = _curGeneratedSources.ToArray()
-            }};
-
-            return ret;
-        }
-
-        public object[] BuildAllTestData()
-        {
-            var ret = new object[] { new MFFGeneratorTestData {
-                Scenario = "All_Scenarios_Together",
-                Sources = _allSources.ToArray(),
-                AdditionalFiles = _allAdditionalFiles.ToArray(),
-                GeneratedSources = _allGeneratedSources.ToArray()
-            }};
-
-            return ret;
-        }
-
-
-    }
-    private readonly List<object[]> _data;
 
     public MFFGeneratorTestDataGenerator()
     {
-        _data = new List<object[]>();
-
-        var testDataBuilder = new TestDataBuilder();
+        var testDataBuilder = new TestDataBuilder<MFFGeneratorXUnitTestData>();
  
         var generatorType = typeof(MFFGenerator);
-        var curName = string.Empty;
-        var curSources = new HashSet<string>();
-        var curAdditionalFiles = new HashSet<(string, string)>();
-        var curGeneratedSources = new HashSet<(Type, string, string)>();
-        var allSources = new List<string>();
-        var allAdditionalFiles = new List<(string, string)>();
-        var allGeneratedSources = new List<(Type, string, string)>();
 
         // NothingIn_NothingOut
         testDataBuilder.BeginTest(
@@ -301,10 +223,5 @@ public class MFFGeneratorTestDataGenerator : IEnumerable<object[]>
         // All
         _data.Add(testDataBuilder.BuildAllTestData());       
     }
-
-    public IEnumerator<object[]> GetEnumerator() => _data.GetEnumerator();
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
 }
 

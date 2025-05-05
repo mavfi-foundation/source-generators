@@ -13,7 +13,7 @@ using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
 
-namespace MavFiFoundation.SourceGenerators.IntegrationTests;
+namespace MavFiFoundation.SourceGenerators.Testing;
 
 // All of this code was grabbed from Refit
 // (https://github.com/reactiveui/refit/pull/1216/files)
