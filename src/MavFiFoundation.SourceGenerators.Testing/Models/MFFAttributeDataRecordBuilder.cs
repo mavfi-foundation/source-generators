@@ -7,7 +7,8 @@ namespace MavFiFoundation.SourceGenerators.Testing.Models;
 
 public class MFFAttributeDataRecordBuilder
 {
-    private string _name = "Name";
+    public const string DEFAULT_NAME = "Name";
+    private string _name = DEFAULT_NAME;
 
     private IEnumerable<MFFAttributePropertyRecord> _properties = 
         Array.Empty<MFFAttributePropertyRecord>();

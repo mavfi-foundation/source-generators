@@ -2,6 +2,7 @@ using Microsoft.CodeAnalysis;
 using MavFiFoundation.SourceGenerators.Models;
 using System.Collections.Immutable;
 using MavFiFoundation.SourceGenerators.Serializers;
+using System.Text.RegularExpressions;
 
 namespace MavFiFoundation.SourceGenerators.TypeLocators;
 
@@ -10,11 +11,14 @@ public class MFFAttributeTypeLocator : MFFGeneratorPluginBase, IMFFTypeLocator
     public const string DEFAULT_NAME = nameof(MFFAttributeTypeLocator);
 
     protected IMFFSerializer Serializer { get; private set; }
+    protected Regex FullyQualifiedNameRegex {get; private set;}
 
     public MFFAttributeTypeLocator(IMFFSerializer serializer) : base(
         DEFAULT_NAME)
     {
         Serializer = serializer;
+        FullyQualifiedNameRegex = new Regex(@"^[A-Za-z_][A-Za-z0-9_]*(\.[A-Za-z_][A-Za-z0-9_]*)*$",
+            RegexOptions.Compiled);
     }
 
 
@@ -47,22 +51,22 @@ public class MFFAttributeTypeLocator : MFFGeneratorPluginBase, IMFFTypeLocator
             //TODO: MFFTypeNameTypeLocator.cs string[] of type names, string[] Assemblies2Search - wildcard/regex find
             //TODO: dynamic linq where typelocator
 
-            var serializedLocatorInfo = genInfo.SrcLocatorInfo as string;
+            var serializedLocatorInfo = (genInfo.SrcLocatorInfo as string)?.Trim();
 
             MFFAttributeTypeLocatorInfo? locatorInfo = null;
 
             if (serializedLocatorInfo is not null)
             {
-                if (serializedLocatorInfo.TrimStart().StartsWith("{"))
-                {
-                    locatorInfo = Serializer.DeserializeObject<MFFAttributeTypeLocatorInfo>(serializedLocatorInfo);
-                }
-                else
+                if (FullyQualifiedNameRegex.IsMatch(serializedLocatorInfo))
                 {
                     locatorInfo = new MFFAttributeTypeLocatorInfo()
                     {
                         Attribute2Find = serializedLocatorInfo
                     };
+                }
+                else
+                {
+                    locatorInfo = Serializer.DeserializeObject<MFFAttributeTypeLocatorInfo>(serializedLocatorInfo);
                 }
             }
 
@@ -90,7 +94,7 @@ public class MFFAttributeTypeLocator : MFFGeneratorPluginBase, IMFFTypeLocator
 
                     if (locatorInfo.Types2Exclude.Any())
                     {
-                        typeQuery = typeQuery.Where(t => locatorInfo
+                        typeQuery = typeQuery.Where(t => !locatorInfo
                             .Types2Exclude.Contains(t.FullyQualifiedName));
                     }
 
