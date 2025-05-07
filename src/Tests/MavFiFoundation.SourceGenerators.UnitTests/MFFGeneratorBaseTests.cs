@@ -100,4 +100,60 @@ public class MFFGeneratorBaseTests
 
         containsSource.Should().BeTrue();
     }
+
+        [Fact]
+    public void CreateOutput_CreatesSourcesForSrcOutputInfos()
+    {
+        // Arrange
+        var expectedSourceCode = "GenOutputInfoSourceCode";
+        var mockBuilder = new Mock<IMFFBuilder>(MockBehavior.Strict);
+        mockBuilder
+            .Setup(x => x.Build(
+                It.Is<object>(s =>s.ToString() == MFFBuilderRecordBuilder.DEFAULT_FILE_NAME_BUILDER_INFO),
+                It.IsAny<MFFBuilderRecord>(),
+                It.IsAny<MFFTypeSymbolRecord>()))
+            .Returns(MFFBuilderRecordBuilder.DEFAULT_FILE_NAME_BUILDER_INFO);
+
+        mockBuilder
+            .Setup(x => x.Build(
+                It.Is<object>(s =>s.ToString() == MFFBuilderRecordBuilder.DEFAULT_SOURCE_BUILDER_INFO),
+                It.IsAny<MFFBuilderRecord>(),
+                It.IsAny<MFFTypeSymbolRecord>()))
+            .Returns(expectedSourceCode);
+
+        _mockPluginsProvider.SetupGet(x => x.Builders)
+            .Returns(new Dictionary<string, IMFFBuilder>()
+            {
+                { MFFBuilderRecordBuilder.DEFAULT_SOURCE_BUILDER_TYPE, mockBuilder.Object }
+            });
+
+        _mockPluginsProvider.SetupGet(x => x.DefaultFileNameBuilder)
+            .Returns(mockBuilder.Object);
+
+        var genAndSrcInfos = new MFFGeneratorInfoWithSrcTypesRecord?[]{
+            new MFFGeneratorInfoWithSrcTypesRecordBuilder()
+                .GenInfo(new MFFGeneratorInfoRecordBuilder()
+                    .AddSrcOutputInfo(new MFFBuilderRecordBuilder().Build())
+                    .Build())
+                .AddSrcType(new MFFTypeSymbolRecordBuilder()
+                    .Build())
+                .Build()
+        }.ToImmutableArray();
+
+        var cut = new MFFGeneratorBaseTestClass(_mockPluginsProvider.Object, _mockGeneratorHelper.Object);
+
+        // Act
+        cut.ExposedCreateOutput(genAndSrcInfos, _context);
+
+        // Assert
+        var addedSourceCount = Helpers.GetSourcesCount(_sources);
+        addedSourceCount.Should().Be(1);
+
+        var containsSource = Helpers.ContainsSource(
+            _sources, 
+            MFFBuilderRecordBuilder.DEFAULT_FILE_NAME_BUILDER_INFO,
+            expectedSourceCode);
+
+        containsSource.Should().BeTrue();
+    }
 }

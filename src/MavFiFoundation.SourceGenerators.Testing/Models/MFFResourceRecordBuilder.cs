@@ -4,8 +4,21 @@ namespace MavFiFoundation.SourceGenerators.Testing.Models;
 
 public class MFFResourceRecordBuilder
 {
-    private string _name = "Name";
-    private string _text = "Text";
+    #region Constants
+
+    public const string DEFAULT_NAME = "Name";
+    public const string DEFAULT_TEXT = "Text";
+
+    #endregion
+
+    #region Private/Protected Fields/Properties
+
+    private string _name = DEFAULT_NAME;
+    private string _text = DEFAULT_TEXT;
+
+    #endregion
+
+    #region Public Methods
 
     public MFFResourceRecordBuilder Name(string name)
     {
@@ -23,4 +36,6 @@ public class MFFResourceRecordBuilder
     {
         return new MFFResourceRecord(_name, _text);
     }
+
+    #endregion
 }

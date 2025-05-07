@@ -5,14 +5,31 @@ namespace MavFiFoundation.SourceGenerators.Testing.Models;
 
 public class MFFTypeSymbolRecordBuilder
 {
-    private string _containingNamespace = "TestSpace";
-	private string _name = "Name";
-	private string _genericParameters = string.Empty;
-	private string _fullyQualifiedName = "TestSpace.Name";
-	private string _constraints = string.Empty;
-	private bool _isValueType = false;
+    #region Constants
+
+    public const string DEFAULT_CONTAINING_NAMESPACE = "TestSpace";
+    public const string DEFAULT_NAME = "Name";
+    public const string DEFAULT_GENERIC_PARAMETERS = "";
+    public const string DEFAULT_FULLY_QUALIFIED_NAME = "TestSpace.Name";
+    public const string DEFAULT_CONSTAINTS = "";
+    public const bool DEFAULT_IS_VALUE_TYPE = false;
+
+    #endregion
+
+    #region Private/Protected Fields/Properties
+
+    private string _containingNamespace = DEFAULT_CONTAINING_NAMESPACE;
+	private string _name = DEFAULT_NAME;
+	private string _genericParameters = DEFAULT_GENERIC_PARAMETERS;
+	private string _fullyQualifiedName = DEFAULT_FULLY_QUALIFIED_NAME;
+	private string _constraints = DEFAULT_CONSTAINTS;
+	private bool _isValueType = DEFAULT_IS_VALUE_TYPE;
 	private IEnumerable<MFFPropertySymbolRecord> _accessibleProperties = Array.Empty<MFFPropertySymbolRecord>();
 	private IEnumerable<MFFAttributeDataRecord> _attributes = Array.Empty<MFFAttributeDataRecord>();
+
+    #endregion
+
+    #region Public Methods
 
     public MFFTypeSymbolRecordBuilder ContainingNamespace(string containingNamespace)
     {
@@ -76,7 +93,6 @@ public class MFFTypeSymbolRecordBuilder
         return this;
     }
 
-
     public MFFTypeSymbolRecord Build()
     {
         return new MFFTypeSymbolRecord(
@@ -89,4 +105,5 @@ public class MFFTypeSymbolRecordBuilder
             _attributes.ToImmutableArray());
     }
 
+    #endregion
 }

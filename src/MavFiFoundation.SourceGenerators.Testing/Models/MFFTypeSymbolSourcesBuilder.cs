@@ -5,8 +5,20 @@ namespace MavFiFoundation.SourceGenerators.Testing.Models;
 
 public class MFFTypeSymbolSourcesBuilder
 {
-    private string _source = MFFGeneratorConstants.Generator.COMPILING_PROJECT; 
+    #region Constants
+
+    public const string DEFAULT_SOURCE = MFFGeneratorConstants.Generator.COMPILING_PROJECT;
+
+    #endregion
+
+    #region Private/Protected Fields/Properties
+
+    private string _source = DEFAULT_SOURCE; 
     private IEnumerable<MFFTypeSymbolRecord> _types = Array.Empty<MFFTypeSymbolRecord>();
+
+    #endregion
+
+    #region Public Methods
 
     public MFFTypeSymbolSourcesBuilder Source(string source)
     {
@@ -19,7 +31,6 @@ public class MFFTypeSymbolSourcesBuilder
         _types = types;
         return this;
     }
-
     public MFFTypeSymbolSourcesBuilder AddType(MFFTypeSymbolRecord type)
     {
         _types = _types.Append(type);
@@ -30,4 +41,6 @@ public class MFFTypeSymbolSourcesBuilder
     {
         return new MFFTypeSymbolSources(_source, _types.ToImmutableArray());
     }
+
+    #endregion
 }

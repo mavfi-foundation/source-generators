@@ -5,9 +5,15 @@ namespace MavFiFoundation.SourceGenerators.Testing.Models;
 
 public class MFFBuilderRecordBuilder
 {
+    #region Constants
+
     public const string DEFAULT_FILE_NAME_BUILDER_INFO = "TestClass.cs";
     public const string DEFAULT_SOURCE_BUILDER_TYPE = "SouceBuilderType";
     public const string DEFAULT_SOURCE_BUILDER_INFO = "SouceBuilderInfo";
+
+    #endregion
+
+    #region Private/Protected Fields/Properties
 
     private string? _fileNameBuilderType;
     private string _fileNameBuilderInfo = DEFAULT_FILE_NAME_BUILDER_INFO;
@@ -15,6 +21,10 @@ public class MFFBuilderRecordBuilder
     private object _sourceBuilderInfo = DEFAULT_SOURCE_BUILDER_INFO;
     private IEnumerable<(string Key, object Value)> _additionalOutputInfos = 
         Array.Empty<(string Key, object Value)>();
+
+    #endregion
+
+    #region Public Methods
 
     public MFFBuilderRecordBuilder FileNameBuilderType(string? fileNameBuilderType)
     {
@@ -69,4 +79,6 @@ public class MFFBuilderRecordBuilder
             _sourceBuilderInfo,
             _additionalOutputInfos.ToImmutableArray());
     }
+
+    #endregion
 }

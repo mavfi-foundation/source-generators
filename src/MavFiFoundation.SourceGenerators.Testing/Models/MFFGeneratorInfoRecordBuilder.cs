@@ -5,15 +5,29 @@ namespace MavFiFoundation.SourceGenerators.Testing.Models;
 
 public class MFFGeneratorInfoRecordBuilder
 {
-    private string? _containingNamespace = "TestSpace";
+    #region Constants
 
-    private string _srcLocatorType = "SrcLocatorType";
+    public const string DEFAULT_CONTAINING_NAMESPACE = "TestSpace";
+    public const string DEFAULT_SRC_LOCATOR_TYPE = "SrcLocatorType";
+    public const string DEFAULT_SRC_LOCATOR_INFO = "SrcLocatorInfo";
 
-    private object _srcLocatorInfo = "SrcLocatorInfo";
+    #endregion
+
+    #region Private/Protected Fields/Properties
+
+    private string? _containingNamespace = DEFAULT_CONTAINING_NAMESPACE;
+
+    private string _srcLocatorType = DEFAULT_SRC_LOCATOR_TYPE;
+
+    private object _srcLocatorInfo = DEFAULT_SRC_LOCATOR_INFO;
 
     private IEnumerable<MFFBuilderRecord> _genOutputInfos = Array.Empty<MFFBuilderRecord>();
 
     private IEnumerable<MFFBuilderRecord> _srcOutputInfos = Array.Empty<MFFBuilderRecord>();
+
+    #endregion
+
+    #region Public Methods
 
     public MFFGeneratorInfoRecordBuilder ContainingNamespace(string? containingNamespace)
     {
@@ -66,4 +80,6 @@ public class MFFGeneratorInfoRecordBuilder
             _genOutputInfos.ToImmutableArray(), 
             _srcOutputInfos.ToImmutableArray());
     }
+
+    #endregion
 }

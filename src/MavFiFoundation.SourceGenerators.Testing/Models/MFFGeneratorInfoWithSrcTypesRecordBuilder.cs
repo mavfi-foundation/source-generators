@@ -5,8 +5,18 @@ namespace MavFiFoundation.SourceGenerators.Testing.Models;
 
 public class MFFGeneratorInfoWithSrcTypesRecordBuilder
 {
+    #region Constants
+ 
+    #endregion
+
+    #region Private/Protected Fields/Properties
+
     private MFFGeneratorInfoRecord _genInfo = new MFFGeneratorInfoRecordBuilder().Build();
     private IEnumerable<MFFTypeSymbolRecord> _srcTypes = Array.Empty<MFFTypeSymbolRecord>();
+
+    #endregion
+
+    #region Public Methods
 
     public MFFGeneratorInfoWithSrcTypesRecordBuilder GenInfo(MFFGeneratorInfoRecord genInfo)
     {
@@ -30,4 +40,6 @@ public class MFFGeneratorInfoWithSrcTypesRecordBuilder
     {
         return new MFFGeneratorInfoWithSrcTypesRecord(_genInfo, _srcTypes.ToImmutableArray());
     }
+
+    #endregion
 }

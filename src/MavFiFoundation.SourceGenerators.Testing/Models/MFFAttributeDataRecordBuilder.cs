@@ -1,17 +1,26 @@
 using System.Collections.Immutable;
 using MavFiFoundation.SourceGenerators.Models;
 
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-
 namespace MavFiFoundation.SourceGenerators.Testing.Models;
 
 public class MFFAttributeDataRecordBuilder
 {
+    #region Constants
+
     public const string DEFAULT_NAME = "Name";
+
+    #endregion
+
+    #region Private/Protected Fields/Properties
+
     private string _name = DEFAULT_NAME;
 
     private IEnumerable<MFFAttributePropertyRecord> _properties = 
         Array.Empty<MFFAttributePropertyRecord>();
+
+    #endregion
+
+    #region Public Methods
 
     public MFFAttributeDataRecordBuilder Name(string name)
     {
@@ -35,4 +44,5 @@ public class MFFAttributeDataRecordBuilder
     {
         return new MFFAttributeDataRecord(_name, _properties.ToImmutableArray());
     }
+    #endregion
 }
