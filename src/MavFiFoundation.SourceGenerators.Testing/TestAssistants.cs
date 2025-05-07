@@ -9,39 +9,46 @@
 
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis;
+using System.Reflection;
 
-namespace MavFiFoundation.SourceGenerators.IntegrationTests;
+namespace MavFiFoundation.SourceGenerators.Testing;
 
-internal static class TestAssistants
+public static class TestAssistants
 {
 		internal static async Task RunAsync<T>(string code,
 		IEnumerable<(Type, string, string)> generatedSources,
+        IEnumerable<Assembly> additionalReferences,
 		IEnumerable<DiagnosticResult> expectedDiagnostics) where T : IIncrementalGenerator, new()
 	{
 		var sources = new HashSet<string>(){ code };
-		await RunAsync<T>(sources, generatedSources, expectedDiagnostics); 
+		await RunAsync<T>(sources, generatedSources, additionalReferences, expectedDiagnostics); 
 	}
 
-	internal static async Task RunAsync<T>(IEnumerable<string> sources,
+	public static async Task RunAsync<T>(IEnumerable<string> sources,
 		IEnumerable<(Type, string, string)> generatedSources,
+        IEnumerable<Assembly> additionalReferences,
 		IEnumerable<DiagnosticResult> expectedDiagnostics) where T : IIncrementalGenerator, new()
 	{
 		var additionalFiles = new HashSet<(string, string)>();
-		await RunAsync<T>(sources, additionalFiles, generatedSources, expectedDiagnostics); 		
+		await RunAsync<T>(
+            sources, additionalFiles, generatedSources, additionalReferences, expectedDiagnostics); 		
 	}
 
-	internal static async Task RunAsync<T>(string code,
+	public static async Task RunAsync<T>(string code,
 		IEnumerable<(string, string)> additionalFiles,
 		IEnumerable<(Type, string, string)> generatedSources,
+        IEnumerable<Assembly> additionalReferences,
 		IEnumerable<DiagnosticResult> expectedDiagnostics) where T : IIncrementalGenerator, new()
 	{
 		var sources = new HashSet<string>(){ code };
-		await RunAsync<T>(sources, additionalFiles, generatedSources, expectedDiagnostics); 		
+		await RunAsync<T>(
+            sources, additionalFiles, generatedSources, additionalReferences, expectedDiagnostics); 		
 	}
 
-	internal static async Task RunAsync<T>(IEnumerable<string> sources,
+	public static async Task RunAsync<T>(IEnumerable<string> sources,
 		IEnumerable<(string, string)> additionalFiles,
 		IEnumerable<(Type, string, string)> generatedSources,
+        IEnumerable<Assembly> additionalReferences,
 		IEnumerable<DiagnosticResult> expectedDiagnostics) where T : IIncrementalGenerator, new()
 	{
 		var test = new CSharpIncrementalSourceGeneratorVerifier<T>.Test
@@ -70,9 +77,11 @@ internal static class TestAssistants
 			test.TestState.GeneratedSources.Add((generatedSource.Item1, generatedSource.Item2, generatedSource.Item3.Replace("\r\n", Environment.NewLine)));
 		}
 
-		test.TestState.AdditionalReferences.Add(typeof(MFFGeneratorBase).Assembly);
-		test.TestState.AdditionalReferences.Add(typeof(SourceGenerators.MFFGenerateSourceAttribute).Assembly);
-		test.TestState.AdditionalReferences.Add(typeof(SourceGenerators.TestSupport.EmbeddedResourceHelper).Assembly);
+        foreach (var additionalReference in additionalReferences)
+        {
+            test.TestState.AdditionalReferences.Add(additionalReference);
+        }
+
 		test.TestState.ExpectedDiagnostics.AddRange(expectedDiagnostics);
 		await test.RunAsync().ConfigureAwait(false);
 	}

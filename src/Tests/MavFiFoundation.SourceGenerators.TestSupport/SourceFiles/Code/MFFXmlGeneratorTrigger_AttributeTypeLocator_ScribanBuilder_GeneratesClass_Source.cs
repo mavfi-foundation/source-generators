@@ -1,0 +1,9 @@
+using System;
+
+namespace TestSpace;
+
+[MFFXmlGeneratorTrigger_AttributeTypeLocator_ScribanBuilder_GeneratesClass_Attribute]
+public class MFFXmlGeneratorTrigger_AttributeTypeLocator_ScribanBuilder_GeneratesClass_Source
+{
+
+}

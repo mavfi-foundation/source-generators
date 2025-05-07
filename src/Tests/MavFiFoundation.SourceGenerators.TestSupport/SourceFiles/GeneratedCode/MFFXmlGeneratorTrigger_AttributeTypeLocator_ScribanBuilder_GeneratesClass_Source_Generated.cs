@@ -1,0 +1,6 @@
+#nullable enable
+
+public partial class MFFXmlGeneratorTrigger_AttributeTypeLocator_ScribanBuilder_GeneratesClass_Source_Generated
+{
+
+}

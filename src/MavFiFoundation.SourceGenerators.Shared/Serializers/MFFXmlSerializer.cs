@@ -226,7 +226,7 @@ public class MFFXmlSerializer : MFFSerializerBase, IMFFSerializer
             body.AppendChild(
                 CreateElementForObject(
                     doc,
-                    $"{nameof(MFFBuilderModel.SourceBuilderType)}",
+                    $"{nameof(MFFBuilderModel.SourceBuilderInfo)}",
                     builder.SourceBuilderInfo)
             );
         }
@@ -394,6 +394,7 @@ public class MFFXmlSerializer : MFFSerializerBase, IMFFSerializer
  
         var omitAssemblies = new string[] {
             "mscorelib",
+            "mscorlib",
             "System.Private.CoreLib"
         };
 

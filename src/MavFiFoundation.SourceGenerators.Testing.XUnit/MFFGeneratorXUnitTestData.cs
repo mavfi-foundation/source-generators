@@ -1,16 +1,9 @@
 using Xunit.Abstractions;
 
-namespace MavFiFoundation.SourceGenerators.IntegrationTests;
+namespace MavFiFoundation.SourceGenerators.Testing;
 
-public class MFFGeneratorTestData: IXunitSerializable
+public class MFFGeneratorXUnitTestData: MFFGeneratorTestData, IXunitSerializable
 {
-        public string Scenario { get; set; } = string.Empty;
-        public IEnumerable<string> Sources { get; set; } = new HashSet<string>();
-        public IEnumerable<(string, string)> AdditionalFiles { get; set; } = 
-            new HashSet<(string, string)>();
-        public IEnumerable<(Type, string, string)> GeneratedSources { get; set; } = 
-            new HashSet<(Type, string, string)>();
-
     public void Deserialize(IXunitSerializationInfo info)
     {
         Scenario = info.GetValue<string>(nameof(Scenario));

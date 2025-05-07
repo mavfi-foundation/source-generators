@@ -21,12 +21,15 @@
 
     	<PackageReference Include="System.Text.Json" PrivateAssets="all" GeneratePathProperty="true" />
     	<PackageReference Include="Scriban" PrivateAssets="all" GeneratePathProperty="true" />
+        <PackageReference Include="YamlDotNet" PrivateAssets="all" GeneratePathProperty="true" />
 
     	<!-- Package the generator in the analyzer directory of the nuget package -->
     	<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 
     	<!-- Package the generator dependencies in the analyzer directory of the nuget package -->
     	<None Include="$(PkgSystem_Text_Json)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    	<None Include="$(PkgScriban)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    	<None Include="$(PkgYamlDotNet)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 
 		<!-- Suppress NU5128-->
     	<None Include="_._" Pack="true" PackagePath="lib/netstandard2.0" Visible="false" />
@@ -42,6 +45,7 @@
 		<ItemGroup>
 			<TargetPathWithTargetPlatformMoniker Include="$(PkgSystem_Text_Json)\lib\netstandard2.0\*.dll" IncludeRuntimeDependency="false" />
 			<TargetPathWithTargetPlatformMoniker Include="$(PkgScriban)\lib\netstandard2.0\*.dll" IncludeRuntimeDependency="false" />
+			<TargetPathWithTargetPlatformMoniker Include="$(PkgYamlDotNet)\lib\netstandard2.0\*.dll" IncludeRuntimeDependency="false" />
 		</ItemGroup>
 	</Target>
 

@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../../MavFiFoundation.SourceGenerators.Testing/MavFiFoundation.SourceGenerators.Testing.csproj" />
     <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators\MavFiFoundation.SourceGenerators.csproj" SetTargetFramework="TargetFramework=netstandard2.0" />
     <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators.MFFSourceGenerator\MavFiFoundation.SourceGenerators.MFFSourceGenerator.csproj" SetTargetFramework="TargetFramework=netstandard2.0" />
     <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators.Shared\MavFiFoundation.SourceGenerators.Shared.csproj" SetTargetFramework="TargetFramework=netstandard2.0" />

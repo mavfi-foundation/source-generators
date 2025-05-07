@@ -1,3 +1,6 @@
+using System.Reflection;
+
+using MavFiFoundation.SourceGenerators.Testing;
 using Microsoft.CodeAnalysis.Testing;
 
 namespace MavFiFoundation.SourceGenerators.IntegrationTests;
@@ -14,6 +17,11 @@ public class MFFGeneratorTests
             scenario.Sources,
             scenario.AdditionalFiles,
             scenario.GeneratedSources,
+            new Assembly[]{
+                typeof(MFFGeneratorBase).Assembly,
+                typeof(SourceGenerators.MFFGenerateSourceAttribute).Assembly,
+                typeof(SourceGenerators.TestSupport.EmbeddedResourceHelper).Assembly
+            },
             Enumerable.Empty<DiagnosticResult>()).ConfigureAwait(true);
     }
 }

@@ -2,6 +2,7 @@ using System.Collections.Immutable;
 
 using MavFiFoundation.SourceGenerators.Models;
 using MavFiFoundation.SourceGenerators.ResourceLoaders;
+using MavFiFoundation.SourceGenerators.Testing.Models;
 
 namespace MavFiFoundation.SourceGenerators.UnitTests.ResourceLoaders;
 public class MFFResourceLoaderTests
@@ -36,7 +37,10 @@ public class MFFResourceLoaderTests
         object? resourceInfo = $"{ MFFResourceLoader.DEFAULT_LOADER_PREFIX }{resourceName}";
 
         var allResources = new []{
-            new MFFResourceRecord(resourcePath, resourceText)
+            new MFFResourceRecordBuilder()
+                .Name(resourcePath)
+                .Text(resourceText)
+                .Build()
         }.ToImmutableArray();
 
         var cancellationToken = new CancellationToken();
@@ -60,7 +64,10 @@ public class MFFResourceLoaderTests
         object? resourceInfo = $"{ MFFResourceLoader.DEFAULT_LOADER_PREFIX }{resourceName}";
 
         var allResources = new []{
-            new MFFResourceRecord(resourcePath, resourceText)
+            new MFFResourceRecordBuilder()
+                .Name(resourcePath)
+                .Text(resourceText)
+                .Build()
         }.ToImmutableArray();
 
         var cancellationToken = new CancellationToken();
@@ -84,7 +91,10 @@ public class MFFResourceLoaderTests
         object? resourceInfo = $"{ MFFResourceLoader.DEFAULT_LOADER_PREFIX }{resourceName}";
 
         var allResources = new []{
-            new MFFResourceRecord(resourcePath, resourceText)
+            new MFFResourceRecordBuilder()
+                .Name(resourcePath)
+                .Text(resourceText)
+                .Build()
         }.ToImmutableArray();
 
         var cancellationToken = new CancellationToken();
@@ -107,7 +117,10 @@ public class MFFResourceLoaderTests
         object? resourceInfo = $"{ MFFResourceLoader.DEFAULT_LOADER_PREFIX }{resourceName}";
  
         var allResources = new []{
-            new MFFResourceRecord(resourcePath, resourceText)
+            new MFFResourceRecordBuilder()
+                .Name(resourcePath)
+                .Text(resourceText)
+                .Build()
         }.ToImmutableArray();
 
         var cancellationToken = new CancellationToken();
@@ -131,7 +144,10 @@ public class MFFResourceLoaderTests
         var origResourceInfo = resourceInfo;
 
         var allResources = new []{
-            new MFFResourceRecord(resourcePath, resourceText)
+            new MFFResourceRecordBuilder()
+                .Name(resourcePath)
+                .Text(resourceText)
+                .Build()
         }.ToImmutableArray();
 
         var cancellationToken = new CancellationToken();

@@ -5,7 +5,6 @@ using System.Text;
 using MavFiFoundation.SourceGenerators.Models;
 using MavFiFoundation.SourceGenerators.Builders;
 //TODO: Analyzer to ensure correct values are passed to GeneratorTriggers
-//TODO: Refactor providers to use protected methods for easier testing
 namespace MavFiFoundation.SourceGenerators;
 
 public abstract class MFFGeneratorBase : IIncrementalGenerator
