@@ -1,0 +1,6 @@
+#nullable enable
+
+public partial class MFFJsonGeneratorTrigger_DynamicLinqTypeLocator_LiquidBuilder_GeneratesClass_Source_Generated
+{
+
+}
