@@ -72,6 +72,7 @@ public class MFFGeneratorPluginsProvider : IMFFGeneratorPluginsProvider
     {
         AddDefaultSourceTypeLocator(new MFFIncludedTypeLocator());
         AddDefaultSourceTypeLocator(new MFFAttributeTypeLocator(DefaultSerializer));
+        AddDefaultSourceTypeLocator(new MFFDynamicLinqTypeLocator(DefaultSerializer));
     }  
 
     protected void AddDefaultBuilder(IMFFBuilder builder)

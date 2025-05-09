@@ -1,27 +1,29 @@
 using System.Collections.Immutable;
 using MavFiFoundation.SourceGenerators.Models;
 using MavFiFoundation.SourceGenerators.Testing.Models;
+using System.Linq.Dynamic.Core;
 
 namespace MavFiFoundation.SourceGenerators.UnitTests.TypeLocators;
 
-public class MFFAttributeTypeLocatorTests 
-    : MFFLinqTypeLocatorBaseTestsBase<MFFAttributeTypeLocatorTestClass>
+public class MFFDynamicLinqTypeLocatorTests
+    : MFFLinqTypeLocatorBaseTestsBase<MFFDynamicLinqTypeLocatorTestClass>
 {
 
-    protected override MFFAttributeTypeLocatorTestClass CreateTestClass()
+    protected override MFFDynamicLinqTypeLocatorTestClass CreateTestClass()
     {
-        return new MFFAttributeTypeLocatorTestClass(_mockSerializer.Object);
+        return new MFFDynamicLinqTypeLocatorTestClass(_mockSerializer.Object);
     }
 
     [Fact]
-    public void GetMatchedTypes_ReturnsEmptySourceTypes_WhenNoClassesWithMatchingAttributeFound ()
+    public void GetMatchedTypes_ReturnsEmptySourceTypes_WhenNoClassesMatchingNameFound ()
     {
         //Arrange
 
         var genInfos = new MFFGeneratorInfoRecord?[]
         {
             new MFFGeneratorInfoRecordBuilder()
-                .SrcLocatorType(GeneratorConstants.TypeLocator.MFFAttributeTypeLocator)
+                .SrcLocatorType(GeneratorConstants.TypeLocator.MFFDynamicLinqTypeLocator)
+                .SrcLocatorInfo("Name == \"Foo\"")
                 .Build()
         }.ToImmutableArray();
 
@@ -34,7 +36,7 @@ public class MFFAttributeTypeLocatorTests
         }.ToImmutableArray();
 
         var cancellationToken = new CancellationToken();
-        var cut = new MFFAttributeTypeLocatorTestClass(_mockSerializer.Object);
+        var cut = new MFFDynamicLinqTypeLocatorTestClass(_mockSerializer.Object);
 
         //Act
         var actual = cut.ExposedGetMatchedTypes(genInfos, srcSymbols, cancellationToken);
@@ -48,24 +50,21 @@ public class MFFAttributeTypeLocatorTests
     }
 
     [Fact]
-    public void GetMatchedTypes_WhenAttributeNameProvidedAsString_ReturnsTypesWithMatchingAttribute ()
+    public void GetMatchedTypes_WhenLinqWhereProvidedAsString_ReturnsTypesWithMatchingNamespace ()
     {
         //Arrange
-
-        var attribute2Find = "TestSpace.TestAttribute";
+        var containingNamespace = "Test1Space";
 
         var genInfos = new MFFGeneratorInfoRecord?[]
         {
             new MFFGeneratorInfoRecordBuilder()
-                .SrcLocatorType(GeneratorConstants.TypeLocator.MFFAttributeTypeLocator)
-                .SrcLocatorInfo(attribute2Find)
+                .SrcLocatorType(GeneratorConstants.TypeLocator.MFFDynamicLinqTypeLocator)
+                .SrcLocatorInfo($"ContainingNamespace == \"{ containingNamespace }\"")
                 .Build()
         }.ToImmutableArray();
 
         var matchingType = new MFFTypeSymbolRecordBuilder()
-                    .AddAttribute(new MFFAttributeDataRecordBuilder()
-                        .Name(attribute2Find)
-                        .Build())
+                    .ContainingNamespace(containingNamespace)
                     .Build();
 
         var srcSymbols = new MFFTypeSymbolSources[] 
@@ -80,7 +79,8 @@ public class MFFAttributeTypeLocatorTests
         }.ToImmutableArray();
 
         var cancellationToken = new CancellationToken();
-        var cut = new MFFAttributeTypeLocatorTestClass(_mockSerializer.Object);
+        var t = srcSymbols[0].Types.AsQueryable().Where($"FullyQualifiedName.StartsWith(\"{ MFFTypeSymbolRecordBuilder.DEFAULT_CONTAINING_NAMESPACE }.\")");
+        var cut = new MFFDynamicLinqTypeLocatorTestClass(_mockSerializer.Object);
 
         //Act
         var actual = cut.ExposedGetMatchedTypes(genInfos, srcSymbols, cancellationToken);
@@ -96,38 +96,37 @@ public class MFFAttributeTypeLocatorTests
     }
 
     [Fact]
-    public void GetMatchedTypes_WhenAttributeNameProvidedSerialized_ReturnsTypesWithMatchingAttribute ()
+    public void GetMatchedTypes_WhenLinqWhereProvidedSerialized_ReturnsTypesWithMatchingNameSpace ()
     {
         //Arrange
 
-        var attribute2Find = "TestSpace.TestAttribute";
+        var containingNamespace = "Test1Space";
+        var linqWhere = $"ContainingNamespace == \"{ containingNamespace }\"";
         var serializedLocatorInfo = 
 $$"""
 {
-    attribute2Find: "{{attribute2Find}}"
+    linqWhere: "{{ linqWhere }}"
 }
 """;
 
-        _mockSerializer.Setup(x => x.DeserializeObject<MFFAttributeTypeLocatorInfo>(It.Is<string>(s => s == serializedLocatorInfo)))
-            .Returns(new MFFAttributeTypeLocatorInfo()
+        _mockSerializer.Setup(x => x.DeserializeObject<MFFDynamicLinqTypeLocatorInfo>(It.Is<string>(s => s == serializedLocatorInfo)))
+            .Returns(new MFFDynamicLinqTypeLocatorInfo()
                 {
-                    Attribute2Find = attribute2Find
+                    LinqWhere = linqWhere
                 })
             .Verifiable(Times.Once);
 
         var genInfos = new MFFGeneratorInfoRecord?[]
         {
             new MFFGeneratorInfoRecordBuilder()
-                .SrcLocatorType(GeneratorConstants.TypeLocator.MFFAttributeTypeLocator)
+                .SrcLocatorType(GeneratorConstants.TypeLocator.MFFDynamicLinqTypeLocator)
                 .SrcLocatorInfo(serializedLocatorInfo)
                 .Build()
         }.ToImmutableArray();
 
         var matchingType = new MFFTypeSymbolRecordBuilder()
-                    .AddAttribute(new MFFAttributeDataRecordBuilder()
-                        .Name(attribute2Find)
-                        .Build())
-                    .Build();
+                .ContainingNamespace(containingNamespace)
+                .Build();
 
         var srcSymbols = new MFFTypeSymbolSources[] 
         {
@@ -141,7 +140,7 @@ $$"""
         }.ToImmutableArray();
 
         var cancellationToken = new CancellationToken();
-        var cut = new MFFAttributeTypeLocatorTestClass(_mockSerializer.Object);
+        var cut = new MFFDynamicLinqTypeLocatorTestClass(_mockSerializer.Object);
 
         //Act
         var actual = cut.ExposedGetMatchedTypes(genInfos, srcSymbols, cancellationToken);
@@ -158,25 +157,26 @@ $$"""
     }
 
     [Fact]
-    public void GetMatchedTypes_WhenExternalAssemblyIsSpecified_ReturnsTypesWithMatchingAttribute ()
+    public void GetMatchedTypes_WhenExternalAssemblyIsSpecified_ReturnsTypesWithMatchingNamespace ()
     {
         //Arrange
 
-        var attribute2Find = "TestSpace.TestAttribute";
+        var containingNamespace = "Test1Space";
+        var linqWhere = $"ContainingNamespace == \"{ containingNamespace }\"";
         var assembly2Search = "SomeExternalAssembly";
 
         var serializedLocatorInfo = 
 $$"""
 {
-    attribute2Find: "{{attribute2Find}}",
+    linqWhere: "{{linqWhere}}",
     assemblies2Search: "{{assembly2Search}}
 }
 """;
 
-        _mockSerializer.Setup(x => x.DeserializeObject<MFFAttributeTypeLocatorInfo>(It.Is<string>(s => s == serializedLocatorInfo)))
-            .Returns(new MFFAttributeTypeLocatorInfo()
+        _mockSerializer.Setup(x => x.DeserializeObject<MFFDynamicLinqTypeLocatorInfo>(It.Is<string>(s => s == serializedLocatorInfo)))
+            .Returns(new MFFDynamicLinqTypeLocatorInfo()
                 {
-                    Attribute2Find = attribute2Find,
+                    LinqWhere = linqWhere,
                     Assemblies2Search = new string[]{ assembly2Search }
                 })
             .Verifiable(Times.Once);
@@ -184,16 +184,14 @@ $$"""
         var genInfos = new MFFGeneratorInfoRecord?[]
         {
             new MFFGeneratorInfoRecordBuilder()
-                .SrcLocatorType(GeneratorConstants.TypeLocator.MFFAttributeTypeLocator)
+                .SrcLocatorType(GeneratorConstants.TypeLocator.MFFDynamicLinqTypeLocator)
                 .SrcLocatorInfo(serializedLocatorInfo)
                 .Build()
         }.ToImmutableArray();
 
         var matchingType = new MFFTypeSymbolRecordBuilder()
-                    .AddAttribute(new MFFAttributeDataRecordBuilder()
-                        .Name(attribute2Find)
-                        .Build())
-                    .Build();
+            .ContainingNamespace(containingNamespace)
+            .Build();
 
         var srcSymbols = new MFFTypeSymbolSources[] 
         {
@@ -208,7 +206,7 @@ $$"""
         }.ToImmutableArray();
 
         var cancellationToken = new CancellationToken();
-        var cut = new MFFAttributeTypeLocatorTestClass(_mockSerializer.Object);
+        var cut = new MFFDynamicLinqTypeLocatorTestClass(_mockSerializer.Object);
 
         //Act
         var actual = cut.ExposedGetMatchedTypes(genInfos, srcSymbols, cancellationToken);
@@ -229,20 +227,21 @@ $$"""
     {
         //Arrange
 
-        var attribute2Find = "TestSpace.TestAttribute";
+        var containingNamespace = "Test1Space";
+        var linqWhere = $"ContainingNamespace == \"{ containingNamespace }\"";
         var type2Exclude = "TestSpace.Type2Exclude";
         var serializedLocatorInfo = 
 $$"""
 {
-    attribute2Find: "{{attribute2Find}}",
+    linqWhere: "{{linqWhere}}",
     Types2Exclude: ["{{type2Exclude}}"]
 }
 """;
 
-        _mockSerializer.Setup(x => x.DeserializeObject<MFFAttributeTypeLocatorInfo>(It.Is<string>(s => s == serializedLocatorInfo)))
-            .Returns(new MFFAttributeTypeLocatorInfo()
+        _mockSerializer.Setup(x => x.DeserializeObject<MFFDynamicLinqTypeLocatorInfo>(It.Is<string>(s => s == serializedLocatorInfo)))
+            .Returns(new MFFDynamicLinqTypeLocatorInfo()
                 {
-                    Attribute2Find = attribute2Find,
+                    LinqWhere = linqWhere,
                     Types2Exclude = new string[]{ type2Exclude }
                 })
             .Verifiable(Times.Once);
@@ -250,22 +249,18 @@ $$"""
         var genInfos = new MFFGeneratorInfoRecord?[]
         {
             new MFFGeneratorInfoRecordBuilder()
-                .SrcLocatorType(GeneratorConstants.TypeLocator.MFFAttributeTypeLocator)
+                .SrcLocatorType(GeneratorConstants.TypeLocator.MFFDynamicLinqTypeLocator)
                 .SrcLocatorInfo(serializedLocatorInfo)
                 .Build()
         }.ToImmutableArray();
 
         var matchingType = new MFFTypeSymbolRecordBuilder()
-            .AddAttribute(new MFFAttributeDataRecordBuilder()
-                .Name(attribute2Find)
-                .Build())
+            .ContainingNamespace(containingNamespace)
             .Build();
 
         var excludedType = new MFFTypeSymbolRecordBuilder()
+            .ContainingNamespace(containingNamespace)
             .FullyQualifiedName(type2Exclude)
-            .AddAttribute(new MFFAttributeDataRecordBuilder()
-                .Name(attribute2Find)
-                .Build())
             .Build();
 
         var srcSymbols = new MFFTypeSymbolSources[] 
@@ -279,7 +274,7 @@ $$"""
         }.ToImmutableArray();
 
         var cancellationToken = new CancellationToken();
-        var cut = new MFFAttributeTypeLocatorTestClass(_mockSerializer.Object);
+        var cut = new MFFDynamicLinqTypeLocatorTestClass(_mockSerializer.Object);
 
         //Act
         var actual = cut.ExposedGetMatchedTypes(genInfos, srcSymbols, cancellationToken);
@@ -295,5 +290,4 @@ $$"""
         srcTypes_0.Should().BeSameAs(matchingType);
         _mockSerializer.VerifyAll();
     }
-
 }

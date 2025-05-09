@@ -36,5 +36,7 @@ public static class GeneratorConstants
         public const string MFFIncludedTypeLocator = "MFFIncludedTypeLocator";
 
         public const string MFFAttributeTypeLocator = "MFFAttributeTypeLocator";
+
+        public const string MFFDynamicLinqTypeLocator = "MFFDynamicLinqTypeLocator";
     }
 }

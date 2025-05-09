@@ -1,6 +1,6 @@
 {
-    "srcLocatorType" : "MFFAttributeTypeLocator",
-    "srcLocatorInfo": "TestSpace.MFFJsonGeneratorTrigger_AttributeTypeLocator_LiquidBuilder_GeneratesClass_AttributeAttribute",
+    "srcLocatorType" : "MFFDynamicLinqTypeLocator",
+    "srcLocatorInfo": "Name == \"MFFJsonGeneratorTrigger_DynamicLinqTypeLocator_LiquidBuilder_GeneratesClass_Source\"",
     "srcOutputInfos": [{
 		"fileNameBuilderInfo": "{{ srcType.Name }}_Generated.g.cs", 
 		"sourceBuilderType": "MFFLiquidBuilder", 

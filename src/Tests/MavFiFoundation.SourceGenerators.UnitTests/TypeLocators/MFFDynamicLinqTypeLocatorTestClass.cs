@@ -5,9 +5,10 @@ using MavFiFoundation.SourceGenerators.TypeLocators;
 
 namespace MavFiFoundation.SourceGenerators.UnitTests.TypeLocators;
 
-public class MFFAttributeTypeLocatorTestClass : MFFAttributeTypeLocator, IMFFLinqTypeLocatorBaseTestClass
+public class MFFDynamicLinqTypeLocatorTestClass : MFFDynamicLinqTypeLocator, 
+    IMFFLinqTypeLocatorBaseTestClass
 {
-    public MFFAttributeTypeLocatorTestClass(IMFFSerializer serializer) : base (serializer) 
+    public MFFDynamicLinqTypeLocatorTestClass(IMFFSerializer serializer) : base (serializer) 
     {
 
     }

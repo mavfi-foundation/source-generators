@@ -1,9 +1,0 @@
-using System;
-
-namespace TestSpace;
-
-[MFFJsonGeneratorTrigger_AttributeTypeLocator_LiquidBuilder_GeneratesClass_Attribute]
-public class MFFJsonGeneratorTrigger_AttributeTypeLocator_LiquidBuilder_GeneratesClass_Source
-{
-
-}

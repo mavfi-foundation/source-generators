@@ -17,10 +17,10 @@ public static class Constants
             public const string MFFATTRIBUTEGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS_SOURCE = 
                 "MFFAttributeGeneratorTrigger_AttributeTypeLocator_ScribanBuilder_GeneratesClass_Source.cs";
 
-            public const string MFFJSONGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS_ATTRIBUTE = 
-                "MFFJsonGeneratorTrigger_AttributeTypeLocator_LiquidBuilder_GeneratesClass_Attribute.cs";
-            public const string MFFJSONGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS_SOURCE = 
-                "MFFJsonGeneratorTrigger_AttributeTypeLocator_LiquidBuilder_GeneratesClass_Source.cs";
+            public const string MFFJSONGENERATORTRIGGER_DYNAMICLINQTYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS_ATTRIBUTE = 
+                "MFFJsonGeneratorTrigger_DynamicLinqTypeLocator_LiquidBuilder_GeneratesClass_Attribute.cs";
+            public const string MFFJSONGENERATORTRIGGER_DYNAMICLINQTYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS_SOURCE = 
+                "MFFJsonGeneratorTrigger_DynamicLinqTypeLocator_LiquidBuilder_GeneratesClass_Source.cs";
             public const string MFFXMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS_ATTRIBUTE = 
                 "MFFXmlGeneratorTrigger_AttributeTypeLocator_ScribanBuilder_GeneratesClass_Attribute.cs";
             public const string MFFXMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS_SOURCE = 
@@ -44,8 +44,8 @@ public static class Constants
        public static class AdditionalFile
         {
             public const string TEST_TEMPLATE = "Test.scriban-cs";
-            public const string MFFJSONGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS_GENERATE = 
-                "MFFJsonGeneratorTrigger_AttributeTypeLocator_LiquidBuilder_GeneratesClass.CodeGen.json";
+            public const string MFFJSONGENERATORTRIGGER_DYNAMICLINQTYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS_GENERATE = 
+                "MFFJsonGeneratorTrigger_DynamicLinqTypeLocator_LiquidBuilder_GeneratesClass.CodeGen.json";
             public const string MFFXMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS_GENERATE = 
                 "MFFXmlGeneratorTrigger_AttributeTypeLocator_ScribanBuilder_GeneratesClass.codegen.xml";
             public const string MFFYAMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS_GENERATE = 
@@ -58,8 +58,8 @@ public static class Constants
                 "MFFAttributeGeneratorTrigger_IncludedTypeLocator_ScribanBuilder_GeneratesClass_Code_Generated.cs";
             public const string MFFATTRIBUTEGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS = 
                 "MFFAttributeGeneratorTrigger_AttributeTypeLocator_ScribanBuilder_GeneratesClass_Source_Generated.cs";
-            public const string MFFJSONGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS = 
-                "MFFJsonGeneratorTrigger_AttributeTypeLocator_LiquidBuilder_GeneratesClass_Source_Generated.cs";
+            public const string MFFJSONGENERATORTRIGGER_DYNAMICLINQTYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS = 
+                "MFFJsonGeneratorTrigger_DynamicLinqTypeLocator_LiquidBuilder_GeneratesClass_Source_Generated.cs";
             public const string MFFXMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS = 
                 "MFFXmlGeneratorTrigger_AttributeTypeLocator_ScribanBuilder_GeneratesClass_Source_Generated.cs";
             public const string MFFYAMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS = 
@@ -78,8 +78,8 @@ public static class Constants
             public const string MFFATTRIBUTEGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS = 
                 "MFFAttributeGeneratorTrigger_AttributeTypeLocator_ScribanBuilder_GeneratesClass_Source_Generated.g.cs";
 
-            public const string MFFJSONGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS = 
-                "MFFJsonGeneratorTrigger_AttributeTypeLocator_LiquidBuilder_GeneratesClass_Source_Generated.g.cs";
+            public const string MFFJSONGENERATORTRIGGER_DYNAMICLINQTYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS = 
+                "MFFJsonGeneratorTrigger_DynamicLinqTypeLocator_LiquidBuilder_GeneratesClass_Source_Generated.g.cs";
 
             public const string MFFXMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS = 
                 "MFFXmlGeneratorTrigger_AttributeTypeLocator_ScribanBuilder_GeneratesClass_Source_Generated.g.cs";
