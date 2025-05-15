@@ -8,6 +8,7 @@
 		<VersionPrefix>1.0.0</VersionPrefix>
 		<VersionSuffix>rc1</VersionSuffix>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
 		<PackageReadmeFile>docs/README.md</PackageReadmeFile>
 		<Authors>MavFi Foundation</Authors>
 		<PackageProjectUrl>https://github.com/mavfi-foundation/mavfifoundation-generators</PackageProjectUrl>

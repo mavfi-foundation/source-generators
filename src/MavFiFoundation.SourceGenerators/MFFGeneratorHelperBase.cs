@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright 2025, MavFi Foundation and the MavFiFoundation.SourceGenerators contributors
+
 using System.Collections.Immutable;
 using System.Reflection;
 using System.Text;
@@ -25,6 +28,7 @@ public abstract class MFFGeneratorHelperBase : IMFFGeneratorHelper
 
     #region IMFFGeneratorHelper Implementation
 
+    /// <inheritdoc />
     public IncrementalValuesProvider<MFFTypeSymbolSources>
         GetAllTypesProvider(IncrementalGeneratorInitializationContext initContext)
     {

@@ -1,10 +1,4 @@
 - name: Docs
   href: docs/
 - name: API
-  items:
-  - name: net8
-    href: net8/api/
-  - name: net9
-    href: net9/api/
-  - name: netstandard2.0
-    href: netstandard2.0/api/
+  href: api/

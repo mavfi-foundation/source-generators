@@ -1,5 +1,11 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright 2025, MavFi Foundation and the MavFiFoundation.SourceGenerators contributors
+
 namespace MavFiFoundation.SourceGenerators.Models;
 
+/// <summary>
+/// 
+/// </summary>
 public class MFFGeneratorInfoModel
 {
     public string? ContainingNamespace { get; set; }
@@ -12,6 +18,6 @@ public class MFFGeneratorInfoModel
     public List<MFFBuilderModel>? GenOutputInfos { get; set; }
 
     // Executes once for each resource
-    public List<MFFBuilderModel>? SrcOutputInfos  { get; set; }
+    public List<MFFBuilderModel>? SrcOutputInfos { get; set; }
 
 }

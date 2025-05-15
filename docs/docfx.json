@@ -8,55 +8,11 @@
             "**/*.csproj"
           ],
           "exclude": [
-            "tests/**",
-            "MavFiFoundation.SourceGenerators/**",
-            "MavFiFoundation.SourceGenerators.MFFSourceGenerator/**"
-          ]
-        }
-      ],
-      "dest": "net8/api",
-      "outputFormat": "apiPage",
-      "version": "net8",
-      "properties": {
-        "TargetFramework": "net8.0"
-      }
-    },
-    {
-      "src": [
-        {
-          "src": "../src",
-          "files": [
-            "**/*.csproj"
-          ],
-          "exclude": [
-            "tests/**",
-            "MavFiFoundation.SourceGenerators/**",
-            "MavFiFoundation.SourceGenerators.MFFSourceGenerator/**"
-          ]
-        }
-      ],
-      "dest": "net9/api",
-      "outputFormat": "apiPage",
-      "version": "net9",
-      "properties": {
-        "TargetFramework": "net9.0"
-      }
-    },
-    {
-      "src": [
-        {
-          "src": "../src",
-          "files": [
-            "**/*.csproj"
-          ],
-          "exclude": [
             "tests/**"
           ]
         }
       ],
-      "dest": "netstandard2.0/api",
-      "outputFormat": "apiPage",
-      "version": "netstandard2.0",
+      "dest": "api",
       "properties": {
         "TargetFramework": "netstandard2.0"
       }
@@ -76,7 +32,7 @@
           "**/*.{md,yml}"
         ],
         "exclude": [
-          "_site/**"
+          "docs-site/**"
         ]
       }
     ],
@@ -87,14 +43,21 @@
         ]
       }
     ],
-    "output": "_site",
+    "output": "docs-site/projects/source-generators",
     "template": [
       "default",
-      "modern"
+      "modern",
+      "docs-site/mff-template"
     ],
     "globalMetadata": {
-      "_appName": "MavFi Foundation Source Generators",
-      "_appTitle": "MavFi Foundation Source Generators",
+      "_appName": "Source Generators",
+      "_appTitle": "Source Generators | MavFi Foundation",
+      "_appFaviconPath": "../../images/MavFiIcon.png",
+      "_appLogoPath": "../../images/MavFiLogo.png",
+      "_gitContribute": {
+        "branch": "main"
+      },
+      "_appFooter": "@ 2025 MavFi Foundation",
       "_enableSearch": true,
       "pdf": true
     }
