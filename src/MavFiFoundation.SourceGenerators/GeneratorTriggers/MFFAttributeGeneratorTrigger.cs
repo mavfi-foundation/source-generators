@@ -94,13 +94,13 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
     #region Private/Protected Properties
 
     /// <summary>
-    /// Gets or Sets the attribute name used to locate triggering types and store generator
+    /// Gets the attribute name used to locate triggering types and store generator
     /// configuration information.
     /// </summary>
     protected string ConfigAttributeName { get; private set; }
 
     /// <summary>
-    /// Get or Sets the default serializer to use.
+    /// Get the default serializer to use.
     /// </summary>
     protected IMFFSerializer Serializer { get; private set; }
 

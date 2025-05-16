@@ -2,3 +2,12 @@
   href: introduction.md
 - name: Getting Started
   href: getting-started.md
+- name: Generator Triggers
+  href: generator-triggers/toc.yml
+  expanded: true
+- name: Type Locators
+  href: type-locators/toc.yml
+  expanded: true
+- name: Builders
+  href: builders/toc.yml
+  expanded: true

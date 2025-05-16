@@ -4,20 +4,24 @@
 namespace MavFiFoundation.SourceGenerators.Models;
 
 /// <summary>
-/// 
+/// This in a mutable version of <see cref="MFFGeneratorInfoRecord"/> and is used to store generator
+/// configuration information.
 /// </summary>
 public class MFFGeneratorInfoModel
 {
+    /// <inheritdoc cref="MFFGeneratorInfoRecord.ContainingNamespace"/>
     public string? ContainingNamespace { get; set; }
 
+    /// <inheritdoc cref="MFFGeneratorInfoRecord.SrcLocatorType"/>
     public string? SrcLocatorType { get; set; }
 
+    /// <inheritdoc cref="MFFGeneratorInfoRecord.SrcLocatorInfo"/>
     public object? SrcLocatorInfo { get; set; }
 
-    // Executes once with all sources
+    /// <inheritdoc cref="MFFGeneratorInfoRecord.GenOutputInfos"/>
     public List<MFFBuilderModel>? GenOutputInfos { get; set; }
 
-    // Executes once for each resource
+    /// <inheritdoc cref="MFFGeneratorInfoRecord.SrcOutputInfos"/>
     public List<MFFBuilderModel>? SrcOutputInfos { get; set; }
 
 }

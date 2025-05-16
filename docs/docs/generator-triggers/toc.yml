@@ -1,0 +1,8 @@
+- name: MFFAttributeGeneratorTrigger
+  href: attribute-generator-trigger.md
+- name: MFFYamlGeneratorTrigger
+  href: yaml-generator-trigger.md
+- name: MFFJsonGeneratorTrigger
+  href: json-generator-trigger.md
+- name: MFFXmlGeneratorTrigger
+  href: xml-generator-trigger.md
