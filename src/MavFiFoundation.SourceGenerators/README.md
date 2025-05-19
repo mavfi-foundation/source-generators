@@ -1,5 +1,7 @@
 # MavFiFoundation.SourceGenerators
 
-## Description
+Contains the core functionality for creating source generator implementations and source generator plugins. 
 
-Flexible template based Roslyn IncrementalGenerators
+`* See` [`MavFiFoundation.SourceGenerators.MFFSourceGenerator`](../MavFiFoundation.SourceGenerators.MFFSourceGenerator/README.md) `for a ready-to-use concrete source generator implementation.`
+
+

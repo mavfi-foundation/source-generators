@@ -1,13 +1,31 @@
+pdf: true
+pdfFileName: "MFFSourceGenerators-Docs.pdf"
+items:
 - name: Introduction
   href: introduction.md
 - name: Getting Started
   href: getting-started.md
-- name: Generator Triggers
-  href: generator-triggers/toc.yml
-  expanded: true
-- name: Type Locators
-  href: type-locators/toc.yml
-  expanded: true
-- name: Builders
-  href: builders/toc.yml
-  expanded: true
+- name: Packages
+  items:
+  - name: MavFiFoundation.SourceGenerators
+    href: ../../src/MavFiFoundation.SourceGenerators/README.md
+  - name: MavFiFoundation.SourceGenerators.MFFSourceGenerator
+    href: ../../src/MavFiFoundation.SourceGenerators.MFFSourceGenerator/README.md
+  - name: MavFiFoundation.SourceGenerators.Shared
+    href: ../../src/MavFiFoundation.SourceGenerators.Shared/README.md
+  - name: MavFiFoundation.SourceGenerators.Extras
+    href: ../../src/MavFiFoundation.SourceGenerators.Extras/README.md
+  - name: MavFiFoundation.SourceGenerators.Testing
+    href: ../../src/MavFiFoundation.SourceGenerators.Testing/README.md
+  - name: MavFiFoundation.SourceGenerators.Testing.XUnit
+    href: ../../src/MavFiFoundation.SourceGenerators.Testing.XUnit/README.md
+- name: Components
+  items:
+    - name: Generator Triggers
+      href: generator-triggers/toc.yml
+    - name: Type Locators
+      href: type-locators/toc.yml
+    - name: Builders
+      href: builders/toc.yml
+- name: API
+  href: ../api/

@@ -9,9 +9,11 @@
 
 ## Overview
 
-Source generation involves three main components: [Generator Triggers](#generator-triggers), [Type Locators](#type-locators), and [Builders](#builders). Source generation begins with and is configured using generator triggers. Once source generation has been triggered by a generator trigger, control is passed to type locators that are used to locate the types that will be passed to builders. The builders will then create the source code. 
+> [!INCLUDE [Overview](../../README.md)]
 
 ## Main Source Generator Components
+
+Source generation involves three main components: [Generator Triggers](#generator-triggers), [Type Locators](#type-locators), and [Builders](#builders). Source generation begins with and is configured using generator triggers. Once source generation has been triggered by a generator trigger, control is passed to type locators that are used to locate the types that will be passed to builders. The builders will then create the source code. 
 
 ### Generator Triggers
 

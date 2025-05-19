@@ -25,7 +25,7 @@
         "files": [
           "**/README.md"
         ],
-        "dest": "docs/modules"
+        "dest": "docs/packages"
       },
       {
         "files": [
@@ -43,6 +43,14 @@
         ]
       }
     ],
+    "fileMetadata": {
+      "pdf": {
+        "api/toc.yml": true
+      },
+      "pdfFileName": {
+        "api/toc.yml": "MFFSourceGenerators-API.pdf"
+      }
+    },
     "output": "docs-site/projects/source-generators",
     "template": [
       "default",
@@ -58,8 +66,7 @@
         "branch": "main"
       },
       "_appFooter": "@ 2025 MavFi Foundation",
-      "_enableSearch": true,
-      "pdf": true
+      "_enableSearch": true
     }
   }
 }
