@@ -1,5 +1,3 @@
 ---
-_layout: landing
+redirect_url: docs/introduction.html
 ---
-
-# MavFi Foundation Core

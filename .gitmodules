@@ -1,0 +1,4 @@
+[submodule "docs/docs-site"]
+	path = docs/docs-site
+	url = https://github.com/mavfi-foundation/docs-site.git
+	branch = changes
