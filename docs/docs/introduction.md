@@ -1,12 +1,5 @@
 # Introduction
 
-- [Introduction](#introduction)
-  - [Overview](#overview)
-  - [Main Source Generator Components](#main-source-generator-components)
-    - [Generator Triggers](#generator-triggers)
-    - [Type Locators](#type-locators)
-    - [Builders](#builders)
-
 ## Overview
 
 > [!INCLUDE [Overview](../../README.md)]

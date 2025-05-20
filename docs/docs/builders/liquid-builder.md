@@ -1,5 +1,5 @@
 # MFFLiquidBuilder
 
-Coming Soon!
+Uses a [Liquid](https://shopify.github.io/liquid/) template to build the required output. Liquid template support is provided by Scriban's built in [Liquid Support](https://github.com/scriban/scriban/blob/master/doc/liquid-support.md)].
 
-- [MFFLiquidBuilder](../../api/MavFiFoundation.SourceGenerators.Builders.MFFLiquidBuilder.yml) - Use a [Liquid](https://shopify.github.io/liquid/) template to build source.
+For additional information, see the [API](../../api/MavFiFoundation.SourceGenerators.Builders.MFFLiquidBuilder.yml) documentation.

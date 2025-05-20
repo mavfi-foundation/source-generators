@@ -1,5 +1,5 @@
 # MFFScribanBuilder
 
-Coming Soon!
+Uses a [Scriban](https://github.com/scriban/scriban/blob/master/doc/language.md) template to build the required output.
 
-- [MFFScribanBuilder](../../api/MavFiFoundation.SourceGenerators.Builders.MFFScribanBuilder.yml) - Use a [Scriban](https://github.com/scriban/scriban/blob/master/doc/language.md) template to build source.
+For additional information, see the [API](../../api/MavFiFoundation.SourceGenerators.Builders.MFFScribanBuilder.yml) documentation.
