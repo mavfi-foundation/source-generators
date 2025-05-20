@@ -7,13 +7,13 @@ public class MFFAttributeDataRecordBuilder
 {
     #region Constants
 
-    public const string DEFAULT_NAME = "Name";
+    public const string DefaultName = "Name";
 
     #endregion
 
     #region Private/Protected Fields/Properties
 
-    private string _name = DEFAULT_NAME;
+    private string _name = DefaultName;
 
     private IEnumerable<MFFAttributePropertyRecord> _properties = 
         Array.Empty<MFFAttributePropertyRecord>();

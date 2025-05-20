@@ -7,23 +7,23 @@ public class MFFTypeSymbolRecordBuilder
 {
     #region Constants
 
-    public const string DEFAULT_CONTAINING_NAMESPACE = "TestSpace";
-    public const string DEFAULT_NAME = "Name";
-    public const string DEFAULT_GENERIC_PARAMETERS = "";
-    public const string DEFAULT_FULLY_QUALIFIED_NAME = "TestSpace.Name";
-    public const string DEFAULT_CONSTAINTS = "";
-    public const bool DEFAULT_IS_VALUE_TYPE = false;
+    public const string DefaultContainingNamespace = "TestSpace";
+    public const string DefaultName = "Name";
+    public const string DefaultGenericParameters = "";
+    public const string DefaultFullyQualifiedName = "TestSpace.Name";
+    public const string DefaultConstraints = "";
+    public const bool DefaultIsValueType = false;
 
     #endregion
 
     #region Private/Protected Fields/Properties
 
-    private string _containingNamespace = DEFAULT_CONTAINING_NAMESPACE;
-	private string _name = DEFAULT_NAME;
-	private string _genericParameters = DEFAULT_GENERIC_PARAMETERS;
-	private string _fullyQualifiedName = DEFAULT_FULLY_QUALIFIED_NAME;
-	private string _constraints = DEFAULT_CONSTAINTS;
-	private bool _isValueType = DEFAULT_IS_VALUE_TYPE;
+    private string _containingNamespace = DefaultContainingNamespace;
+	private string _name = DefaultName;
+	private string _genericParameters = DefaultGenericParameters;
+	private string _fullyQualifiedName = DefaultFullyQualifiedName;
+	private string _constraints = DefaultConstraints;
+	private bool _isValueType = DefaultIsValueType;
 	private IEnumerable<MFFPropertySymbolRecord> _accessibleProperties = Array.Empty<MFFPropertySymbolRecord>();
 	private IEnumerable<MFFAttributeDataRecord> _attributes = Array.Empty<MFFAttributeDataRecord>();
 

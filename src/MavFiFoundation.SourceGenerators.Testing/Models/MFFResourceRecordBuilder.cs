@@ -6,15 +6,15 @@ public class MFFResourceRecordBuilder
 {
     #region Constants
 
-    public const string DEFAULT_NAME = "Name";
-    public const string DEFAULT_TEXT = "Text";
+    public const string DefaultName = "Name";
+    public const string DefaultText = "Text";
 
     #endregion
 
     #region Private/Protected Fields/Properties
 
-    private string _name = DEFAULT_NAME;
-    private string _text = DEFAULT_TEXT;
+    private string _name = DefaultName;
+    private string _text = DefaultText;
 
     #endregion
 

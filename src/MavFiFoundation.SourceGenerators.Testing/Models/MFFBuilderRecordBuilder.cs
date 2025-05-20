@@ -7,18 +7,18 @@ public class MFFBuilderRecordBuilder
 {
     #region Constants
 
-    public const string DEFAULT_FILE_NAME_BUILDER_INFO = "TestClass.cs";
-    public const string DEFAULT_SOURCE_BUILDER_TYPE = "SouceBuilderType";
-    public const string DEFAULT_SOURCE_BUILDER_INFO = "SouceBuilderInfo";
+    public const string DefaultFileNameBuilderInfo = "TestClass.cs";
+    public const string DefaultSourceBuilderType = "SourceBuilderType";
+    public const string DefaultSourceBuilderInfo = "SourceBuilderInfo";
 
     #endregion
 
     #region Private/Protected Fields/Properties
 
     private string? _fileNameBuilderType;
-    private string _fileNameBuilderInfo = DEFAULT_FILE_NAME_BUILDER_INFO;
-    private string _sourceBuilderType = DEFAULT_SOURCE_BUILDER_TYPE;
-    private object _sourceBuilderInfo = DEFAULT_SOURCE_BUILDER_INFO;
+    private string _fileNameBuilderInfo = DefaultFileNameBuilderInfo;
+    private string _sourceBuilderType = DefaultSourceBuilderType;
+    private object _sourceBuilderInfo = DefaultSourceBuilderInfo;
     private IEnumerable<(string Key, object Value)> _additionalOutputInfos = 
         Array.Empty<(string Key, object Value)>();
 

@@ -8,14 +8,14 @@ namespace MavFiFoundation.SourceGenerators.Testing;
 
 public static class Helpers
 {
-    private const string Additional_Source_Collection_TYPE_NAME = 
+    private const string AdditionalSourceCollectionTypeName = 
         "Microsoft.CodeAnalysis.AdditionalSourcesCollection";
-    private const string SOURCE_FILE_EXTENSION = "cs";
-    private const string DIAGNOSTIC_BAG_TYPE_NAME = "Microsoft.CodeAnalysis.DiagnosticBag";
-    private const string SOURCES_ADDED_FIELD_NAME = "_sourcesAdded";
-    private const string COUNT_PROPERTY_NAME = "Count";
-    private const string HINT_NAME_PROPERTY_NAME = "HintName";
-    private const string TEXT_PROPERTY_NAME = "Text";
+    private const string SourceFileExtension = "cs";
+    private const string DiagnosticBagTypeName = "Microsoft.CodeAnalysis.DiagnosticBag";
+    private const string SourcesAddedFieldName = "_sourcesAdded";
+    private const string CountPropertyName = "Count";
+    private const string HintNamePropertyName = "HintName";
+    private const string TextPropertyName = "Text";
 
     public static T? CreateInstance<T>(params object[] args)
     {
@@ -49,10 +49,10 @@ public static class Helpers
         }
 
         var sourcesType = codeAnalysisAssembly
-            .GetType(Additional_Source_Collection_TYPE_NAME)
+            .GetType(AdditionalSourceCollectionTypeName)
                 ?? throw new Exception("Unable to locate AdditionalSourceCollection Type");
 
-        var sources = Helpers.CreateInstance(sourcesType, SOURCE_FILE_EXTENSION) 
+        var sources = Helpers.CreateInstance(sourcesType, SourceFileExtension) 
                 ?? throw new Exception("Unable to create AdditionalSourceCollection");
         
         return sources;
@@ -66,7 +66,7 @@ public static class Helpers
         }
 
         var diagnosticsType = codeAnalysisAssembly
-            .GetType(DIAGNOSTIC_BAG_TYPE_NAME)
+            .GetType(DiagnosticBagTypeName)
                 ?? throw new Exception("Unable to locate DiagnosticBag Type");
 
         var diagnostics = Helpers.CreateInstance(diagnosticsType) 
@@ -108,10 +108,10 @@ public static class Helpers
     public static IEnumerable GetSourcesAdded(object sources) 
     {
         var sourcesAddedFieldInfo = sources.GetType().GetField(
-            SOURCES_ADDED_FIELD_NAME, BindingFlags.NonPublic | BindingFlags.Instance) ??
-                throw new Exception($"Unable to get {SOURCES_ADDED_FIELD_NAME} FieldInfo");
+            SourcesAddedFieldName, BindingFlags.NonPublic | BindingFlags.Instance) ??
+                throw new Exception($"Unable to get {SourcesAddedFieldName} FieldInfo");
         var sourcesAdded = sourcesAddedFieldInfo.GetValue(sources) as IEnumerable ?? 
-            throw new Exception($"Unable to get {SOURCES_ADDED_FIELD_NAME} Value");
+            throw new Exception($"Unable to get {SourcesAddedFieldName} Value");
 
         return sourcesAdded;
     }
@@ -119,10 +119,10 @@ public static class Helpers
     public static int GetSourcesCount(object sources)
     {
         var sourcesAdded = GetSourcesAdded(sources);
-        var countPropertyInfo = sourcesAdded.GetType().GetProperty(COUNT_PROPERTY_NAME) ??
-            throw new Exception($"Unable to get {COUNT_PROPERTY_NAME} PropertyInfo");
+        var countPropertyInfo = sourcesAdded.GetType().GetProperty(CountPropertyName) ??
+            throw new Exception($"Unable to get {CountPropertyName} PropertyInfo");
         var addedSourceCount = countPropertyInfo.GetValue(sourcesAdded) as int? ?? 
-            throw new Exception($"Unable to get {COUNT_PROPERTY_NAME} Value");
+            throw new Exception($"Unable to get {CountPropertyName} Value");
 
         return addedSourceCount;
     }
@@ -137,8 +137,8 @@ public static class Helpers
 
             if (name is not null)
             {
-                var namePropInfo = source.GetType().GetProperty(HINT_NAME_PROPERTY_NAME) ??
-                    throw new Exception($"Unable to get {HINT_NAME_PROPERTY_NAME} PropertyInfo");
+                var namePropInfo = source.GetType().GetProperty(HintNamePropertyName) ??
+                    throw new Exception($"Unable to get {HintNamePropertyName} PropertyInfo");
                 if (name == namePropInfo.GetValue(source) as string)
                 {
                     nameMatch = true;
@@ -151,11 +151,11 @@ public static class Helpers
 
             if (code is not null)
             {
-                var textPropInfo = source.GetType().GetProperty(TEXT_PROPERTY_NAME) ??
-                    throw new Exception($"Unable to get {TEXT_PROPERTY_NAME} PropertyInfo");
+                var textPropInfo = source.GetType().GetProperty(TextPropertyName) ??
+                    throw new Exception($"Unable to get {TextPropertyName} PropertyInfo");
 
                 var text = textPropInfo.GetValue(source) ??
-                    throw new Exception($"Unable to get {TEXT_PROPERTY_NAME} Value");
+                    throw new Exception($"Unable to get {TextPropertyName} Value");
      
                 if (code == text.ToString())
                 {

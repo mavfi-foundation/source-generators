@@ -79,7 +79,7 @@ public class MFFDynamicLinqTypeLocatorTests
         }.ToImmutableArray();
 
         var cancellationToken = new CancellationToken();
-        var t = srcSymbols[0].Types.AsQueryable().Where($"FullyQualifiedName.StartsWith(\"{ MFFTypeSymbolRecordBuilder.DEFAULT_CONTAINING_NAMESPACE }.\")");
+        var t = srcSymbols[0].Types.AsQueryable().Where($"FullyQualifiedName.StartsWith(\"{ MFFTypeSymbolRecordBuilder.DefaultContainingNamespace }.\")");
         var cut = new MFFDynamicLinqTypeLocatorTestClass(_mockSerializer.Object);
 
         //Act

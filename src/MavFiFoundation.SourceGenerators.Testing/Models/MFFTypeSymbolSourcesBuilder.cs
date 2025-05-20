@@ -7,13 +7,13 @@ public class MFFTypeSymbolSourcesBuilder
 {
     #region Constants
 
-    public const string DEFAULT_SOURCE = MFFGeneratorConstants.Generator.COMPILING_PROJECT;
+    public const string DefaultSource = MFFGeneratorConstants.Generator.COMPILING_PROJECT;
 
     #endregion
 
     #region Private/Protected Fields/Properties
 
-    private string _source = DEFAULT_SOURCE; 
+    private string _source = DefaultSource; 
     private IEnumerable<MFFTypeSymbolRecord> _types = Array.Empty<MFFTypeSymbolRecord>();
 
     #endregion

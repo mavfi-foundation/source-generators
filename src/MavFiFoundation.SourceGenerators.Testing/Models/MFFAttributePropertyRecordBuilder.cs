@@ -6,18 +6,18 @@ public class MFFAttributePropertyRecordBuilder
 {
     #region Constants
 
-    public const string DEFAULT_NAME = "Name";
-    public const object DEFAULT_VALUE = null;
-    public const MFFAttributePropertyLocationType DEFAULT_FROM = 
+    public const string DefaultName = "Name";
+    public const object DefaultValue = null;
+    public const MFFAttributePropertyLocationType DefaultFrom = 
         MFFAttributePropertyLocationType.Constructor;
 
     #endregion
 
     #region Private/Protected Fields/Properties
 
-    private string _name = DEFAULT_NAME; 
-    private object? _value = DEFAULT_VALUE;
-    private MFFAttributePropertyLocationType _from = DEFAULT_FROM;
+    private string _name = DefaultName; 
+    private object? _value = DefaultValue;
+    private MFFAttributePropertyLocationType _from = DefaultFrom;
 
     #endregion
 
