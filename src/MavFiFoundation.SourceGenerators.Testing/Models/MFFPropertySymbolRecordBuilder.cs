@@ -7,28 +7,28 @@ public class MFFPropertySymbolRecordBuilder
 {
     #region Constants
  
-    public const string DEFAULT_NAME = "Name";
-    public const string DEFAULT_TYPE_FULLY_QUALIFIED_NAME= "System.String";
-    public const bool DEFAULT_IS_INHERITED = false;
-    public const bool DEFAULT_IS_VALUE_TYPE = false;
-    public const bool DEFAULT_IS_NULLABLE = false;
-    public const bool DEFAULT_IS_GENERIC_COLLECTION = false;
+    public const string DefaultName = "Name";
+    public const string DefaultTypeFullyQualifiedName= "System.String";
+    public const bool DefaultIsInherited = false;
+    public const bool DefaultIsValueType = false;
+    public const bool DefaultIsNullable = false;
+    public const bool DefaultIsGenericCollection = false;
 
     #endregion
 
     #region Private/Protected Fields/Properties
 
-    private string _name = DEFAULT_NAME;
+    private string _name = DefaultName;
     
-    private string _typeFullyQualifiedName = DEFAULT_TYPE_FULLY_QUALIFIED_NAME;
+    private string _typeFullyQualifiedName = DefaultTypeFullyQualifiedName;
 
-    private bool _isInherited = DEFAULT_IS_INHERITED;
+    private bool _isInherited = DefaultIsInherited;
 
-    private bool _isValueType = DEFAULT_IS_VALUE_TYPE;
+    private bool _isValueType = DefaultIsValueType;
 
-    private bool _isNullable = DEFAULT_IS_NULLABLE;
+    private bool _isNullable = DefaultIsNullable;
 
-    private bool _isGenericCollection = DEFAULT_IS_GENERIC_COLLECTION;
+    private bool _isGenericCollection = DefaultIsGenericCollection;
 
 	private IEnumerable<MFFAttributeDataRecord> _attributes = Array.Empty<MFFAttributeDataRecord>();
 

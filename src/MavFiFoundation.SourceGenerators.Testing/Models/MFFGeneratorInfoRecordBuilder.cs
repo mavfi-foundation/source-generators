@@ -7,19 +7,19 @@ public class MFFGeneratorInfoRecordBuilder
 {
     #region Constants
 
-    public const string DEFAULT_CONTAINING_NAMESPACE = "TestSpace";
-    public const string DEFAULT_SRC_LOCATOR_TYPE = "SrcLocatorType";
-    public const string DEFAULT_SRC_LOCATOR_INFO = "SrcLocatorInfo";
+    public const string DefaultContainingNamespace = "TestSpace";
+    public const string DefaultSrcLocatorType = "SrcLocatorType";
+    public const string DefaultSrcLocatorInfo = "SrcLocatorInfo";
 
     #endregion
 
     #region Private/Protected Fields/Properties
 
-    private string? _containingNamespace = DEFAULT_CONTAINING_NAMESPACE;
+    private string? _containingNamespace = DefaultContainingNamespace;
 
-    private string _srcLocatorType = DEFAULT_SRC_LOCATOR_TYPE;
+    private string _srcLocatorType = DefaultSrcLocatorType;
 
-    private object _srcLocatorInfo = DEFAULT_SRC_LOCATOR_INFO;
+    private object _srcLocatorInfo = DefaultSrcLocatorInfo;
 
     private IEnumerable<MFFBuilderRecord> _genOutputInfos = Array.Empty<MFFBuilderRecord>();
 

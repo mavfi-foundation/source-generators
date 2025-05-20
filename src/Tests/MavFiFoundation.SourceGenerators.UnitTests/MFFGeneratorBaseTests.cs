@@ -55,14 +55,14 @@ public class MFFGeneratorBaseTests
         var mockBuilder = new Mock<IMFFBuilder>(MockBehavior.Strict);
         mockBuilder
             .Setup(x => x.Build(
-                It.Is<object>(s =>s.ToString() == MFFBuilderRecordBuilder.DEFAULT_FILE_NAME_BUILDER_INFO),
+                It.Is<object>(s =>s.ToString() == MFFBuilderRecordBuilder.DefaultFileNameBuilderInfo),
                 It.IsAny<MFFBuilderRecord>(),
                 It.IsAny<IEnumerable<MFFTypeSymbolRecord>>()))
-            .Returns(MFFBuilderRecordBuilder.DEFAULT_FILE_NAME_BUILDER_INFO);
+            .Returns(MFFBuilderRecordBuilder.DefaultFileNameBuilderInfo);
 
         mockBuilder
             .Setup(x => x.Build(
-                It.Is<object>(s =>s.ToString() == MFFBuilderRecordBuilder.DEFAULT_SOURCE_BUILDER_INFO),
+                It.Is<object>(s =>s.ToString() == MFFBuilderRecordBuilder.DefaultSourceBuilderInfo),
                 It.IsAny<MFFBuilderRecord>(),
                 It.IsAny<IEnumerable<MFFTypeSymbolRecord>>()))
             .Returns(expectedSourceCode);
@@ -70,7 +70,7 @@ public class MFFGeneratorBaseTests
         _mockPluginsProvider.SetupGet(x => x.Builders)
             .Returns(new Dictionary<string, IMFFBuilder>()
             {
-                { MFFBuilderRecordBuilder.DEFAULT_SOURCE_BUILDER_TYPE, mockBuilder.Object }
+                { MFFBuilderRecordBuilder.DefaultSourceBuilderType, mockBuilder.Object }
             });
 
         _mockPluginsProvider.SetupGet(x => x.DefaultFileNameBuilder)
@@ -95,7 +95,7 @@ public class MFFGeneratorBaseTests
 
         var containsSource = Helpers.ContainsSource(
             _sources, 
-            MFFBuilderRecordBuilder.DEFAULT_FILE_NAME_BUILDER_INFO,
+            MFFBuilderRecordBuilder.DefaultFileNameBuilderInfo,
             expectedSourceCode);
 
         containsSource.Should().BeTrue();
@@ -109,14 +109,14 @@ public class MFFGeneratorBaseTests
         var mockBuilder = new Mock<IMFFBuilder>(MockBehavior.Strict);
         mockBuilder
             .Setup(x => x.Build(
-                It.Is<object>(s =>s.ToString() == MFFBuilderRecordBuilder.DEFAULT_FILE_NAME_BUILDER_INFO),
+                It.Is<object>(s =>s.ToString() == MFFBuilderRecordBuilder.DefaultFileNameBuilderInfo),
                 It.IsAny<MFFBuilderRecord>(),
                 It.IsAny<MFFTypeSymbolRecord>()))
-            .Returns(MFFBuilderRecordBuilder.DEFAULT_FILE_NAME_BUILDER_INFO);
+            .Returns(MFFBuilderRecordBuilder.DefaultFileNameBuilderInfo);
 
         mockBuilder
             .Setup(x => x.Build(
-                It.Is<object>(s =>s.ToString() == MFFBuilderRecordBuilder.DEFAULT_SOURCE_BUILDER_INFO),
+                It.Is<object>(s =>s.ToString() == MFFBuilderRecordBuilder.DefaultSourceBuilderInfo),
                 It.IsAny<MFFBuilderRecord>(),
                 It.IsAny<MFFTypeSymbolRecord>()))
             .Returns(expectedSourceCode);
@@ -124,7 +124,7 @@ public class MFFGeneratorBaseTests
         _mockPluginsProvider.SetupGet(x => x.Builders)
             .Returns(new Dictionary<string, IMFFBuilder>()
             {
-                { MFFBuilderRecordBuilder.DEFAULT_SOURCE_BUILDER_TYPE, mockBuilder.Object }
+                { MFFBuilderRecordBuilder.DefaultSourceBuilderType, mockBuilder.Object }
             });
 
         _mockPluginsProvider.SetupGet(x => x.DefaultFileNameBuilder)
@@ -151,7 +151,7 @@ public class MFFGeneratorBaseTests
 
         var containsSource = Helpers.ContainsSource(
             _sources, 
-            MFFBuilderRecordBuilder.DEFAULT_FILE_NAME_BUILDER_INFO,
+            MFFBuilderRecordBuilder.DefaultFileNameBuilderInfo,
             expectedSourceCode);
 
         containsSource.Should().BeTrue();
