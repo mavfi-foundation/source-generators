@@ -1,5 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <ItemGroup>
+ 	<PropertyGroup>
+		<IsTestProject>false</IsTestProject>
+	</PropertyGroup>
+   <ItemGroup>
         <PackageReference Include="xunit" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp">
 			<NoWarn>NU1608</NoWarn>

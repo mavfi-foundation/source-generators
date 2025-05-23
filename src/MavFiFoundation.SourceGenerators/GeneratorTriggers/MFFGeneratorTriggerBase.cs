@@ -5,6 +5,8 @@ using System.Collections.Immutable;
 using MavFiFoundation.SourceGenerators.Models;
 using MavFiFoundation.SourceGenerators.ResourceLoaders;
 
+using Microsoft.CodeAnalysis.Diagnostics;
+
 namespace MavFiFoundation.SourceGenerators.GeneratorTriggers;
 
 /// <summary>
@@ -60,5 +62,21 @@ public abstract class MFFGeneratorTriggerBase : MFFGeneratorPluginBase
                 }
             }
         }
+    }
+
+    /// <inheritdoc/>
+    public virtual MFFGeneratorInfoModel? ValidateAdditionalFile(AdditionalFileAnalysisContext context)
+    {
+        // No additional file validation by default.
+        // This method should be overridden by derived classes to add additional file validation.
+        return null;
+    }
+
+    /// <inheritdoc/>
+    public virtual MFFGeneratorInfoModel? ValidateSymbol(SymbolAnalysisContext context)
+    {
+        // No symbol validation by default.
+        // This method should be overridden by derived classes to add symbol validation.
+        return null;
     }
 }

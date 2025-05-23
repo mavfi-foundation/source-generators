@@ -13,7 +13,7 @@ public class MFFGeneratorTests
     public static async Task GenerateSources_AddsExpectedSources(
         MFFGeneratorTestData scenario)
     {
-        await TestAssistants.RunAsync<MFFGenerator>(
+        await GeneratorTestAssistants.RunAsync<MFFGenerator>(
             scenario.Sources,
             scenario.AdditionalFiles,
             scenario.GeneratedSources,

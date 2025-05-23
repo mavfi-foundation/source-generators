@@ -13,9 +13,9 @@ using System.Reflection;
 
 namespace MavFiFoundation.SourceGenerators.Testing;
 
-public static class TestAssistants
+public static class GeneratorTestAssistants
 {
-		internal static async Task RunAsync<T>(string code,
+	public static async Task RunAsync<T>(string code,
 		IEnumerable<(Type, string, string)> generatedSources,
         IEnumerable<Assembly> additionalReferences,
 		IEnumerable<DiagnosticResult> expectedDiagnostics) where T : IIncrementalGenerator, new()

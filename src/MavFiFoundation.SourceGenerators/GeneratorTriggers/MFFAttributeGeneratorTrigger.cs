@@ -6,6 +6,7 @@ using MavFiFoundation.SourceGenerators.Models;
 using System.Collections.Immutable;
 using MavFiFoundation.SourceGenerators.ResourceLoaders;
 using MavFiFoundation.SourceGenerators.Serializers;
+using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace MavFiFoundation.SourceGenerators.GeneratorTriggers;
 
@@ -56,6 +57,16 @@ namespace MavFiFoundation.SourceGenerators.GeneratorTriggers;
 /// </example>
 public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGeneratorTrigger
 {
+    public const string DiagnosticId = "MY0002";
+
+    private const string Title = "Blocks should use braces";
+    private const string MessageFormat = "Blocks should use braces";
+    private const string Description = "When possible, use curly braces on code blocks.";
+    private const string Category = "CodeStyle";
+
+    private static readonly DiagnosticDescriptor Rule = new(DiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
+
+
     #region Constants
     /// <summary>
     /// Default name used to identify the generator
@@ -119,6 +130,7 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
             DEFAULT_ATTRIBUTE_NAME,
             serializer)
     {
+        
     }
 
     /// <summary>
@@ -187,42 +199,7 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
             {
                 cancellationToken.ThrowIfCancellationRequested();
 
-                var att = srcType.Attributes.First(a => a.Name == ConfigAttributeName);
-                var sourceInfo = new MFFGeneratorInfoModel();
-
-                sourceInfo.ContainingNamespace = srcType.ContainingNamespace;
-
-                foreach (var attProp in att.Properties
-                    .Where(p => p.From == MFFAttributePropertyLocationType.Constructor))
-                {
-                    cancellationToken.ThrowIfCancellationRequested();
-
-                    switch (attProp.Name)
-                    {
-                        case CTOR_ARG_SRCLOCATORTYPE:
-                            sourceInfo.SrcLocatorType = (string?)attProp.Value;
-                            break;
-                        case CTOR_ARG_SRCLOCATORINFO:
-                            sourceInfo.SrcLocatorInfo = (string?)attProp.Value;
-                            break;
-                        case CTOR_ARG_USESYMBOLFORLOCATORINFO:
-                            var useSymbol = attProp.Value == null ? false : (bool)attProp.Value;
-                            if (useSymbol)
-                            {
-                                sourceInfo.SrcLocatorInfo = srcType;
-                            }
-                            break;
-                        case CTOR_ARG_OUTPUTINFO:
-                            var outputInfo = (string?)attProp.Value;
-                            if (outputInfo is not null)
-                            {
-                                sourceInfo.SrcOutputInfos = Serializer.DeserializeObject<List<MFFBuilderModel>?>(outputInfo);
-                            }
-                            break;
-                        default: //do nothing
-                            break;
-                    }
-                }
+                MFFGeneratorInfoModel? sourceInfo = GetGeneratorInfoFromAttribute(srcType, cancellationToken);
 
                 if (sourceInfo is not null)
                 {
@@ -234,6 +211,74 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
 
         return generatorRecordsBuilder.ToImmutable();
 
+    }
+
+    protected MFFGeneratorInfoModel GetGeneratorInfoFromAttribute(
+        MFFTypeSymbolRecord srcType,
+        CancellationToken cancellationToken)
+    {
+        var sourceInfo = new MFFGeneratorInfoModel();
+
+        sourceInfo.ContainingNamespace = srcType.ContainingNamespace;
+
+        var att = srcType.Attributes.First(a => a.Name == ConfigAttributeName);
+
+        foreach (var attProp in att.Properties
+            .Where(p => p.From == MFFAttributePropertyLocationType.Constructor))
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            switch (attProp.Name)
+            {
+                case CTOR_ARG_SRCLOCATORTYPE:
+                    sourceInfo.SrcLocatorType = (string?)attProp.Value;
+                    break;
+                case CTOR_ARG_SRCLOCATORINFO:
+                    sourceInfo.SrcLocatorInfo = (string?)attProp.Value;
+                    break;
+                case CTOR_ARG_USESYMBOLFORLOCATORINFO:
+                    var useSymbol = attProp.Value == null ? false : (bool)attProp.Value;
+                    if (useSymbol)
+                    {
+                        sourceInfo.SrcLocatorInfo = srcType;
+                    }
+                    break;
+                case CTOR_ARG_OUTPUTINFO:
+                    var outputInfo = (string?)attProp.Value;
+                    if (outputInfo is not null)
+                    {
+                        sourceInfo.SrcOutputInfos = Serializer.DeserializeObject<List<MFFBuilderModel>?>(outputInfo);
+                    }
+                    break;
+                default: //do nothing
+                    break;
+            }
+        }
+
+        return sourceInfo;
+    }
+
+    /// <inheritdoc/>
+    public override void AddSupportedAnalyzerDiagnostics(ImmutableArray<DiagnosticDescriptor>.Builder supportedDiagnoticsBuilder)
+    {
+        base.AddSupportedAnalyzerDiagnostics(supportedDiagnoticsBuilder);
+        supportedDiagnoticsBuilder.Add(Rule);
+    }
+
+    /// <inheritdoc/>
+    public override MFFGeneratorInfoModel? ValidateSymbol(SymbolAnalysisContext context)
+    {
+        if (context.Symbol is INamedTypeSymbol namedTypeSymbol)
+        {
+            var srcType = namedTypeSymbol.GetTypeSymbolRecord();
+            if (srcType.Attributes.Any(a => a.Name == ConfigAttributeName))
+            {
+                MFFGeneratorInfoModel? sourceInfo = GetGeneratorInfoFromAttribute(srcType, context.CancellationToken);
+                return sourceInfo;
+            }
+        }
+
+        return null;
     }
 
     #endregion
