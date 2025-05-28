@@ -2,16 +2,16 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using MavFiFoundation.SourceGenerators.Testing;
+using MavFiFoundation.SourceGenerators.TestSupport;
+using System.Reflection;
+using MavFiFoundation.SourceGenerators.GeneratorTriggers;
 
 namespace MavFiFoundation.SourceGenerators.IntegrationTests;
-
-using VerifyCS = CSharpAnalyzerVerifier<
-    MFFGeneratorAnalyzer,
-    DefaultVerifier>;
 
 public class MFFGeneratorAnalyzerTests
 {
 
+    #region Test Support Methods
 #if NET481
     private void SkipOnUnSupportedPlatforms()
     {
@@ -29,52 +29,57 @@ public class MFFGeneratorAnalyzerTests
     }
 #endif
 
+    #endregion
+
+    #region Test Methods
 
     [SkippableFact]
-    public async Task TestIfStatement()
+    public async Task MFFAttributeTrigger_InvalidTypeLocator()
     {
 
 #if NET481
         SkipOnUnSupportedPlatforms();
 #endif
-        var diagnosticResult = new DiagnosticResult("MY0002", DiagnosticSeverity.Warning)
-            .WithMessage("Blocks should use braces")
-            .WithLocation(5, 9);
+        var diagnosticResult = new DiagnosticResult(
+            MFFAttributeGeneratorTrigger.InvalidTypeLocatorDiagnosticId,
+            DiagnosticSeverity.Error)
+            .WithMessage(MFFAttributeGeneratorTrigger.InvalidTypeLocatorMessageFormat)
+            .WithSpan(6, 3, 24, 3);
 
-        var source =
-@"class C
-{
-    void M()
-    {
-        if (true)
-            return;
-    }
-}";
+        var source = EmbeddedResourceHelper.ReadEmbeddedSource(
+                    "MFFAttributeGeneratorTrigger_InvalidTypeLocator.cs",
+                    EmbeddedResourceHelper.EmbeddedResourceType.Code);
 
         await AnalyzerTestAssistants.RunAsync<MFFGeneratorAnalyzer>(
-            source,
-            diagnosticResult).ConfigureAwait(true);
+            source, diagnosticResult, null, new Assembly[]{
+                typeof(MFFGeneratorAnalyzerBase).Assembly,
+                typeof(MFFGenerateSourceAttribute).Assembly,
+                typeof(EmbeddedResourceHelper).Assembly }).ConfigureAwait(true);
     }
 
     [SkippableFact]
-    public Task TestIfWithBlock()
+    public async Task MFFAttributeTrigger_NoOutputs()
     {
 
 #if NET481
         SkipOnUnSupportedPlatforms();
 #endif
+        var diagnosticResult = new DiagnosticResult(
+            MFFAttributeGeneratorTrigger.NoOutputsDiagnosticId,
+            DiagnosticSeverity.Warning)
+            .WithMessage(MFFAttributeGeneratorTrigger.NoOutputsMessageFormat)
+            .WithSpan(6, 3, 12, 3);
 
-        return VerifyCS.VerifyAnalyzerAsync(
-@"class C
-{
-    void M()
-    {
-        if (true)
-        {
-            return;
-        }
+        var source = EmbeddedResourceHelper.ReadEmbeddedSource(
+                    "MFFAttributeGeneratorTrigger_NoOutputs.cs",
+                    EmbeddedResourceHelper.EmbeddedResourceType.Code);
+
+        await AnalyzerTestAssistants.RunAsync<MFFGeneratorAnalyzer>(
+            source, diagnosticResult, null, new Assembly[]{
+                typeof(MFFGeneratorAnalyzerBase).Assembly,
+                typeof(MFFGenerateSourceAttribute).Assembly,
+                typeof(EmbeddedResourceHelper).Assembly }).ConfigureAwait(true);
     }
-}");
-    }
+
+    #endregion
 }
-

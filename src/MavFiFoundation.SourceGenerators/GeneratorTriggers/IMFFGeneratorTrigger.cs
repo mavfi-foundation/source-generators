@@ -35,8 +35,13 @@ public interface IMFFGeneratorTrigger : IMFFGeneratorPlugin
     MFFGeneratorInfoModel? ValidateAdditionalFile(AdditionalFileAnalysisContext context);
 
     /// <summary>
-    /// Validates the content of symbol files.
+    /// Gets a <see cref="MFFGeneratorInfoModel"/> for a triggering symbol.
     /// </summary>
     /// <inheritdoc cref="ValidateAdditionalFile(AdditionalFileAnalysisContext)" path="/param[@name='context']"/>
-    MFFGeneratorInfoModel? ValidateSymbol(SymbolAnalysisContext context);
+    /// <returns><see cref="MFFGeneratorInfoModel"/> populated from provided symbol in context, 
+    /// if symbol is trigger for implementation, else null.</returns>
+    MFFGeneratorInfoModel? GetGenInfo(SymbolAnalysisContext context);
+
+
+    // void GetInvalidInfoLocation();
 }

@@ -31,10 +31,12 @@ public interface IMFFGeneratorPlugin
     /// Validates the content of trigger files.
     /// </summary>
     /// <param name="context">The analysis context.</param>
+    /// <param name="source">The <see cref="ISymbol"/> or <see cref="AdditionalText"/> to be validated.</param>
     /// <param name="genInfo">The generator configuration to validate.</param>
     /// <param name="generatorTrigger">The generator trigger that created <paramref name="genInfo"/>.</param>
     /// <returns><see cref="IEnumerable<Diagnostic>"/> with failed validation or null when no validations failed. </returns>
     IEnumerable<Diagnostic>? Validate(MFFAnalysisContext context,
+        object source,
         MFFGeneratorInfoModel genInfo,
         IMFFGeneratorTrigger generatorTrigger);
 

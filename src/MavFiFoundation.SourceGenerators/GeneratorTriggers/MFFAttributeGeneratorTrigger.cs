@@ -57,15 +57,6 @@ namespace MavFiFoundation.SourceGenerators.GeneratorTriggers;
 /// </example>
 public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGeneratorTrigger
 {
-    public const string DiagnosticId = "MY0002";
-
-    private const string Title = "Blocks should use braces";
-    private const string MessageFormat = "Blocks should use braces";
-    private const string Description = "When possible, use curly braces on code blocks.";
-    private const string Category = "CodeStyle";
-
-    private static readonly DiagnosticDescriptor Rule = new(DiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
-
 
     #region Constants
     /// <summary>
@@ -100,6 +91,46 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
     /// </summary>
     protected const string CTOR_ARG_OUTPUTINFO = "outputInfo";
 
+    /// <summary>
+    /// Diagnotic Id for InvalidTypeLocator rule
+    /// </summary>
+    public const string InvalidTypeLocatorDiagnosticId = "MFFSG10101";
+
+    /// <summary>
+    /// Diagnotic Title for InvalidTypeLocator rule
+    /// </summary>
+    private const string InvalidTypeLocatorTitle = "The specified SrcTypeLocator does not exist";
+
+    /// <summary>
+    /// Diagnotic Message Format for InvalidTypeLocator rule
+    /// </summary>
+    public const string InvalidTypeLocatorMessageFormat = "The specified SrcTypeLocator does not exist";
+
+    /// <summary>
+    /// Diagnotic Description for InvalidTypeLocator rule
+    /// </summary>
+    private const string InvalidTypeLocatorDescription = "The specified SrcTypeLocator does not exist.";
+
+    /// <summary>
+    /// Diagnotic Id for NoOutputs rule
+    /// </summary>
+    public const string NoOutputsDiagnosticId = "MFFSG10102";
+
+    /// <summary>
+    /// Diagnotic Title for NoOutputs rule
+    /// </summary>
+    private const string NoOutputsTitle = "At least one generator output or source output should be specified";
+
+    /// <summary>
+    /// Diagnotic Message Format for NoOutputs rule
+    /// </summary>
+    public const string NoOutputsMessageFormat = "At least one generator output or source output should be specified";
+
+    /// <summary>
+    /// Diagnotic Description for NoOutputs rule
+    /// </summary>
+    private const string NoOutputsDescription = "At least one generator output or source output should be specified.";
+
     #endregion
 
     #region Private/Protected Properties
@@ -110,11 +141,30 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
     /// </summary>
     protected string ConfigAttributeName { get; private set; }
 
+    protected IMFFGeneratorPluginsProvider PluginsProvider { get; private set; }
+
     /// <summary>
     /// Get the default serializer to use.
     /// </summary>
     protected IMFFSerializer Serializer { get; private set; }
 
+    private static readonly DiagnosticDescriptor InvalidTypeLocatorRule = new(
+        InvalidTypeLocatorDiagnosticId,
+        InvalidTypeLocatorTitle,
+        InvalidTypeLocatorMessageFormat,
+        DiagnosticCategory,
+        DiagnosticSeverity.Error,
+        isEnabledByDefault: true,
+        description: InvalidTypeLocatorDescription);
+
+    private static readonly DiagnosticDescriptor NoOutputsRule = new(
+        NoOutputsDiagnosticId,
+        NoOutputsTitle,
+        NoOutputsMessageFormat,
+        DiagnosticCategory,
+        DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: NoOutputsDescription);
 
     #endregion
 
@@ -123,14 +173,17 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
     /// <summary>
     /// Constructor for <see cref="MFFAttributeGeneratorTrigger"/> that uses default attribute name.
     /// </summary>
-    /// <param name="serializer">The default serializer to use.</param>
-    public MFFAttributeGeneratorTrigger(IMFFSerializer serializer)
+    /// <inheritdoc cref="MFFAttributeGeneratorTrigger(string, string, IMFFGeneratorPluginsProvider, IMFFSerializer)"/>
+    public MFFAttributeGeneratorTrigger(
+        IMFFGeneratorPluginsProvider pluginsProvider,
+        IMFFSerializer serializer)
         : this(
             DEFAULT_NAME,
             DEFAULT_ATTRIBUTE_NAME,
+            pluginsProvider,
             serializer)
     {
-        
+
     }
 
     /// <summary>
@@ -140,10 +193,16 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
     /// <inheritdoc cref="MFFGeneratorPluginBase.MFFGeneratorPluginBase(string)" path="/param[@name='name']"/>
     /// <param name="configAttributeName">The attribute name used to locate triggering types and store generator
     /// configuration information.</param>
+    /// <param name="pluginsProvider">The PluginsProvider to use.</param>
     /// <param name="serializer">The serializer to use.</param>
-    public MFFAttributeGeneratorTrigger(string name, string configAttributeName, IMFFSerializer serializer) : base(name)
+    public MFFAttributeGeneratorTrigger(
+        string name,
+        string configAttributeName,
+        IMFFGeneratorPluginsProvider pluginsProvider,
+        IMFFSerializer serializer) : base(name)
     {
         ConfigAttributeName = configAttributeName;
+        PluginsProvider = pluginsProvider;
         Serializer = serializer;
     }
 
@@ -262,15 +321,17 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
     public override void AddSupportedAnalyzerDiagnostics(ImmutableArray<DiagnosticDescriptor>.Builder supportedDiagnoticsBuilder)
     {
         base.AddSupportedAnalyzerDiagnostics(supportedDiagnoticsBuilder);
-        supportedDiagnoticsBuilder.Add(Rule);
+        supportedDiagnoticsBuilder.Add(InvalidTypeLocatorRule);
+        supportedDiagnoticsBuilder.Add(NoOutputsRule);
     }
 
     /// <inheritdoc/>
-    public override MFFGeneratorInfoModel? ValidateSymbol(SymbolAnalysisContext context)
+    public override MFFGeneratorInfoModel? GetGenInfo(SymbolAnalysisContext context)
     {
         if (context.Symbol is INamedTypeSymbol namedTypeSymbol)
         {
             var srcType = namedTypeSymbol.GetTypeSymbolRecord();
+
             if (srcType.Attributes.Any(a => a.Name == ConfigAttributeName))
             {
                 MFFGeneratorInfoModel? sourceInfo = GetGeneratorInfoFromAttribute(srcType, context.CancellationToken);
@@ -279,6 +340,57 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
         }
 
         return null;
+    }
+
+    /// <inheritdoc/>
+    public override IEnumerable<Diagnostic>? Validate(MFFAnalysisContext context, object source, MFFGeneratorInfoModel genInfo, IMFFGeneratorTrigger generatorTrigger)
+    {
+        var ret = base.Validate(context, source, genInfo, generatorTrigger);
+
+        // The specified SrcTypeLocator cannot be blank
+        if (genInfo.SrcLocatorType is null || string.IsNullOrEmpty(genInfo.SrcLocatorType))
+        {
+
+        }
+        // The specified SrcTypeLocator does not exist
+        else if (!PluginsProvider.TypeLocators.ContainsKey(genInfo.SrcLocatorType))
+        {
+            var att = ((ISymbol)source)
+                .GetAttributes()
+                .Where(a => a.AttributeClass?.ToDisplayString() == ConfigAttributeName)
+                .FirstOrDefault();
+
+            if (att is not null)
+            {
+                var location = att.ApplicationSyntaxReference?.GetSyntax().GetLocation();
+
+                AddDiagnostic(ref ret, Diagnostic.Create(
+                        InvalidTypeLocatorRule,
+                        location));
+            }
+        }
+
+        // At least one generator output or source output should be specified.
+        if ((genInfo.GenOutputInfos is null || !genInfo.GenOutputInfos.Any()) &&
+            (genInfo.SrcOutputInfos is null || !genInfo.SrcOutputInfos.Any()))
+        {
+
+            var att = ((ISymbol)source)
+                .GetAttributes()
+                .Where(a => a.AttributeClass?.ToDisplayString() == ConfigAttributeName)
+                .FirstOrDefault();
+
+            if (att is not null)
+            {
+                var location = att.ApplicationSyntaxReference?.GetSyntax().GetLocation();
+
+                AddDiagnostic(ref ret, Diagnostic.Create(
+                        NoOutputsRule,
+                        location));
+            }
+        }
+
+        return ret;
     }
 
     #endregion

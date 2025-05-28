@@ -47,7 +47,7 @@ public class MFFGeneratorPluginsProvider : IMFFGeneratorPluginsProvider
 
     protected virtual void AddDefaultGeneratorTriggers()
     {
-        AddDefaultGeneratorTrigger(new MFFAttributeGeneratorTrigger(DefaultSerializer));
+        AddDefaultGeneratorTrigger(new MFFAttributeGeneratorTrigger(this, DefaultSerializer));
         AddDefaultGeneratorTrigger(new MFFXmlGeneratorTrigger(new MFFXmlSerializer()));
         AddDefaultGeneratorTrigger(new MFFJsonGeneratorTrigger(new MFFJsonSerializer()));
         AddDefaultGeneratorTrigger(new MFFYamlGeneratorTrigger(new MFFYamlSerializer()));

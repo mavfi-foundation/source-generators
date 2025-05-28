@@ -73,7 +73,7 @@ public abstract class MFFGeneratorTriggerBase : MFFGeneratorPluginBase
     }
 
     /// <inheritdoc/>
-    public virtual MFFGeneratorInfoModel? ValidateSymbol(SymbolAnalysisContext context)
+    public virtual MFFGeneratorInfoModel? GetGenInfo(SymbolAnalysisContext context)
     {
         // No symbol validation by default.
         // This method should be overridden by derived classes to add symbol validation.

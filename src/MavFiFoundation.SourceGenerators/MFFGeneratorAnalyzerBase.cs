@@ -64,7 +64,7 @@ public abstract class MFFGeneratorAnalyzerBase : DiagnosticAnalyzer
                 if (genInfo is not null)
                 {
                     var mffContext = new MFFAnalysisContext(context.Compilation, context.CancellationToken);
-                    var diagnostics = generatorTrigger.Validate(mffContext, genInfo, generatorTrigger);
+                    var diagnostics = generatorTrigger.Validate(mffContext, context.AdditionalFile, genInfo, generatorTrigger);
                     diagnostics!.ReportDiagnostics(context);
 
                     foreach (var plugin in
@@ -72,7 +72,7 @@ public abstract class MFFGeneratorAnalyzerBase : DiagnosticAnalyzer
                         .Concat(PluginsProvider.Builders.Values))
                     {
                         context.CancellationToken.ThrowIfCancellationRequested();
-                        diagnostics = plugin.Validate(mffContext, genInfo, generatorTrigger);
+                        diagnostics = plugin.Validate(mffContext, context.AdditionalFile, genInfo, generatorTrigger);
                         diagnostics!.ReportDiagnostics(context);
                     }
                 }
@@ -83,12 +83,12 @@ public abstract class MFFGeneratorAnalyzerBase : DiagnosticAnalyzer
         {
             foreach (var generatorTrigger in PluginsProvider.GeneratorTriggers.Values)
             {
-                var genInfo = generatorTrigger.ValidateSymbol(context);
+                var genInfo = generatorTrigger.GetGenInfo(context);
 
                 if (genInfo is not null)
                 {
                     var mffContext = new MFFAnalysisContext(context.Compilation, context.CancellationToken);
-                    var diagnostics = generatorTrigger.Validate(mffContext, genInfo, generatorTrigger);
+                    var diagnostics = generatorTrigger.Validate(mffContext, context.Symbol, genInfo, generatorTrigger);
                     diagnostics!.ReportDiagnostics(context);
 
                     foreach (var plugin in
@@ -96,37 +96,13 @@ public abstract class MFFGeneratorAnalyzerBase : DiagnosticAnalyzer
                         .Concat(PluginsProvider.Builders.Values))
                     {
                         context.CancellationToken.ThrowIfCancellationRequested();
-                        diagnostics = plugin.Validate(mffContext, genInfo, generatorTrigger);
+                        diagnostics = plugin.Validate(mffContext, context.Symbol, genInfo, generatorTrigger);
                         diagnostics!.ReportDiagnostics(context);
                     }
                 }
             }
         }, SymbolKind.NamedType);
-
-        // TODO: Remove once analyzer is fully implemented
-        context.RegisterSyntaxNodeAction(context =>
-        {
-            var embeddedStatement = GetEmbeddedStatement(context.Node);
-            if (embeddedStatement is not BlockSyntax)
-            {
-                context.ReportDiagnostic(Diagnostic.Create(
-                    SupportedDiagnostics[0],
-                    context.Node.GetLocation()));
-
-                return;
-            }
-        }, SyntaxKind.IfStatement, SyntaxKind.ForEachStatement, SyntaxKind.ForStatement);
     }
-
-    // TODO: Remove once analyzer is fully implemented
-    public static StatementSyntax? GetEmbeddedStatement(SyntaxNode node)
-        => node switch
-        {
-            ForEachStatementSyntax forEachStatement => forEachStatement.Statement,
-            IfStatementSyntax ifStatement => ifStatement.Statement,
-            ForStatementSyntax forStatement => forStatement.Statement,
-            _ => null
-        };
     #endregion
 }
 

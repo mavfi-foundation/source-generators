@@ -12,10 +12,12 @@ namespace MavFiFoundation.SourceGenerators.UnitTests.GeneratorTriggers;
 public class MFFAttributeGeneratorTriggerTests
 {
 
+    private readonly Mock<IMFFGeneratorPluginsProvider> _mockPluginsProvider;
     private readonly Mock<IMFFSerializer> _mockSerializer;
 
     public MFFAttributeGeneratorTriggerTests()
     {
+        _mockPluginsProvider = new Mock<IMFFGeneratorPluginsProvider>(MockBehavior.Strict);
         _mockSerializer = new Mock<IMFFSerializer>(MockBehavior.Strict);
         _mockSerializer.Setup(x => x.DeserializeObject<List<MFFBuilderModel>?>(It.IsAny<String>()))
             .Returns(new List<MFFBuilderModel>());
@@ -29,7 +31,8 @@ public class MFFAttributeGeneratorTriggerTests
         var resources = Array.Empty<MFFResourceRecord>().ToImmutableArray();
         var loaders = Array.Empty<IMFFResourceLoader>();
         var cancellationToken = new CancellationToken();
-        var cut = new MFFAttributeGeneratorTriggerTestClass(_mockSerializer.Object);
+        var cut = new MFFAttributeGeneratorTriggerTestClass(
+            _mockPluginsProvider.Object, _mockSerializer.Object);
 
         //Act
         var actual = cut.ExposedGetTypesWithAttribute(srcSymbols, resources, loaders, cancellationToken);
@@ -76,7 +79,8 @@ public class MFFAttributeGeneratorTriggerTests
         var resources = Array.Empty<MFFResourceRecord>().ToImmutableArray();
         var loaders = Array.Empty<IMFFResourceLoader>();
         var cancellationToken = new CancellationToken();
-        var cut = new MFFAttributeGeneratorTriggerTestClass(_mockSerializer.Object);
+        var cut = new MFFAttributeGeneratorTriggerTestClass(
+            _mockPluginsProvider.Object, _mockSerializer.Object);
 
         //Act
         var actual = cut.ExposedGetTypesWithAttribute(srcSymbols, resources, loaders, cancellationToken);
@@ -121,7 +125,8 @@ public class MFFAttributeGeneratorTriggerTests
         var resources = Array.Empty<MFFResourceRecord>().ToImmutableArray();
         var loaders = Array.Empty<IMFFResourceLoader>();
         var cancellationToken = new CancellationToken();
-        var cut = new MFFAttributeGeneratorTriggerTestClass(_mockSerializer.Object);
+        var cut = new MFFAttributeGeneratorTriggerTestClass(
+            _mockPluginsProvider.Object, _mockSerializer.Object);
 
         //Act
         var actual = cut.ExposedGetTypesWithAttribute(srcSymbols, resources, loaders, cancellationToken);
@@ -167,7 +172,8 @@ public class MFFAttributeGeneratorTriggerTests
         var resources = Array.Empty<MFFResourceRecord>().ToImmutableArray();
         var loaders = Array.Empty<IMFFResourceLoader>();
         var cancellationToken = new CancellationToken();
-        var cutMock = new Mock<MFFAttributeGeneratorTriggerTestClass>(_mockSerializer.Object);
+        var cutMock = new Mock<MFFAttributeGeneratorTriggerTestClass>(
+            _mockPluginsProvider.Object, _mockSerializer.Object);
         cutMock.Protected().Setup("LoadResources",
             ItExpr.IsAny<MFFGeneratorInfoModel>(),
             ItExpr.IsAny<ImmutableArray<MFFResourceRecord>>(),

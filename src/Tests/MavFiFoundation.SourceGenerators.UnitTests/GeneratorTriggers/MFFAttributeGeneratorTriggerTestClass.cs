@@ -15,7 +15,9 @@ public class MFFAttributeGeneratorTriggerTestClass : MFFAttributeGeneratorTrigge
 
 	public const string EXPOSED_CTOR_ARG_OUTPUTINFO = CTOR_ARG_OUTPUTINFO;
 
-    public MFFAttributeGeneratorTriggerTestClass(IMFFSerializer serializer) : base(serializer)
+    public MFFAttributeGeneratorTriggerTestClass(
+        IMFFGeneratorPluginsProvider pluginsProvider,
+        IMFFSerializer serializer) : base(pluginsProvider, serializer)
     {
 
     }
