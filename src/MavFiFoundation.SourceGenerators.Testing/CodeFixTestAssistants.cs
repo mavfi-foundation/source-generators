@@ -10,11 +10,13 @@
 using Microsoft.CodeAnalysis.Testing;
 using System.Reflection;
 using Microsoft.CodeAnalysis.Diagnostics;
+using Microsoft.CodeAnalysis.CodeFixes;
 
 namespace MavFiFoundation.SourceGenerators.Testing;
 
-public static class AnalyzerTestAssistants
+public static class CodeFixTestAssistants
 {
+    /*
     /// <inheritdoc cref="AnalyzerTestAssistants.RunAsync(IEnumerable{DiagnosticAnalyzer}, IEnumerable{string}, IEnumerable{DiagnosticResult}?, IEnumerable{ValueTuple{string, string}}?, IEnumerable{Assembly}?)"/>
     /// <param name="analyzer">The analyzers to check.</param>
     /// <param name="source">Source file to pass to the analyzer.</param>
@@ -32,7 +34,7 @@ public static class AnalyzerTestAssistants
                 Array.Empty<DiagnosticResult>();
 
         var analyzers = new DiagnosticAnalyzer[] { analyzer };
-        var sources = new string[]  { source };
+        var sources = new string[] { source };
         await RunAsync(analyzers, sources, expectedDiagnostics, additionalFiles, additionalReferences);
     }
 
@@ -90,23 +92,27 @@ public static class AnalyzerTestAssistants
         var sources = new string[]  { source };
         await RunAsync(analyzers, sources, expectedDiagnostics, additionalFiles, additionalReferences);
     }
+    */
 
     /// <summary>
-    /// Runs analyzers against the provided sources and additional files.
+    /// Runs code fixes against the provided sources and additional files.
     /// </summary>
     /// <param name="analyzers">The analyzers to check.</param>
+    /// <param name="codeFixProviders">The codeFixProviders to check.</param>
     /// <param name="sources">Source files to pass to the analyzer.</param>
     /// <param name="additionalFiles">Additional files to pass to the analyzer.</param>
     /// <param name="expectedDiagnostics">Expected diagnostics.</param>
     /// <param name="additionalReferences">Additional references to make available to the analyzer.</param>
     public static async Task RunAsync(
         IEnumerable<DiagnosticAnalyzer> analyzers,
+        IEnumerable<CodeFixProvider> codeFixProviders,
         IEnumerable<string> sources,
+        string fixedSource,
         IEnumerable<DiagnosticResult>? expectedDiagnostics = null,
         IEnumerable<(string, string)>? additionalFiles = null,
         IEnumerable<Assembly>? additionalReferences = null)
     {
-        var test = new CSharpAnalyzerVerifier.Test(analyzers)
+        var test = new CSharpCodeFixVerifier.Test(analyzers, codeFixProviders)
         {
 #if NET8_0
 			ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
@@ -121,6 +127,11 @@ public static class AnalyzerTestAssistants
         {
             test.TestState.Sources.Add(source);
         }
+//TODO: Add parameters for these
+        test.CodeActionIndex = 0;
+        test.NumberOfIncrementalIterations = 1;
+//End todo
+        test.FixedCode = fixedSource;
 
         if (expectedDiagnostics is not null)
         {

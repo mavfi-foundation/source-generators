@@ -7,7 +7,6 @@ using MavFiFoundation.SourceGenerators.GeneratorTriggers;
 using MavFiFoundation.SourceGenerators.Models;
 
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace MavFiFoundation.SourceGenerators;
 
@@ -27,7 +26,13 @@ public interface IMFFGeneratorPlugin
     /// <param name="supportedDiagnoticsBuilder">The <see cref="ImmutableArray<DiagnosticDescriptor>.Builder"/>  to add supported diagnostics to.</param>
     void AddSupportedAnalyzerDiagnostics(ImmutableArray<DiagnosticDescriptor>.Builder supportedDiagnoticsBuilder);
 
-   /// <summary>
+    /// <summary>
+    /// Adds the supported code fix diagnotic ids used by code fix implementations.
+    /// </summary>
+    /// <param name="fixableDiagnosticIdsBuilder">The <see cref="ImmutableArray<string>.Builder"/>  to add supported code fix diagnostics ids to.</param>
+    void AddFixableDiagnosticIds(ImmutableArray<string>.Builder fixableDiagnosticIdsBuilder);
+
+    /// <summary>
     /// Validates the content of trigger files.
     /// </summary>
     /// <param name="context">The analysis context.</param>
@@ -40,4 +45,15 @@ public interface IMFFGeneratorPlugin
         MFFGeneratorInfoModel genInfo,
         IMFFGeneratorTrigger generatorTrigger);
 
+
+    /// <summary>
+    /// Retrieves a collection of <see cref="MFFCodeAction"/> instances that provide code fixes or refactorings
+    /// for the specified diagnostic and syntax node.
+    /// </summary>
+    /// <param name="diagnosticId">The identifier of the diagnostic to address.</param>
+    /// <param name="syntaxNode">The <see cref="SyntaxNode"/> associated with the diagnostic.</param>
+    /// <returns>
+    /// An <see cref="IEnumerable{T}"/> of <see cref="MFFCodeAction"/> objects representing available code actions.
+    /// </returns>
+    IEnumerable<MFFCodeAction>? GetCodeActions(string diagnosticId, SyntaxNode syntaxNode);
 }

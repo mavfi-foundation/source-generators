@@ -34,6 +34,33 @@ public class MFFGeneratorAnalyzerTests
     #region Test Methods
 
     [SkippableFact]
+    public async Task MFFAttributeTrigger_InvalidTypeLocator_Fix()
+    {
+#if NET481
+        SkipOnUnSupportedPlatforms();
+#endif
+
+        var diagnosticResult = new DiagnosticResult(
+            MFFAttributeGeneratorTrigger.InvalidTypeLocatorDiagnosticId,
+            DiagnosticSeverity.Error)
+            .WithMessage(MFFAttributeGeneratorTrigger.InvalidTypeLocatorMessageFormat)
+            .WithSpan(6, 21, 6, 41);
+
+
+        var source = EmbeddedResourceHelper.ReadEmbeddedSource(
+                    "MFFAttributeGeneratorTrigger_InvalidTypeLocator.cs",
+                    EmbeddedResourceHelper.EmbeddedResourceType.Code);
+
+        await CodeFixTestAssistants.RunAsync(
+            [new MFFGeneratorAnalyzer()],
+            [new MFFGeneratorCodeFix()],
+            [source], source, [diagnosticResult], null, new Assembly[]{
+                typeof(MFFGeneratorAnalyzerBase).Assembly,
+                typeof(MFFGenerateSourceAttribute).Assembly,
+                typeof(EmbeddedResourceHelper).Assembly }).ConfigureAwait(true);
+    }
+
+    [SkippableFact]
     public async Task MFFAttributeTrigger_InvalidTypeLocator()
     {
 
@@ -44,7 +71,7 @@ public class MFFGeneratorAnalyzerTests
             MFFAttributeGeneratorTrigger.InvalidTypeLocatorDiagnosticId,
             DiagnosticSeverity.Error)
             .WithMessage(MFFAttributeGeneratorTrigger.InvalidTypeLocatorMessageFormat)
-            .WithSpan(6, 3, 24, 3);
+            .WithSpan(6, 21, 6, 41);
 
         var source = EmbeddedResourceHelper.ReadEmbeddedSource(
                     "MFFAttributeGeneratorTrigger_InvalidTypeLocator.cs",
@@ -68,17 +95,17 @@ public class MFFGeneratorAnalyzerTests
             MFFAttributeGeneratorTrigger.NoOutputsDiagnosticId,
             DiagnosticSeverity.Warning)
             .WithMessage(MFFAttributeGeneratorTrigger.NoOutputsMessageFormat)
-            .WithSpan(6, 3, 12, 3);
+            .WithSpan(6, 20, 12, 3);
 
         var source = EmbeddedResourceHelper.ReadEmbeddedSource(
                     "MFFAttributeGeneratorTrigger_NoOutputs.cs",
                     EmbeddedResourceHelper.EmbeddedResourceType.Code);
 
         await AnalyzerTestAssistants.RunAsync<MFFGeneratorAnalyzer>(
-            source, diagnosticResult, null, new Assembly[]{
+            source, diagnosticResult, null, [
                 typeof(MFFGeneratorAnalyzerBase).Assembly,
                 typeof(MFFGenerateSourceAttribute).Assembly,
-                typeof(EmbeddedResourceHelper).Assembly }).ConfigureAwait(true);
+                typeof(EmbeddedResourceHelper).Assembly ]).ConfigureAwait(true);
     }
 
     #endregion

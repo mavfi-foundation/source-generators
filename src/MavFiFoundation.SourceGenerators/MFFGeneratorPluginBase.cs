@@ -41,6 +41,14 @@ public class MFFGeneratorPluginBase : IMFFGeneratorPlugin
     }
 
     /// <inheritdoc/>
+    public virtual void AddFixableDiagnosticIds(ImmutableArray<string>.Builder fixableDiagnosticIdsBuilder)
+    {
+        // No supported code fix diagnostic ids by default.
+        // This method should be overridden by derived classes to add supported code fix diagnostic ids. 
+    }
+
+
+    /// <inheritdoc/>
     public virtual IEnumerable<Diagnostic>? Validate(MFFAnalysisContext context,
         object source,
         MFFGeneratorInfoModel genInfo,
@@ -48,6 +56,14 @@ public class MFFGeneratorPluginBase : IMFFGeneratorPlugin
     {
         // No supported diagnostics by default.
         // This method should be overridden by derived classes to add supported diagnostics. 
+        return null;
+    }
+
+    /// <inheritdoc/>
+    public virtual IEnumerable<MFFCodeAction>? GetCodeActions(string diagnosticId, SyntaxNode syntaxNode)
+    {
+        // No code actions by default.
+        // This method should be overridden by derived classes to provide code actions.
         return null;
     }
 
