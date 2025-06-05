@@ -110,7 +110,10 @@ public static class CodeFixTestAssistants
         string fixedSource,
         IEnumerable<DiagnosticResult>? expectedDiagnostics = null,
         IEnumerable<(string, string)>? additionalFiles = null,
-        IEnumerable<Assembly>? additionalReferences = null)
+        IEnumerable<Assembly>? additionalReferences = null,
+        int? codeActionIndex = null,
+        int? numberOfIncrementalIterations = null,
+        string? codeActionEquivalenceKey = null)
     {
         var test = new CSharpCodeFixVerifier.Test(analyzers, codeFixProviders)
         {
@@ -127,10 +130,10 @@ public static class CodeFixTestAssistants
         {
             test.TestState.Sources.Add(source);
         }
-//TODO: Add parameters for these
-        test.CodeActionIndex = 0;
-        test.NumberOfIncrementalIterations = 1;
-//End todo
+
+        test.CodeActionIndex = codeActionIndex;
+        test.NumberOfIncrementalIterations = numberOfIncrementalIterations;
+        test.CodeActionEquivalenceKey = codeActionEquivalenceKey;
         test.FixedCode = fixedSource;
 
         if (expectedDiagnostics is not null)

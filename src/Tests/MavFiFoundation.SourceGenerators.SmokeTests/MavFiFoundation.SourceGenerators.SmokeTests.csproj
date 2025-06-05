@@ -19,7 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators\MavFiFoundation.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" SetTargetFramework="TargetFramework=netstandard2.0" />
     <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators.MFFSourceGenerator\MavFiFoundation.SourceGenerators.MFFSourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" SetTargetFramework="TargetFramework=netstandard2.0" />
-    <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators.MFFCodeFixes\MavFiFoundation.SourceGenerators.MFFCodeFixes.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" SetTargetFramework="TargetFramework=netstandard2.0" />
+    <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators.MFFCodeFix\MavFiFoundation.SourceGenerators.MFFCodeFix.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" SetTargetFramework="TargetFramework=netstandard2.0" />
     <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators.Shared\MavFiFoundation.SourceGenerators.Shared.csproj" OutputItemType="Analyzer" SetTargetFramework="TargetFramework=netstandard2.0" />
     <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators.Extras\MavFiFoundation.SourceGenerators.Extras.csproj" />
     <ProjectReference Include="..\MavFiFoundation.SourceGenerators.TestSupport\MavFiFoundation.SourceGenerators.TestSupport.csproj" />

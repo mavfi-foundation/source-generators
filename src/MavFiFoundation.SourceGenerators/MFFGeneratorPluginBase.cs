@@ -84,4 +84,29 @@ public class MFFGeneratorPluginBase : IMFFGeneratorPlugin
             diagnostics = diagnostics.Append(diagnostic);
         }
     }
+
+    protected void AddCodeAction(ref IEnumerable<MFFCodeAction>? codeActions, MFFCodeAction codeAction)
+    {
+        if (codeActions is null)
+        {
+            codeActions = [codeAction];
+        }
+        else
+        {
+            codeActions = codeActions.Append(codeAction);
+        }
+    }
+
+    protected void AddCodeActions(ref IEnumerable<MFFCodeAction>? codeActions, IEnumerable<MFFCodeAction> codeActions2Add)
+    {
+        if (codeActions is null)
+        {
+            codeActions = codeActions2Add;
+        }
+        else
+        {
+            codeActions = codeActions.Concat(codeActions2Add);
+        }
+    }
+
 }

@@ -28,12 +28,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../MavFiFoundation.SourceGenerators.Testing.XUnit/MavFiFoundation.SourceGenerators.Testing.XUnit.csproj" />
-    <ProjectReference Include="../../MavFiFoundation.SourceGenerators.Testing/MavFiFoundation.SourceGenerators.Testing.csproj" />
+    <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators.Testing.XUnit\MavFiFoundation.SourceGenerators.Testing.XUnit.csproj" />
+    <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators.Testing\MavFiFoundation.SourceGenerators.Testing.csproj" />
     <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators\MavFiFoundation.SourceGenerators.csproj" SetTargetFramework="TargetFramework=netstandard2.0" />
-    <ProjectReference Include="..\MavFiFoundation.SourceGenerators.CodeFixes\MavFiFoundation.SourceGenerators.CodeFixes.csproj" SetTargetFramework="TargetFramework=netstandard2.0" />
+    <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators.CodeFixes\MavFiFoundation.SourceGenerators.CodeFixes.csproj" SetTargetFramework="TargetFramework=netstandard2.0" />
     <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators.MFFSourceGenerator\MavFiFoundation.SourceGenerators.MFFSourceGenerator.csproj" SetTargetFramework="TargetFramework=netstandard2.0" />
-    <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators.MFFCodeFixes\MavFiFoundation.SourceGenerators.MFFCodeFixes.csproj" SetTargetFramework="TargetFramework=netstandard2.0" />
+    <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators.MFFCodeFix\MavFiFoundation.SourceGenerators.MFFCodeFix.csproj" SetTargetFramework="TargetFramework=netstandard2.0" />
     <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators.Shared\MavFiFoundation.SourceGenerators.Shared.csproj" SetTargetFramework="TargetFramework=netstandard2.0" />
     <ProjectReference Include="..\MavFiFoundation.SourceGenerators.TestSupport\MavFiFoundation.SourceGenerators.TestSupport.csproj" />
  </ItemGroup>

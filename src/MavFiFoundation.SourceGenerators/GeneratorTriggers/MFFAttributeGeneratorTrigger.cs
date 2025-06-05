@@ -61,6 +61,7 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
 {
 
     #region Constants
+    #region Class Constants
     /// <summary>
     /// Default name used to identify the generator
     /// </summary>
@@ -93,6 +94,9 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
     /// </summary>
     protected const string CTOR_ARG_OUTPUTINFO = "outputInfo";
 
+    #endregion
+    #region Diagnostic Constants
+
     /// <summary>
     /// Diagnotic Id for InvalidTypeLocator rule
     /// </summary>
@@ -101,12 +105,12 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
     /// <summary>
     /// Diagnotic Title for InvalidTypeLocator rule
     /// </summary>
-    private const string InvalidTypeLocatorTitle = "The specified SrcTypeLocator does not exist";
+    private const string InvalidTypeLocatorTitle = "The specified SrcTypeLocator is blank or does not exist";
 
     /// <summary>
     /// Diagnotic Message Format for InvalidTypeLocator rule
     /// </summary>
-    public const string InvalidTypeLocatorMessageFormat = "The specified SrcTypeLocator does not exist";
+    public const string InvalidTypeLocatorMessageFormat = "The specified SrcTypeLocator is blank or does not exist";
 
     /// <summary>
     /// Diagnotic Description for InvalidTypeLocator rule
@@ -133,6 +137,7 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
     /// </summary>
     protected const string NoOutputsDescription = "At least one generator output or source output should be specified.";
 
+    #endregion
     #endregion
 
     #region Private/Protected Properties
@@ -370,14 +375,10 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
 
             if (attArgList is not null)
             {
-
-                // The specified SrcTypeLocator cannot be blank
-                if (genInfo.SrcLocatorType is null || string.IsNullOrEmpty(genInfo.SrcLocatorType))
-                {
-
-                }
-                // The specified SrcTypeLocator does not exist
-                else if (!PluginsProvider.TypeLocators.ContainsKey(genInfo.SrcLocatorType))
+                // The specified SrcTypeLocator is blank or does not exist
+                if (genInfo.SrcLocatorType is null ||
+                    string.IsNullOrWhiteSpace(genInfo.SrcLocatorType) ||
+                    !PluginsProvider.TypeLocators.ContainsKey(genInfo.SrcLocatorType))
                 {
                     var srcLocatorTypeParam = att.AttributeConstructor?.Parameters
                         .Where(p => p.Name == CTOR_ARG_SRCLOCATORTYPE)
@@ -413,20 +414,20 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
     /// <inheritdoc/>
     public override IEnumerable<MFFCodeAction>? GetCodeActions(string diagnosticId, SyntaxNode syntaxNode)
     {
-        //return base.GetCodeActions(diagnosticId, syntaxNode);
-        return [new MFFCodeAction(
-            "Test Code Action",
-            SyntaxFactory.AttributeArgument(
-                SyntaxFactory.LiteralExpression(SyntaxKind.StringLiteralExpression,
-                    SyntaxFactory.Literal("InvalidTypeLocator"))),
-                "Test Code Action Key"
-        ),new MFFCodeAction(
-            "Test Code Action 1",
-            SyntaxFactory.AttributeArgument(
-                SyntaxFactory.LiteralExpression(SyntaxKind.StringLiteralExpression,
-                    SyntaxFactory.Literal("ME"))),
-                "Test Code Action 1 Key"
-        )];
+        var ret = base.GetCodeActions(diagnosticId, syntaxNode);
+
+        switch (diagnosticId)
+        {
+            case InvalidTypeLocatorDiagnosticId:
+                GetExistingTypeLocatorsCodeActions(
+                    ref ret, syntaxNode, PluginsProvider.TypeLocators.Values, true);
+                break;
+            default:
+                // No code actions for other diagnostics
+                break;
+        }
+        
+        return ret;
     }
 
     #endregion

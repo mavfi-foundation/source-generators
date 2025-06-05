@@ -51,13 +51,20 @@ public class MFFGeneratorAnalyzerTests
                     "MFFAttributeGeneratorTrigger_InvalidTypeLocator.cs",
                     EmbeddedResourceHelper.EmbeddedResourceType.Code);
 
+        var fixedSource = EmbeddedResourceHelper.ReadEmbeddedSource(
+                    "MFFAttributeGeneratorTrigger_InvalidTypeLocator.cs",
+                    EmbeddedResourceHelper.EmbeddedResourceType.Code)
+                        .Replace("\"InvalidTypeLocator\"","\"MFFIncludedTypeLocator\"");
+
         await CodeFixTestAssistants.RunAsync(
             [new MFFGeneratorAnalyzer()],
             [new MFFGeneratorCodeFix()],
-            [source], source, [diagnosticResult], null, new Assembly[]{
+            [source], fixedSource, [diagnosticResult], null, new Assembly[]{
                 typeof(MFFGeneratorAnalyzerBase).Assembly,
                 typeof(MFFGenerateSourceAttribute).Assembly,
-                typeof(EmbeddedResourceHelper).Assembly }).ConfigureAwait(true);
+                typeof(EmbeddedResourceHelper).Assembly },
+                numberOfIncrementalIterations: 1,
+                codeActionEquivalenceKey: "Use \"MFFIncludedTypeLocator\" literal").ConfigureAwait(true);
     }
 
     [SkippableFact]

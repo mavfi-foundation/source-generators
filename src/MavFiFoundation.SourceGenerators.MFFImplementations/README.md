@@ -1,0 +1,3 @@
+# MavFiFoundation.SourceGenerators.MFFImplentations
+
+nuget package containing MFFSourceGenerator and MFFCodeFix

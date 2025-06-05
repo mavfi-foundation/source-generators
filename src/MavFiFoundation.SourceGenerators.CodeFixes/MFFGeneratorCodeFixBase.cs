@@ -64,6 +64,13 @@ public abstract class MFFGeneratorCodeFixBase : CodeFixProvider
     public sealed override FixAllProvider GetFixAllProvider()
         => null!; // Set to null do disable fix all
 
+    /// <summary>
+    /// Registers code fixes for diagnostics found in the specified context.
+    /// For each diagnostic, locates the corresponding syntax node and retrieves code actions from the associated plugin.
+    /// Each code action is registered as a code fix for the diagnostic.
+    /// </summary>
+    /// <param name="context">The context containing the diagnostics and document to fix.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public override async Task RegisterCodeFixesAsync(CodeFixContext context)
     {
         var cancellationToken = context.CancellationToken;
@@ -102,6 +109,17 @@ public abstract class MFFGeneratorCodeFixBase : CodeFixProvider
         }
     }
 
+    /// Creates a new <see cref="Document"/> with the specified <paramref name="existingNode"/> replaced by <paramref name="updatedNode"/>.
+    /// </summary>
+    /// <param name="DiagnosticId">The diagnostic ID associated with the code fix.</param>
+    /// <param name="document">The document to update.</param>
+    /// <param name="existingNode">The syntax node to be replaced.</param>
+    /// <param name="updatedNode">The new syntax node to replace the existing node.</param>
+    /// <param name="cancellationToken">A cancellation token for the asynchronous operation.</param>
+    /// <returns>
+    /// A task that represents the asynchronous operation. The task result contains the updated <see cref="Document"/>.
+    /// </returns>
+
     private static async Task<Document> CreateChangeDocument(
         string DiagnosticId,
         Document document,
@@ -110,9 +128,7 @@ public abstract class MFFGeneratorCodeFixBase : CodeFixProvider
         CancellationToken cancellationToken)
     {
         var root = await document.GetSyntaxRootAsync(cancellationToken);
-
         var editor = new SyntaxEditor(existingNode, document.Project.Solution.Services);
-
         var updatedRootNode = root!.ReplaceNode(existingNode, updatedNode);
         editor.ReplaceNode(existingNode, updatedRootNode);
 

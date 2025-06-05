@@ -2,9 +2,14 @@
 // Copyright 2025, MavFi Foundation and the MavFiFoundation.SourceGenerators contributors
 
 using System.Collections.Immutable;
+using System.Linq.Expressions;
+
 using MavFiFoundation.SourceGenerators.Models;
 using MavFiFoundation.SourceGenerators.ResourceLoaders;
+using MavFiFoundation.SourceGenerators.TypeLocators;
 
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace MavFiFoundation.SourceGenerators.GeneratorTriggers;
@@ -78,5 +83,60 @@ public abstract class MFFGeneratorTriggerBase : MFFGeneratorPluginBase
         // No symbol validation by default.
         // This method should be overridden by derived classes to add symbol validation.
         return null;
+    }
+
+
+    /// Generates and adds code actions for existing type locators, either as constants or string literals,
+    /// based on the provided <paramref name="PluginsProvider"/>.
+    /// </summary>
+    /// <param name="codeActions">
+    /// A reference to the collection of <see cref="MFFCodeAction"/> objects to which new code actions will be added.
+    /// </param>
+    /// <param name="syntaxNode">
+    /// The <see cref="SyntaxNode"/> context for which the code actions are being generated.
+    /// </param>
+    /// <param name="typeLocators">
+    /// An collection of <see cref="IMFFTypeLocator"/> with available type locators.
+    /// </param>
+    /// <param name="includeConstants">
+    /// If <c>true</c>, code actions for using type locator constants will be included; otherwise, only string literal code actions are added.
+    /// </param>
+    protected virtual void GetExistingTypeLocatorsCodeActions(
+        ref IEnumerable<MFFCodeAction>? codeActions,
+        SyntaxNode syntaxNode,
+        ICollection<IMFFTypeLocator> typeLocators,
+        bool includeConstants = false)
+    {
+        ICollection<MFFCodeAction> codeActions2Add = new List<MFFCodeAction>();
+
+        if (includeConstants)
+        {
+            foreach (var typeLocator in typeLocators)
+            {
+                codeActions2Add.Add(new MFFCodeAction(
+                $"Use \"{typeLocator.Name}\" constant",
+                SyntaxFactory.AttributeArgument(
+                    SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
+                        SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
+                            SyntaxFactory.IdentifierName($"GeneratorConstants"),
+                            SyntaxFactory.IdentifierName($"TypeLocator")),
+                        SyntaxFactory.IdentifierName($"MFFAttributeTypeLocator"))),
+                    $"Use \"{typeLocator.Name}\" constant"
+                ));
+            }
+        }
+
+        foreach (var typeLocator in typeLocators)
+        {
+            codeActions2Add.Add(new MFFCodeAction(
+            $"Use \"{typeLocator.Name}\" literal",
+            SyntaxFactory.AttributeArgument(
+                SyntaxFactory.LiteralExpression(SyntaxKind.StringLiteralExpression,
+                    SyntaxFactory.Literal(typeLocator.Name))),
+                $"Use \"{typeLocator.Name}\" literal"
+            ));
+        }
+
+        AddCodeActions(ref codeActions, codeActions2Add);
     }
 }
