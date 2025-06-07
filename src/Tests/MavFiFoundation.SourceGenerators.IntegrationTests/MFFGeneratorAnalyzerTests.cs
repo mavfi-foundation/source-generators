@@ -1,6 +1,5 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Testing;
-using Microsoft.CodeAnalysis.CSharp.Testing;
 using MavFiFoundation.SourceGenerators.Testing;
 using MavFiFoundation.SourceGenerators.TestSupport;
 using System.Reflection;

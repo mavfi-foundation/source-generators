@@ -9,7 +9,7 @@
     <Description>Flexible template based Roslyn IncrementalGenerators</Description>
   </PropertyGroup>
 
-	<ItemGroup>
+  <ItemGroup>
     <PackageReference Include="System.Text.Json" PrivateAssets="all" GeneratePathProperty="true" />
     <PackageReference Include="System.Reflection.Emit" PrivateAssets="all" GeneratePathProperty="true" />
     <PackageReference Include="System.Linq.Dynamic.Core" PrivateAssets="all" GeneratePathProperty="true" />
@@ -29,23 +29,23 @@
     <None Include="$(PkgScriban)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     <None Include="$(PkgYamlDotNet)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 
-		<!-- Suppress NU5128-->
+    <!-- Suppress NU5128-->
     <None Include="_._" Pack="true" PackagePath="lib/netstandard2.0" Visible="false" />
-	</ItemGroup>
+  </ItemGroup>
 
-	<PropertyGroup>
-		<GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
-	</PropertyGroup>
+  <PropertyGroup>
+    <GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
+  </PropertyGroup>
 
-	<Target Name="GetDependencyTargetPaths">
-		<ItemGroup>
-			<TargetPathWithTargetPlatformMoniker Include="$(PkgSystem_Text_Json)\lib\netstandard2.0\*.dll" IncludeRuntimeDependency="false" />
-			<TargetPathWithTargetPlatformMoniker Include="$(PkgSystem_Reflection_Emit)\lib\netstandard2.0\*.dll" IncludeRuntimeDependency="false" />
-			<TargetPathWithTargetPlatformMoniker Include="$(PkgSystem_Linq_Dynamic_Core)\lib\netstandard2.0\*.dll" IncludeRuntimeDependency="false" />
-			<TargetPathWithTargetPlatformMoniker Include="$(PkgScriban)\lib\netstandard2.0\*.dll" IncludeRuntimeDependency="false" />
-			<TargetPathWithTargetPlatformMoniker Include="$(PkgYamlDotNet)\lib\netstandard2.0\*.dll" IncludeRuntimeDependency="false" />
-		</ItemGroup>
-	</Target>
+  <Target Name="GetDependencyTargetPaths">
+    <ItemGroup>
+      <TargetPathWithTargetPlatformMoniker Include="$(PkgSystem_Text_Json)\lib\netstandard2.0\*.dll" IncludeRuntimeDependency="false" />
+      <TargetPathWithTargetPlatformMoniker Include="$(PkgSystem_Reflection_Emit)\lib\netstandard2.0\*.dll" IncludeRuntimeDependency="false" />
+      <TargetPathWithTargetPlatformMoniker Include="$(PkgSystem_Linq_Dynamic_Core)\lib\netstandard2.0\*.dll" IncludeRuntimeDependency="false" />
+      <TargetPathWithTargetPlatformMoniker Include="$(PkgScriban)\lib\netstandard2.0\*.dll" IncludeRuntimeDependency="false" />
+      <TargetPathWithTargetPlatformMoniker Include="$(PkgYamlDotNet)\lib\netstandard2.0\*.dll" IncludeRuntimeDependency="false" />
+    </ItemGroup>
+  </Target>
 
   <ItemGroup>
     <ProjectReference Include="..\MavFiFoundation.SourceGenerators.MFFSourceGenerator\MavFiFoundation.SourceGenerators.MFFSourceGenerator.csproj" OutputItemType="Analyzer" PrivateAssets="all" SetTargetFramework="TargetFramework=netstandard2.0"/>

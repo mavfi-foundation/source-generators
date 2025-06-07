@@ -15,8 +15,8 @@ public class MFFGeneratorTests
     {
         await GeneratorTestAssistants.RunAsync<MFFGenerator>(
             scenario.Sources,
-            scenario.AdditionalFiles,
             scenario.GeneratedSources,
+            scenario.AdditionalFiles,
             new Assembly[]{
                 typeof(MFFGeneratorBase).Assembly,
                 typeof(SourceGenerators.MFFGenerateSourceAttribute).Assembly,

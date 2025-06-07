@@ -1,19 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <ItemGroup>
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp">
-			<NoWarn>NU1608</NoWarn>
-		</PackageReference>
-		<PackageReference Include="Microsoft.CodeAnalysis.Common">
-			<NoWarn>NU1608</NoWarn>
-		</PackageReference>
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.SourceGenerators.Testing" />
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp">
+      <NoWarn>NU1608</NoWarn>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.Common">
+      <NoWarn>NU1608</NoWarn>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.SourceGenerators.Testing" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Analyzer.Testing" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.CodeFix.Testing" />
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" />
-    </ItemGroup>
-    <ItemGroup>
-      <ProjectReference Include="../MavFiFoundation.SourceGenerators/MavFiFoundation.SourceGenerators.csproj" />
-      <ProjectReference Include="..\MavFiFoundation.SourceGenerators.CodeFixes\MavFiFoundation.SourceGenerators.CodeFixes.csproj" />
-      <ProjectReference Include="../MavFiFoundation.SourceGenerators.Shared/MavFiFoundation.SourceGenerators.Shared.csproj" />
-    </ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MavFiFoundation.SourceGenerators\MavFiFoundation.SourceGenerators.csproj" />
+    <ProjectReference Include="..\MavFiFoundation.SourceGenerators.CodeFixes\MavFiFoundation.SourceGenerators.CodeFixes.csproj" />
+    <ProjectReference Include="..\MavFiFoundation.SourceGenerators.Shared\MavFiFoundation.SourceGenerators.Shared.csproj" />
+  </ItemGroup>
 </Project>

@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <RootNamespace>$(MSBuildProjectName.Replace(" ","_").Replace(".Shared",""))</RootNamespace>
-	  <IsRoslynComponent>true</IsRoslynComponent>
- </PropertyGroup>
+    <IsRoslynComponent>true</IsRoslynComponent>
+  </PropertyGroup>
 
   <ItemGroup>
- 		<PackageReference Include="System.Collections.Immutable" />
+    <PackageReference Include="System.Collections.Immutable" />
     <PackageReference Include="System.Text.Json" />
     <PackageReference Include="YamlDotNet" />
   </ItemGroup>

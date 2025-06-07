@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright 2025, MavFi Foundation and the MavFiFoundation.SourceGenerators contributors
+
 /**********************************************************************************
 *
 * Original code based on AutoDeconstruct generator created by Jason Bock
@@ -5,7 +8,7 @@
 * https://www.codemag.com/Article/2305061/Writing-Code-to-Generate-Code-in-C#
 * AutoDestruct code was retrieved from https://github.com/JasonBock/AutoDeconstruct
 *
-***********************************************************************************/ 
+***********************************************************************************/
 
 using Microsoft.CodeAnalysis.Testing;
 using System.Reflection;
@@ -29,7 +32,7 @@ public static class AnalyzerTestAssistants
         IEnumerable<DiagnosticResult>? expectedDiagnostics =
             (expectedDiagnostic is not null && expectedDiagnostic.HasValue) ?
                 [expectedDiagnostic.Value] :
-                Array.Empty<DiagnosticResult>();
+                null;
 
         var analyzers = new DiagnosticAnalyzer[] { analyzer };
         var sources = new string[]  { source };
@@ -47,7 +50,7 @@ public static class AnalyzerTestAssistants
         IEnumerable<DiagnosticResult>? expectedDiagnostics =
             (expectedDiagnostic is not null && expectedDiagnostic.HasValue) ?
                 [expectedDiagnostic.Value] :
-                Array.Empty<DiagnosticResult>();
+                null;
 
         var analyzers = new DiagnosticAnalyzer[] { new TAnalyzer() };
         var sources = new string[] { source };
@@ -96,9 +99,9 @@ public static class AnalyzerTestAssistants
     /// </summary>
     /// <param name="analyzers">The analyzers to check.</param>
     /// <param name="sources">Source files to pass to the analyzer.</param>
-    /// <param name="additionalFiles">Additional files to pass to the analyzer.</param>
-    /// <param name="expectedDiagnostics">Expected diagnostics.</param>
-    /// <param name="additionalReferences">Additional references to make available to the analyzer.</param>
+    /// <param name="additionalFiles">Optional. Additional files to pass to the analyzer.</param>
+    /// <param name="expectedDiagnostics">Optional. Expected diagnostics.</param>
+    /// <param name="additionalReferences">Optional. Additional references to make available to the analyzer.</param>
     public static async Task RunAsync(
         IEnumerable<DiagnosticAnalyzer> analyzers,
         IEnumerable<string> sources,

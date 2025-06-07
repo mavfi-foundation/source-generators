@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright 2025, MavFi Foundation and the MavFiFoundation.SourceGenerators contributors
+
 /**********************************************************************************
 *
 * Original code based on AutoDeconstruct generator created by Jason Bock
@@ -5,13 +8,12 @@
 * https://www.codemag.com/Article/2305061/Writing-Code-to-Generate-Code-in-C#
 * AutoDestruct code was retrieved from https://github.com/JasonBock/AutoDeconstruct
 *
-***********************************************************************************/ 
+***********************************************************************************/
 
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis;
-using System.Collections.Immutable;
 
 namespace MavFiFoundation.SourceGenerators.Testing;
 
@@ -25,66 +27,24 @@ public static partial class CSharpIncrementalSourceGeneratorVerifier<TIncrementa
 	where TIncrementalGenerator : IIncrementalGenerator, new()
 {
 #pragma warning disable CA1034 // Nested types should not be visible
-	public class Test : CSharpSourceGeneratorTest<EmptySourceGeneratorProvider, DefaultVerifier>
+    public class Test : CSharpSourceGeneratorTest<EmptySourceGeneratorProvider, DefaultVerifier>
 #pragma warning restore CA1034 // Nested types should not be visible
-	{
-		public Test() =>
-			this.SolutionTransforms.Add((solution, projectId) =>
-			{
-				if (solution is null)
-				{
-					throw new ArgumentNullException(nameof(solution));
-				}
+    {
+        #region CSharpSourceGeneratorTest Implementation
 
-				if (projectId is null)
-				{
-					throw new ArgumentNullException(nameof(projectId));
-				}
+        /// <inheritdoc/>
+        protected override IEnumerable<Type> GetSourceGenerators()
+        {
+            yield return new TIncrementalGenerator().GetType();
+        }
 
-				var compilationOptions = solution.GetProject(projectId)!.CompilationOptions!;
-			
-				// NOTE: I commented this out, because I kept getting this error:
-				// error CS8632: The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
-				// Which makes NO sense because I have "#nullable enable" emitted in my
-				// generated code. So, best to just remove this for now.
-
-				//compilationOptions = compilationOptions.WithSpecificDiagnosticOptions(
-				//	 compilationOptions.SpecificDiagnosticOptions.SetItems(CSharpVerifierHelper.NullableWarnings));
-				
-				solution = solution.WithProjectCompilationOptions(projectId, compilationOptions);
-
-				return solution;
-			});
-
-		protected override IEnumerable<Type> GetSourceGenerators()
-		{
-			yield return new TIncrementalGenerator().GetType();
-		}
-
+        /// <inheritdoc/>
 		protected override ParseOptions CreateParseOptions()
-		{
-			var parseOptions = (CSharpParseOptions)base.CreateParseOptions();
-			return parseOptions.WithLanguageVersion(LanguageVersion.Preview);
-		}
-	}
-
-	static class CSharpVerifierHelper
-	{
-		/// <summary>
-		/// By default, the compiler reports diagnostics for nullable reference types at
-		/// <see cref="DiagnosticSeverity.Warning"/>, and the analyzer test framework defaults to only validating
-		/// diagnostics at <see cref="DiagnosticSeverity.Error"/>. This map contains all compiler diagnostic IDs
-		/// related to nullability mapped to <see cref="ReportDiagnostic.Error"/>, which is then used to enable all
-		/// of these warnings for default validation during analyzer and code fix tests.
-		/// </summary>
-		internal static ImmutableDictionary<string, ReportDiagnostic> NullableWarnings { get; } = GetNullableWarningsFromCompiler();
-
-		static ImmutableDictionary<string, ReportDiagnostic> GetNullableWarningsFromCompiler()
-		{
-			string[] args = { "/warnaserror:nullable" };
-			var commandLineArguments = CSharpCommandLineParser.Default.Parse(
-				args, baseDirectory: Environment.CurrentDirectory, sdkDirectory: Environment.CurrentDirectory);
-			return commandLineArguments.CompilationOptions.SpecificDiagnosticOptions;
-		}
+        {
+            var parseOptions = (CSharpParseOptions)base.CreateParseOptions();
+            return parseOptions.WithLanguageVersion(LanguageVersion.Preview);
+        }
+        
+        #endregion
 	}
 }

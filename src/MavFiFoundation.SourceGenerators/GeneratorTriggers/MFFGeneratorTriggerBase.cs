@@ -2,12 +2,9 @@
 // Copyright 2025, MavFi Foundation and the MavFiFoundation.SourceGenerators contributors
 
 using System.Collections.Immutable;
-using System.Linq.Expressions;
-
 using MavFiFoundation.SourceGenerators.Models;
 using MavFiFoundation.SourceGenerators.ResourceLoaders;
 using MavFiFoundation.SourceGenerators.TypeLocators;
-
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
