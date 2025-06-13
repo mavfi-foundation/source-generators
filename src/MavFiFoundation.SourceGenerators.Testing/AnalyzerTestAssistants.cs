@@ -94,6 +94,18 @@ public static class AnalyzerTestAssistants
         await RunAsync(analyzers, sources, expectedDiagnostics, additionalFiles, additionalReferences);
     }
 
+    /// <inheritdoc cref="AnalyzerTestAssistants.RunAsync(DiagnosticAnalyzer, string, DiagnosticResult?, IEnumerable{ValueTuple{string, string}}?, IEnumerable{Assembly}?)"/>
+    /// <typeparam name="TAnalyzer">The analyzer type to test.</typeparam>
+    public static async Task RunAsync<TAnalyzer>(
+        IEnumerable<string> sources,
+        IEnumerable<DiagnosticResult>? expectedDiagnostics = null,
+        IEnumerable<(string, string)>? additionalFiles = null,
+        IEnumerable<Assembly>? additionalReferences = null) where TAnalyzer : DiagnosticAnalyzer, new()
+    {
+        var analyzers = new DiagnosticAnalyzer[] { new TAnalyzer() };
+        await RunAsync(analyzers, sources, expectedDiagnostics, additionalFiles, additionalReferences);
+    } 
+
     /// <summary>
     /// Runs analyzers against the provided sources and additional files.
     /// </summary>

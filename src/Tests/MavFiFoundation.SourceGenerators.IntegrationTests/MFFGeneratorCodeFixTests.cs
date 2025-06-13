@@ -7,12 +7,12 @@ using System.Reflection;
 
 namespace MavFiFoundation.SourceGenerators.IntegrationTests;
 
-public class MFFGeneratorAnalyzerTests
+public class MFFGeneratorCodeFixTests
 {
     [Theory]
-    [ClassData(typeof(MFFAnalyzerTestDataGenerator))]
-    public async Task GenerateSources_AddsExpectedDiagnostic(
-        MFFAnalyzerTestData scenario)
+    [ClassData(typeof(MFFCodeFixTestDataGenerator))]
+    public async Task GenerateSources_AppliesExpectedCodeFix(
+        MFFCodeFixTestData scenario)
     {
         var additionalReferences = new Assembly[]{
                 typeof(MFFGeneratorAnalyzerBase).Assembly,
@@ -25,10 +25,16 @@ public class MFFGeneratorAnalyzerTests
             additionalReferences = additionalReferences.Concat(scenario.AdditionalReferences).ToArray();
         }
 
-        await AnalyzerTestAssistants.RunAsync<MFFGeneratorAnalyzer>(
-                scenario.Sources,
-                scenario.ExpectedDiagnostics,
-                scenario.AdditionalFiles,
-                additionalReferences).ConfigureAwait(true);
+        await CodeFixTestAssistants.RunAsync(
+            [new MFFGeneratorAnalyzer()],
+            [new MFFGeneratorCodeFix()],
+            scenario.Sources,
+            scenario.FixedSource,
+            scenario.ExpectedDiagnostics,
+            scenario.AdditionalFiles,
+            additionalReferences,
+            scenario.CodeActionIndex,
+            scenario.NumberOfIncrementalIterations,
+            scenario.CodeActionEquivalenceKey).ConfigureAwait(true);
     }
 }

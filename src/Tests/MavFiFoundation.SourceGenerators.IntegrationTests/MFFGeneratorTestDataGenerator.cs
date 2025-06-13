@@ -2,12 +2,12 @@ using MavFiFoundation.SourceGenerators.Testing;
 using MavFiFoundation.SourceGenerators.TestSupport;
 
 namespace MavFiFoundation.SourceGenerators.IntegrationTests;
-public class MFFGeneratorTestDataGenerator : MFFGeneratorTestDataGeneratorBase
+public class MFFGeneratorTestDataGenerator : MFFGeneratorTestDataProviderBase
 {
 
     public MFFGeneratorTestDataGenerator()
     {
-        var testDataBuilder = new TestDataBuilder<MFFGeneratorXUnitTestData>();
+        var testDataBuilder = new GeneratorTestDataBuilder<MFFGeneratorXUnitTestData>();
  
         var generatorType = typeof(MFFGenerator);
 
