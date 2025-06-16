@@ -77,7 +77,7 @@ public static partial class CSharpCodeFixVerifier
         public override Type SyntaxKindType => typeof(SyntaxKind);
 
         /// <summary>
-        /// Add an additional <see cref="DiagnosticAnalyzer" to be tested./>
+        /// Add an additional <see cref="DiagnosticAnalyzer" /> to be tested.
         /// </summary>
         /// <param name="analyzer">The analyzer to add.</param>
         public void AddAnalyzer(DiagnosticAnalyzer analyzer)
@@ -86,7 +86,7 @@ public static partial class CSharpCodeFixVerifier
         }
 
         /// <summary>
-        /// Add an additional <see cref="CodeFixProvider" to be tested./>
+        /// Add an additional <see cref="CodeFixProvider" /> to be tested.
         /// </summary>
         /// <param name="codeFixProviders">The code fix providers to add.</param>
         public void AddCodeFixProvider(CodeFixProvider codeFixProviders)

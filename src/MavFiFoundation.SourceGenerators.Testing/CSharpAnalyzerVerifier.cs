@@ -63,7 +63,7 @@ public static partial class CSharpAnalyzerVerifier
         protected override IEnumerable<DiagnosticAnalyzer> GetDiagnosticAnalyzers() => _analyzers;
 
         /// <summary>
-        /// Add an additional <see cref="DiagnosticAnalyzer" to be tested./>
+        /// Add an additional <see cref="DiagnosticAnalyzer" /> to be tested.
         /// </summary>
         /// <param name="analyzer">The analyzer to add.</param>
         public void AddAnalyzer(DiagnosticAnalyzer analyzer)
