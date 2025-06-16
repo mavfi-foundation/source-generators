@@ -1,65 +1,106 @@
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace MavFiFoundation.SourceGenerators;
 
+/// <summary>
+/// Extendable abstract <see cref="DiagnosticAnalyzer"/> class.
+/// </summary>
 public abstract class MFFGeneratorAnalyzerBase : DiagnosticAnalyzer
 {
-    public const string DiagnosticId = "MY0002";
 
-    private const string Title = "Blocks should use braces";
-    private const string MessageFormat = "Blocks should use braces";
-    private const string Description = "When possible, use curly braces on code blocks.";
-    private const string Category = "CodeStyle";
+    #region Private/Protected Properties
 
-    private static readonly DiagnosticDescriptor Rule = new(DiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
+    private readonly ImmutableArray<DiagnosticDescriptor> _supportedDiagnotics;
 
-    public MFFGeneratorAnalyzerBase()
+    /// <inheritdoc cref="MFFGeneratorBase.PluginsProvider"/>
+    protected IMFFGeneratorPluginsProvider PluginsProvider { get; private set; }
+
+    #endregion
+
+    #region Constructors
+
+    /// <inheritdoc cref="MFFGeneratorBase(IMFFGeneratorPluginsProvider, IMFFGeneratorHelper)" path="/param[@name='pluginsProvider']"/>
+    public MFFGeneratorAnalyzerBase(IMFFGeneratorPluginsProvider pluginsProvider)
     {
+        PluginsProvider = pluginsProvider;
+
+        var supportedDiagnoticsBuilder = ImmutableArray.CreateBuilder<DiagnosticDescriptor>();
+
+        foreach (var plugin in
+            ((IEnumerable<IMFFGeneratorPlugin>)PluginsProvider.GeneratorTriggers.Values)
+            .Concat(PluginsProvider.TypeLocators.Values)
+            .Concat(PluginsProvider.Builders.Values))
+        {
+            plugin.AddSupportedAnalyzerDiagnostics(supportedDiagnoticsBuilder);
+        }
+
+        _supportedDiagnotics = supportedDiagnoticsBuilder.ToImmutableArray();
     }
 
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics 
-        => ImmutableArray.Create(Rule);
+    #endregion
 
+    #region DiagnosticAnalyzer Implementation
+
+    /// <inheritdoc/>
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => _supportedDiagnotics;
+
+    /// <inheritdoc/>
     public override void Initialize(AnalysisContext context)
     {
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
 
-        /*
+        context.RegisterAdditionalFileAction(context =>
+        {
+            foreach (var generatorTrigger in PluginsProvider.GeneratorTriggers.Values)
+            {
+                context.CancellationToken.ThrowIfCancellationRequested();
+                var genInfo = generatorTrigger.ValidateAdditionalFile(context);
+
+                if (genInfo is not null)
+                {
+                    var mffContext = new MFFAnalysisContext(context.Compilation, context.CancellationToken);
+                    var diagnostics = generatorTrigger.Validate(mffContext, context.AdditionalFile, genInfo, generatorTrigger);
+                    diagnostics!.ReportDiagnostics(context);
+
+                    foreach (var plugin in
+                        ((IEnumerable<IMFFGeneratorPlugin>)PluginsProvider.TypeLocators.Values)
+                        .Concat(PluginsProvider.Builders.Values))
+                    {
+                        context.CancellationToken.ThrowIfCancellationRequested();
+                        diagnostics = plugin.Validate(mffContext, context.AdditionalFile, genInfo, generatorTrigger);
+                        diagnostics!.ReportDiagnostics(context);
+                    }
+                }
+            }
+        });
+
         context.RegisterSymbolAction(context =>
         {
-            if (context.Symbol is INamedTypeSymbol namedTypeSymbol)
-			{
-				var ttt = namedTypeSymbol.GetTypeSymbolRecord();
-			}  
-        }, SymbolKind.NamedType);
-        */
-        
-        context.RegisterSyntaxNodeAction(context =>
-        {
-            var embeddedStatement = GetEmbeddedStatement(context.Node);
-            if (embeddedStatement is not BlockSyntax)
+            foreach (var generatorTrigger in PluginsProvider.GeneratorTriggers.Values)
             {
-                context.ReportDiagnostic(Diagnostic.Create(
-                    Rule,
-                    context.Node.GetLocation()));
+                var genInfo = generatorTrigger.GetGenInfo(context);
 
-                return;
+                if (genInfo is not null)
+                {
+                    var mffContext = new MFFAnalysisContext(context.Compilation, context.CancellationToken);
+                    var diagnostics = generatorTrigger.Validate(mffContext, context.Symbol, genInfo, generatorTrigger);
+                    diagnostics!.ReportDiagnostics(context);
+
+                    foreach (var plugin in
+                        ((IEnumerable<IMFFGeneratorPlugin>)PluginsProvider.TypeLocators.Values)
+                        .Concat(PluginsProvider.Builders.Values))
+                    {
+                        context.CancellationToken.ThrowIfCancellationRequested();
+                        diagnostics = plugin.Validate(mffContext, context.Symbol, genInfo, generatorTrigger);
+                        diagnostics!.ReportDiagnostics(context);
+                    }
+                }
             }
-        }, SyntaxKind.IfStatement, SyntaxKind.ForEachStatement, SyntaxKind.ForStatement);
+        }, SymbolKind.NamedType);
     }
-
-    public static StatementSyntax? GetEmbeddedStatement(SyntaxNode node)
-        => node switch
-        {
-            ForEachStatementSyntax forEachStatement => forEachStatement.Statement,
-            IfStatementSyntax ifStatement => ifStatement.Statement,
-            ForStatementSyntax forStatement => forStatement.Statement,
-            _ => null
-        };
+    #endregion
 }
 

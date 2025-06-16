@@ -23,11 +23,11 @@ public class MFFGeneratorBaseTests
         _mockPluginsProvider = new Mock<IMFFGeneratorPluginsProvider>(MockBehavior.Strict);
         _mockGeneratorHelper = new Mock<IMFFGeneratorHelper>(MockBehavior.Strict);
         
-        var codeAnalysisAssembly = Helpers.GetCodeAnalysisAssembly();
-        _sources = Helpers.CreateAdditionalSourcesCollection(codeAnalysisAssembly);
-        _diagnostics = Helpers.CreateDiagnosticBag(codeAnalysisAssembly);
+        var codeAnalysisAssembly = TestHelpers.GetCodeAnalysisAssembly();
+        _sources = TestHelpers.CreateAdditionalSourcesCollection(codeAnalysisAssembly);
+        _diagnostics = TestHelpers.CreateDiagnosticBag(codeAnalysisAssembly);
         _cancellationToken = new CancellationToken();
-        _context = Helpers.CreateContext(
+        _context = TestHelpers.CreateContext(
             codeAnalysisAssembly, _sources, _diagnostics, _cancellationToken);
     }
 
@@ -43,7 +43,7 @@ public class MFFGeneratorBaseTests
             _context);
 
         // Assert
-        var addedSourceCount = Helpers.GetSourcesCount(_sources);
+        var addedSourceCount = TestHelpers.GetSourcesCount(_sources);
         addedSourceCount.Should().Be(0);
     }
 
@@ -90,10 +90,10 @@ public class MFFGeneratorBaseTests
         cut.ExposedCreateOutput(genAndSrcInfos, _context);
 
         // Assert
-        var addedSourceCount = Helpers.GetSourcesCount(_sources);
+        var addedSourceCount = TestHelpers.GetSourcesCount(_sources);
         addedSourceCount.Should().Be(1);
 
-        var containsSource = Helpers.ContainsSource(
+        var containsSource = TestHelpers.ContainsSource(
             _sources, 
             MFFBuilderRecordBuilder.DefaultFileNameBuilderInfo,
             expectedSourceCode);
@@ -146,10 +146,10 @@ public class MFFGeneratorBaseTests
         cut.ExposedCreateOutput(genAndSrcInfos, _context);
 
         // Assert
-        var addedSourceCount = Helpers.GetSourcesCount(_sources);
+        var addedSourceCount = TestHelpers.GetSourcesCount(_sources);
         addedSourceCount.Should().Be(1);
 
-        var containsSource = Helpers.ContainsSource(
+        var containsSource = TestHelpers.ContainsSource(
             _sources, 
             MFFBuilderRecordBuilder.DefaultFileNameBuilderInfo,
             expectedSourceCode);

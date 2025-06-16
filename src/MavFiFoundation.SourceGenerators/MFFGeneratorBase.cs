@@ -4,24 +4,36 @@ using Microsoft.CodeAnalysis.Text;
 using System.Text;
 using MavFiFoundation.SourceGenerators.Models;
 using MavFiFoundation.SourceGenerators.Builders;
-//TODO: Analyzer to ensure correct values are passed to GeneratorTriggers
 namespace MavFiFoundation.SourceGenerators;
 
+/// <summary>
+/// Extendable abstract <see cref="DiagnosticAnalyzer"/> class.
+/// </summary>
 public abstract class MFFGeneratorBase : IIncrementalGenerator
 {
 
     #region Private/Protected Properties
 
+    /// <summary>
+    /// Gets the <see cref="IMFFGeneratorPluginsProvider"/> used to provide the generator plugins.
+    /// </summary>
     protected IMFFGeneratorPluginsProvider PluginsProvider { get; private set; }
+
+    /// <summary>
+    /// Gets the <see cref="IMFFGeneratorHelper"/> used to provide helper methods for the generator.
+    /// </summary>
     protected IMFFGeneratorHelper GeneratorHelper { get; private set; }
 
     #endregion
 
     #region Constructors
-    public MFFGeneratorBase (
+    
+    /// <param name="pluginsProvider">The <see cref="IMFFGeneratorPluginsProvider"/> used to provide the generator plugins.</param>
+    /// <param name="generatorHelper">The <see cref="IMFFGeneratorHelper"/> used to provide helper methods for the generator.</param>
+    public MFFGeneratorBase(
         IMFFGeneratorPluginsProvider pluginsProvider,
         IMFFGeneratorHelper generatorHelper)
-    {   
+    {
         PluginsProvider = pluginsProvider;
         GeneratorHelper = generatorHelper;
     }
@@ -29,13 +41,15 @@ public abstract class MFFGeneratorBase : IIncrementalGenerator
     #endregion
 
     #region IIncrementalGenerator Implementation
+ 
+    /// <inheritdoc/>
     public void Initialize(IncrementalGeneratorInitializationContext initContext)
-    {       
+    {
         var allTypes = GeneratorHelper.GetAllTypesProvider(initContext);
         var allResources = GeneratorHelper.GetAllResourcesProvider(initContext);
         var genInfos = GeneratorHelper.GetGenerateConstantsProvider(initContext, PluginsProvider);
 
-        foreach(var configLocator in PluginsProvider.GeneratorTriggers)
+        foreach (var configLocator in PluginsProvider.GeneratorTriggers)
         {
             var additionalSrcInfos = configLocator.Value
                 .GetGeneratorInfosProvider(
@@ -46,7 +60,7 @@ public abstract class MFFGeneratorBase : IIncrementalGenerator
 
             var collected = additionalSrcInfos.Collect();
             genInfos = collected.Combine(
-                genInfos.Collect()).SelectMany((combinedGenInfos, cancellationToken) => 
+                genInfos.Collect()).SelectMany((combinedGenInfos, cancellationToken) =>
             {
                 return combinedGenInfos.Left.AddRange(combinedGenInfos.Right);
             });
@@ -57,7 +71,8 @@ public abstract class MFFGeneratorBase : IIncrementalGenerator
         foreach (var sourceTypeLocator in PluginsProvider.TypeLocators)
         {
 
-            var filteredSrcInfos = genInfos.Where(srcInfo => {  
+            var filteredSrcInfos = genInfos.Where(srcInfo =>
+            {
                 return srcInfo?.SrcLocatorType == sourceTypeLocator.Key;
             });
 
@@ -69,12 +84,12 @@ public abstract class MFFGeneratorBase : IIncrementalGenerator
                 var collected = additionalGenInfosWithTypes.Collect();
                 genInfosWithTypes = collected
                     .Combine(genInfosWithTypes.Value.Collect())
-                    .SelectMany((combinedGenInfosWithTypes, cancellationToken) => 
+                    .SelectMany((combinedGenInfosWithTypes, cancellationToken) =>
                     {
                         return combinedGenInfosWithTypes.Left.AddRange(combinedGenInfosWithTypes.Right);
                     });
             }
-            else 
+            else
             {
 
                 genInfosWithTypes = additionalGenInfosWithTypes;
@@ -88,10 +103,15 @@ public abstract class MFFGeneratorBase : IIncrementalGenerator
         }
     }
 
+    /// <summary>
+    /// Creates the output for the generator.
+    /// </summary>
+    /// <param name="genAndSrcInfos">Generator configuration and located source types to output sources for.</param>
+    /// <param name="context">Source production context to use.</param>
     protected void CreateOutput(
-        ImmutableArray<MFFGeneratorInfoWithSrcTypesRecord?> genAndSrcInfos, 
+        ImmutableArray<MFFGeneratorInfoWithSrcTypesRecord?> genAndSrcInfos,
         SourceProductionContext context)
-	{
+    {
         foreach (var genAndSrcInfo in genAndSrcInfos)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
@@ -103,9 +123,9 @@ public abstract class MFFGeneratorBase : IIncrementalGenerator
                     foreach (var outputInfo in genAndSrcInfo.GenInfo.GenOutputInfos)
                     {
                         context.CancellationToken.ThrowIfCancellationRequested();
-    
+
                         IMFFBuilder builder;
-                        
+
                         if (PluginsProvider.Builders.TryGetValue(
                             outputInfo.SourceBuilderType, out builder))
                         {
@@ -133,13 +153,13 @@ public abstract class MFFGeneratorBase : IIncrementalGenerator
                 foreach (var srcType in genAndSrcInfo.SrcTypes)
                 {
                     context.CancellationToken.ThrowIfCancellationRequested();
- 
-                    if(srcType is not null && !genAndSrcInfo.GenInfo.SrcOutputInfos.IsDefaultOrEmpty)
+
+                    if (srcType is not null && !genAndSrcInfo.GenInfo.SrcOutputInfos.IsDefaultOrEmpty)
                     {
                         for (int i = 0; i < genAndSrcInfo.GenInfo.SrcOutputInfos.Length; i++)
                         {
                             context.CancellationToken.ThrowIfCancellationRequested();
- 
+
                             var outputInfo = genAndSrcInfo.GenInfo.SrcOutputInfos[i];
                             var builder = builders[i];
 
@@ -164,6 +184,10 @@ public abstract class MFFGeneratorBase : IIncrementalGenerator
         }
     }
 
+    /// <summary>
+    /// Gets the file name builder for the given <see cref="MFFBuilderRecord"/>.
+    /// </summary>
+    /// <param name="outputInfo">The <see cref="MFFBuilderRecord"/> to get the file name builder for.</param>
     private IMFFBuilder GetFileNameBuilder(MFFBuilderRecord outputInfo)
     {
         IMFFBuilder fileNameBuilder;

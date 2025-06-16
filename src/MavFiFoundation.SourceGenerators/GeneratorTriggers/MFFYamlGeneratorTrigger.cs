@@ -1,7 +1,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // Copyright 2025, MavFi Foundation and the MavFiFoundation.SourceGenerators contributors
 
+using System.Collections.Immutable;
+
 using MavFiFoundation.SourceGenerators.Serializers;
+
+using Microsoft.CodeAnalysis;
 
 namespace MavFiFoundation.SourceGenerators.GeneratorTriggers;
 
@@ -35,7 +39,7 @@ public class MFFYamlGeneratorTrigger : MFFFileGeneratorTriggerBase
     /// <see cref="MFFFileGeneratorTriggerBase.MFFFileGeneratorTriggerBase(string, string, IMFFSerializer)"/> .
     /// </summary>
     public const string DEFAULT_FILE_NAME_SUFFIX = ".CodeGen.y(a?)ml";
-    
+
     /// <inheritdoc cref="MFFFileGeneratorTriggerBase.MFFFileGeneratorTriggerBase(string, string, IMFFSerializer)" 
     /// path="/param[@name='serializer']"/>
     public MFFYamlGeneratorTrigger(IMFFSerializer serializer) : base(
@@ -43,4 +47,5 @@ public class MFFYamlGeneratorTrigger : MFFFileGeneratorTriggerBase
         DEFAULT_FILE_NAME_SUFFIX,
         serializer)
     { }
+    
 }

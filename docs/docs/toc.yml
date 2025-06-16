@@ -9,8 +9,10 @@ items:
   items:
   - name: MavFiFoundation.SourceGenerators
     href: ../../src/MavFiFoundation.SourceGenerators/README.md
-  - name: MavFiFoundation.SourceGenerators.MFFSourceGenerator
-    href: ../../src/MavFiFoundation.SourceGenerators.MFFSourceGenerator/README.md
+  - name: MavFiFoundation.SourceGenerators.CodeFixes
+    href: ../../src/MavFiFoundation.SourceGenerators.CodeFixes/README.md
+  - name: MavFiFoundation.SourceGenerators.MFFImplementations
+    href: ../../src/MavFiFoundation.SourceGenerators.MFFImplementations/README.md
   - name: MavFiFoundation.SourceGenerators.Shared
     href: ../../src/MavFiFoundation.SourceGenerators.Shared/README.md
   - name: MavFiFoundation.SourceGenerators.Extras

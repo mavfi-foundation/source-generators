@@ -1,16 +1,17 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright 2025, MavFi Foundation and the MavFiFoundation.SourceGenerators contributors
+
 namespace MavFiFoundation.SourceGenerators.Testing;
 
-public class MFFGeneratorTestData
+/// <summary>
+/// Represents test data for source generator testing scenarios.
+/// </summary>
+public class MFFGeneratorTestData : MFFTestDataBase
 {
-        public string Scenario { get; set; } = string.Empty;
-        public IEnumerable<string> Sources { get; set; } = new HashSet<string>();
-        public IEnumerable<(string, string)> AdditionalFiles { get; set; } = 
-            new HashSet<(string, string)>();
-        public IEnumerable<(Type, string, string)> GeneratedSources { get; set; } = 
-            new HashSet<(Type, string, string)>();
-
-    public override string ToString()
-    {
-        return $"\"{ Scenario }\"";
-    }
+    /// <summary>
+    /// Gets or sets the collection of expected generated sources as tuples containing the generator type,
+    /// file name, and generated content.
+    /// </summary>
+    public IEnumerable<(Type, string, string)> GeneratedSources { get; set; } =
+        new HashSet<(Type, string, string)>();
 }

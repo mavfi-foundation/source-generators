@@ -3,6 +3,7 @@
 
 ### New Rules
 
-Rule ID | Category  | Severity | Notes
---------|-----------|----------|--------------------------------
-MY0002  | CodeStyle |  Warning | MY0002_MFFGeneratorAnalyzerBase
+Rule ID     | Category         | Severity | Notes
+------------|------------------|----------|-------------------------------------------------------------
+MFFSG10101  | SourceGeneration | Error    | MFFAttributeGeneratorTrigger_InvalidTypeLocator
+MFFSG10102  | SourceGeneration | Warning  | MFFAttributeGeneratorTrigger_NoOutputs

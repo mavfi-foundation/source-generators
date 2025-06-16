@@ -1,15 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <ItemGroup>
-        <PackageReference Include="xunit" />
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp">
-			<NoWarn>NU1608</NoWarn>
-		</PackageReference>
-		<PackageReference Include="Microsoft.CodeAnalysis.Common">
-			<NoWarn>NU1608</NoWarn>
-		</PackageReference>
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.SourceGenerators.Testing" />
-    </ItemGroup>
-    <ItemGroup>
-      <ProjectReference Include="../MavFiFoundation.SourceGenerators.Testing/MavFiFoundation.SourceGenerators.Testing.csproj" />
-    </ItemGroup>
+  <PropertyGroup>
+    <IsTestProject>false</IsTestProject>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="xunit" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp">
+      <NoWarn>NU1608</NoWarn>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.Common">
+      <NoWarn>NU1608</NoWarn>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.SourceGenerators.Testing" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MavFiFoundation.SourceGenerators.Testing\MavFiFoundation.SourceGenerators.Testing.csproj" />
+  </ItemGroup>
 </Project>

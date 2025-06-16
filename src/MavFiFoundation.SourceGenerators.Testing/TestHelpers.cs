@@ -1,14 +1,15 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright 2025, MavFi Foundation and the MavFiFoundation.SourceGenerators contributors
 
 using System.Collections;
 using System.Reflection;
-
 using Microsoft.CodeAnalysis;
 
 namespace MavFiFoundation.SourceGenerators.Testing;
 
-public static class Helpers
+public static class TestHelpers
 {
-    private const string AdditionalSourceCollectionTypeName = 
+    private const string AdditionalSourceCollectionTypeName =
         "Microsoft.CodeAnalysis.AdditionalSourcesCollection";
     private const string SourceFileExtension = "cs";
     private const string DiagnosticBagTypeName = "Microsoft.CodeAnalysis.DiagnosticBag";
@@ -21,7 +22,7 @@ public static class Helpers
     {
         var type = typeof(T);
         var instance = CreateInstance(type, args);
-        return (instance is null) ? default : (T) instance;
+        return (instance is null) ? default : (T)instance;
     }
 
     public static object? CreateInstance(Type type, params object[] args)
@@ -29,13 +30,13 @@ public static class Helpers
         var instance = type.Assembly.CreateInstance(
             type.FullName!, false,
             BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public,
-            null, args, null, null);                
+            null, args, null, null);
         return instance;
     }
 
     public static Assembly GetCodeAnalysisAssembly()
     {
-        var codeAnalysisAssembly = typeof(SourceProductionContext).Assembly 
+        var codeAnalysisAssembly = typeof(SourceProductionContext).Assembly
             ?? throw new Exception("Unable to create CodeAnalysisAssembly");
 
         return codeAnalysisAssembly;
@@ -43,7 +44,7 @@ public static class Helpers
 
     public static object CreateAdditionalSourcesCollection(Assembly? codeAnalysisAssembly = null)
     {
-        if(codeAnalysisAssembly is null)
+        if (codeAnalysisAssembly is null)
         {
             codeAnalysisAssembly = GetCodeAnalysisAssembly();
         }
@@ -52,15 +53,15 @@ public static class Helpers
             .GetType(AdditionalSourceCollectionTypeName)
                 ?? throw new Exception("Unable to locate AdditionalSourceCollection Type");
 
-        var sources = Helpers.CreateInstance(sourcesType, SourceFileExtension) 
+        var sources = TestHelpers.CreateInstance(sourcesType, SourceFileExtension)
                 ?? throw new Exception("Unable to create AdditionalSourceCollection");
-        
+
         return sources;
     }
 
     public static object CreateDiagnosticBag(Assembly? codeAnalysisAssembly = null)
     {
-        if(codeAnalysisAssembly is null)
+        if (codeAnalysisAssembly is null)
         {
             codeAnalysisAssembly = GetCodeAnalysisAssembly();
         }
@@ -69,9 +70,9 @@ public static class Helpers
             .GetType(DiagnosticBagTypeName)
                 ?? throw new Exception("Unable to locate DiagnosticBag Type");
 
-        var diagnostics = Helpers.CreateInstance(diagnosticsType) 
+        var diagnostics = TestHelpers.CreateInstance(diagnosticsType)
                 ?? throw new Exception("Unable to create DiagnosticBag");
-        
+
         return diagnostics;
     }
 
@@ -81,22 +82,22 @@ public static class Helpers
         Object? diagnostics = null,
         CancellationToken? cancellationToken = null)
     {
-        if(codeAnalysisAssembly is null)
+        if (codeAnalysisAssembly is null)
         {
             codeAnalysisAssembly = GetCodeAnalysisAssembly();
         }
 
-        if(sources is null)
+        if (sources is null)
         {
             sources = CreateAdditionalSourcesCollection(codeAnalysisAssembly);
         }
 
-        if(diagnostics is null)
+        if (diagnostics is null)
         {
             diagnostics = CreateDiagnosticBag(codeAnalysisAssembly);
         }
 
-        if(cancellationToken is null)
+        if (cancellationToken is null)
         {
             cancellationToken = new CancellationToken();
         }
@@ -105,12 +106,12 @@ public static class Helpers
             sources, diagnostics, null!, cancellationToken);
     }
 
-    public static IEnumerable GetSourcesAdded(object sources) 
+    public static IEnumerable GetSourcesAdded(object sources)
     {
         var sourcesAddedFieldInfo = sources.GetType().GetField(
             SourcesAddedFieldName, BindingFlags.NonPublic | BindingFlags.Instance) ??
                 throw new Exception($"Unable to get {SourcesAddedFieldName} FieldInfo");
-        var sourcesAdded = sourcesAddedFieldInfo.GetValue(sources) as IEnumerable ?? 
+        var sourcesAdded = sourcesAddedFieldInfo.GetValue(sources) as IEnumerable ??
             throw new Exception($"Unable to get {SourcesAddedFieldName} Value");
 
         return sourcesAdded;
@@ -121,7 +122,7 @@ public static class Helpers
         var sourcesAdded = GetSourcesAdded(sources);
         var countPropertyInfo = sourcesAdded.GetType().GetProperty(CountPropertyName) ??
             throw new Exception($"Unable to get {CountPropertyName} PropertyInfo");
-        var addedSourceCount = countPropertyInfo.GetValue(sourcesAdded) as int? ?? 
+        var addedSourceCount = countPropertyInfo.GetValue(sourcesAdded) as int? ??
             throw new Exception($"Unable to get {CountPropertyName} Value");
 
         return addedSourceCount;
@@ -144,7 +145,7 @@ public static class Helpers
                     nameMatch = true;
                 }
             }
-            else 
+            else
             {
                 nameMatch = true;
             }
@@ -156,18 +157,18 @@ public static class Helpers
 
                 var text = textPropInfo.GetValue(source) ??
                     throw new Exception($"Unable to get {TextPropertyName} Value");
-     
+
                 if (code == text.ToString())
                 {
                     codeMatch = true;
                 }
             }
-            else 
+            else
             {
                 codeMatch = true;
             }
 
-            if(nameMatch && codeMatch)
+            if (nameMatch && codeMatch)
             {
                 return true;
             }

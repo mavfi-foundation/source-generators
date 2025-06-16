@@ -93,4 +93,11 @@ public abstract class MFFFileGeneratorTriggerBase : MFFGeneratorTriggerBase, IMF
 
         return null;
     }
+
+    /// <inheritdoc/>
+    public override void AddSupportedAnalyzerDiagnostics(ImmutableArray<DiagnosticDescriptor>.Builder supportedDiagnoticsBuilder)
+    {
+        base.AddSupportedAnalyzerDiagnostics(supportedDiagnoticsBuilder);
+       
+    }
 }

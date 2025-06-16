@@ -9,6 +9,9 @@
 			<NoWarn>NU1608</NoWarn>
 		</PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.SourceGenerators.Testing" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Analyzer.Testing.XUnit" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.CodeFix.Testing.XUnit" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.CodeRefactoring.Testing.XUnit" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="Moq" />
     <PackageReference Include="xunit" />
@@ -24,10 +27,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../MavFiFoundation.SourceGenerators.Testing.XUnit/MavFiFoundation.SourceGenerators.Testing.XUnit.csproj" />
-    <ProjectReference Include="../../MavFiFoundation.SourceGenerators.Testing/MavFiFoundation.SourceGenerators.Testing.csproj" />
+    <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators.Testing.XUnit\MavFiFoundation.SourceGenerators.Testing.XUnit.csproj" />
+    <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators.Testing\MavFiFoundation.SourceGenerators.Testing.csproj" />
     <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators\MavFiFoundation.SourceGenerators.csproj" SetTargetFramework="TargetFramework=netstandard2.0" />
+    <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators.CodeFixes\MavFiFoundation.SourceGenerators.CodeFixes.csproj" SetTargetFramework="TargetFramework=netstandard2.0" />
     <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators.MFFSourceGenerator\MavFiFoundation.SourceGenerators.MFFSourceGenerator.csproj" SetTargetFramework="TargetFramework=netstandard2.0" />
+    <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators.MFFCodeFix\MavFiFoundation.SourceGenerators.MFFCodeFix.csproj" SetTargetFramework="TargetFramework=netstandard2.0" />
     <ProjectReference Include="..\..\MavFiFoundation.SourceGenerators.Shared\MavFiFoundation.SourceGenerators.Shared.csproj" SetTargetFramework="TargetFramework=netstandard2.0" />
     <ProjectReference Include="..\MavFiFoundation.SourceGenerators.TestSupport\MavFiFoundation.SourceGenerators.TestSupport.csproj" />
  </ItemGroup>

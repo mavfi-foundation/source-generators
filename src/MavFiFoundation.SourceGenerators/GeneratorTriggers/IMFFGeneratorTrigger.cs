@@ -2,8 +2,10 @@
 // Copyright 2025, MavFi Foundation and the MavFiFoundation.SourceGenerators contributors
 
 using Microsoft.CodeAnalysis;
+using System.Collections.Immutable;
 using MavFiFoundation.SourceGenerators.Models;
 using MavFiFoundation.SourceGenerators.ResourceLoaders;
+using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace MavFiFoundation.SourceGenerators.GeneratorTriggers;
 
@@ -25,4 +27,21 @@ public interface IMFFGeneratorTrigger : IMFFGeneratorPlugin
         IncrementalValuesProvider<MFFTypeSymbolSources> allTypes,
         IncrementalValuesProvider<MFFResourceRecord> allResources,
         IEnumerable<IMFFResourceLoader> resourceLoaders);
+
+    /// <summary>
+    /// Validates the content of trigger files.
+    /// </summary>
+    /// <param name="context">The analysis context.</param>
+    MFFGeneratorInfoModel? ValidateAdditionalFile(AdditionalFileAnalysisContext context);
+
+    /// <summary>
+    /// Gets a <see cref="MFFGeneratorInfoModel"/> for a triggering symbol.
+    /// </summary>
+    /// <inheritdoc cref="ValidateAdditionalFile(AdditionalFileAnalysisContext)" path="/param[@name='context']"/>
+    /// <returns><see cref="MFFGeneratorInfoModel"/> populated from provided symbol in context, 
+    /// if symbol is trigger for implementation, else null.</returns>
+    MFFGeneratorInfoModel? GetGenInfo(SymbolAnalysisContext context);
+
+
+    // void GetInvalidInfoLocation();
 }
