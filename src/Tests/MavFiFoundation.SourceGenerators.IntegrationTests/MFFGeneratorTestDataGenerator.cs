@@ -25,14 +25,14 @@ public class MFFGeneratorTestDataGenerator : MFFGeneratorTestDataProviderBase
 
         testDataBuilder.AddSource(
             EmbeddedResourceHelper.ReadEmbeddedSource(
-                Constants.SourceFiles.Code.MFFATTRIBUTEGENERATORTRIGGER_INCLUDEDTYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS, 
+                Constants.SourceFiles.Code.MFFAttributeGeneratorTriggerIncludedTypeLocatorScribanBuilderGeneratesClass, 
                 EmbeddedResourceHelper.EmbeddedResourceType.Code));
 
         testDataBuilder.AddGeneratedSource((
             generatorType,
-            Constants.SourceFiles.OutputFileName.MFFATTRIBUTEGENERATORTRIGGER_INCLUDEDTYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS,
+            Constants.SourceFiles.OutputFileName.MFFAttributeGeneratorTriggerIncludedTypeLocatorScribanBuilderGeneratesClass,
              EmbeddedResourceHelper.ReadEmbeddedSource(
-                Constants.SourceFiles.GeneratedCode.MFFATTRIBUTEGENERATORTRIGGER_INCLUDEDTYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS,
+                Constants.SourceFiles.GeneratedCode.MFFAttributeGeneratorTriggerIncludedTypeLocatorScribanBuilderGeneratesClass,
                 EmbeddedResourceHelper.EmbeddedResourceType.GeneratedCode)
         ));
 
@@ -44,24 +44,24 @@ public class MFFGeneratorTestDataGenerator : MFFGeneratorTestDataProviderBase
 
         testDataBuilder.AddSource(
             EmbeddedResourceHelper.ReadEmbeddedSource(
-                Constants.SourceFiles.Code.MFFATTRIBUTEGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS_ATTRIBUTE, 
+                Constants.SourceFiles.Code.MFFAttributeGeneratorTriggerAttributeTypeLocatorScribanBuilderGeneratesClassAttribute, 
                 EmbeddedResourceHelper.EmbeddedResourceType.Code));
 
         testDataBuilder.AddSource(
             EmbeddedResourceHelper.ReadEmbeddedSource(
-                Constants.SourceFiles.Code.MFFATTRIBUTEGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS_GENERATE, 
+                Constants.SourceFiles.Code.MFFAttributeGeneratorTriggerAttributeTypeLocatorScribanBuilderGeneratesClassGenerate, 
                 EmbeddedResourceHelper.EmbeddedResourceType.Code));
 
         testDataBuilder.AddSource(
             EmbeddedResourceHelper.ReadEmbeddedSource(
-                Constants.SourceFiles.Code.MFFATTRIBUTEGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS_SOURCE, 
+                Constants.SourceFiles.Code.MFFAttributeGeneratorTriggerAttributeTypeLocatorScribanBuilderGeneratesClassSource, 
                 EmbeddedResourceHelper.EmbeddedResourceType.Code));
 
         testDataBuilder.AddGeneratedSource((
             generatorType,
-            Constants.SourceFiles.OutputFileName.MFFATTRIBUTEGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS,
+            Constants.SourceFiles.OutputFileName.MFFAttributeGeneratorTriggerAttributeTypeLocatorScribanBuilderGeneratesClass,
              EmbeddedResourceHelper.ReadEmbeddedSource(
-                Constants.SourceFiles.GeneratedCode.MFFATTRIBUTEGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS,
+                Constants.SourceFiles.GeneratedCode.MFFAttributeGeneratorTriggerAttributeTypeLocatorScribanBuilderGeneratesClass,
                 EmbeddedResourceHelper.EmbeddedResourceType.GeneratedCode)
         ));
 
@@ -73,25 +73,25 @@ public class MFFGeneratorTestDataGenerator : MFFGeneratorTestDataProviderBase
 
         testDataBuilder.AddSource(
             EmbeddedResourceHelper.ReadEmbeddedSource(
-                Constants.SourceFiles.Code.MFFJSONGENERATORTRIGGER_DYNAMICLINQTYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS_ATTRIBUTE, 
+                Constants.SourceFiles.Code.MFFJsonGeneratorTriggerDynamicLinqTypeLocatorLiquidBuilderGeneratesClassAttribute, 
                 EmbeddedResourceHelper.EmbeddedResourceType.Code));
 
         testDataBuilder.AddSource(
             EmbeddedResourceHelper.ReadEmbeddedSource(
-                Constants.SourceFiles.Code.MFFJSONGENERATORTRIGGER_DYNAMICLINQTYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS_SOURCE, 
+                Constants.SourceFiles.Code.MFFJsonGeneratorTriggerDynamicLinqTypeLocatorLiquidBuilderGeneratesClassSource, 
                 EmbeddedResourceHelper.EmbeddedResourceType.Code));
 
         testDataBuilder.AddAdditionalFile((
-            Constants.SourceFiles.AdditionalFile.MFFJSONGENERATORTRIGGER_DYNAMICLINQTYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS_GENERATE,
+            Constants.SourceFiles.AdditionalFile.MFFJsonGeneratorTriggerDynamicLinqTypeLocatorLiquidBuilderGeneratesClassGenerate,
             EmbeddedResourceHelper.ReadEmbeddedSource(
-                Constants.SourceFiles.AdditionalFile.MFFJSONGENERATORTRIGGER_DYNAMICLINQTYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS_GENERATE, 
+                Constants.SourceFiles.AdditionalFile.MFFJsonGeneratorTriggerDynamicLinqTypeLocatorLiquidBuilderGeneratesClassGenerate, 
                 EmbeddedResourceHelper.EmbeddedResourceType.Code)));
 
         testDataBuilder.AddGeneratedSource((
             generatorType,
-            Constants.SourceFiles.OutputFileName.MFFJSONGENERATORTRIGGER_DYNAMICLINQTYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS,
+            Constants.SourceFiles.OutputFileName.MFFJsonGeneratorTriggerDynamicLinqTypeLocatorLiquidBuilderGeneratesClass,
              EmbeddedResourceHelper.ReadEmbeddedSource(
-                Constants.SourceFiles.GeneratedCode.MFFJSONGENERATORTRIGGER_DYNAMICLINQTYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS,
+                Constants.SourceFiles.GeneratedCode.MFFJsonGeneratorTriggerDynamicLinqTypeLocatorLiquidBuilderGeneratesClass,
                 EmbeddedResourceHelper.EmbeddedResourceType.GeneratedCode)
         ));
 
@@ -103,25 +103,25 @@ public class MFFGeneratorTestDataGenerator : MFFGeneratorTestDataProviderBase
 
         testDataBuilder.AddSource(
             EmbeddedResourceHelper.ReadEmbeddedSource(
-                Constants.SourceFiles.Code.MFFXMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS_ATTRIBUTE, 
+                Constants.SourceFiles.Code.MFFXmlGeneratorTriggerAttributeTypeLocatorScribanBuilderGeneratesClassAttribute, 
                 EmbeddedResourceHelper.EmbeddedResourceType.Code));
 
         testDataBuilder.AddSource(
             EmbeddedResourceHelper.ReadEmbeddedSource(
-                Constants.SourceFiles.Code.MFFXMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS_SOURCE, 
+                Constants.SourceFiles.Code.MFFXmlGeneratorTriggerAttributeTypeLocatorScribanBuilderGeneratesClassSource, 
                 EmbeddedResourceHelper.EmbeddedResourceType.Code));
 
         testDataBuilder.AddAdditionalFile((
-            Constants.SourceFiles.AdditionalFile.MFFXMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS_GENERATE,
+            Constants.SourceFiles.AdditionalFile.MFFXmlGeneratorTriggerAttributeTypeLocatorScribanBuilderGeneratesClassGenerate,
             EmbeddedResourceHelper.ReadEmbeddedSource(
-                Constants.SourceFiles.AdditionalFile.MFFXMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS_GENERATE, 
+                Constants.SourceFiles.AdditionalFile.MFFXmlGeneratorTriggerAttributeTypeLocatorScribanBuilderGeneratesClassGenerate, 
                 EmbeddedResourceHelper.EmbeddedResourceType.Code)));
 
         testDataBuilder.AddGeneratedSource((
             generatorType,
-            Constants.SourceFiles.OutputFileName.MFFXMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS,
+            Constants.SourceFiles.OutputFileName.MFFXmlGeneratorTriggerAttributeTypeLocatorScribanBuilderGeneratesClass,
              EmbeddedResourceHelper.ReadEmbeddedSource(
-                Constants.SourceFiles.GeneratedCode.MFFXMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS,
+                Constants.SourceFiles.GeneratedCode.MFFXmlGeneratorTriggerAttributeTypeLocatorScribanBuilderGeneratesClass,
                 EmbeddedResourceHelper.EmbeddedResourceType.GeneratedCode)
         ));
 
@@ -133,25 +133,25 @@ public class MFFGeneratorTestDataGenerator : MFFGeneratorTestDataProviderBase
 
         testDataBuilder.AddSource(
             EmbeddedResourceHelper.ReadEmbeddedSource(
-                Constants.SourceFiles.Code.MFFYAMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS_ATTRIBUTE, 
+                Constants.SourceFiles.Code.MFFYamlGeneratorTriggerAttributeTypeLocatorLiquidBuilderGeneratesClassAttribute, 
                 EmbeddedResourceHelper.EmbeddedResourceType.Code));
 
         testDataBuilder.AddSource(
             EmbeddedResourceHelper.ReadEmbeddedSource(
-                Constants.SourceFiles.Code.MFFYAMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS_SOURCE, 
+                Constants.SourceFiles.Code.MFFYamlGeneratorTriggerAttributeTypeLocatorLiquidBuilderGeneratesClassSource, 
                 EmbeddedResourceHelper.EmbeddedResourceType.Code));
 
         testDataBuilder.AddAdditionalFile((
-            Constants.SourceFiles.AdditionalFile.MFFYAMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS_GENERATE,
+            Constants.SourceFiles.AdditionalFile.MFFYamlGeneratorTriggerAttributeTypeLocatorLiquidBuilderGeneratesClassGenerate,
             EmbeddedResourceHelper.ReadEmbeddedSource(
-                Constants.SourceFiles.AdditionalFile.MFFYAMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS_GENERATE, 
+                Constants.SourceFiles.AdditionalFile.MFFYamlGeneratorTriggerAttributeTypeLocatorLiquidBuilderGeneratesClassGenerate, 
                 EmbeddedResourceHelper.EmbeddedResourceType.Code)));
 
         testDataBuilder.AddGeneratedSource((
             generatorType,
-            Constants.SourceFiles.OutputFileName.MFFYAMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS,
+            Constants.SourceFiles.OutputFileName.MFFYamlGeneratorTriggerAttributeTypeLocatorLiquidBuilderGeneratesClass,
              EmbeddedResourceHelper.ReadEmbeddedSource(
-                Constants.SourceFiles.GeneratedCode.MFFYAMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS,
+                Constants.SourceFiles.GeneratedCode.MFFYamlGeneratorTriggerAttributeTypeLocatorLiquidBuilderGeneratesClass,
                 EmbeddedResourceHelper.EmbeddedResourceType.GeneratedCode)
         ));
 
@@ -163,20 +163,20 @@ public class MFFGeneratorTestDataGenerator : MFFGeneratorTestDataProviderBase
 
         testDataBuilder.AddSource(
             EmbeddedResourceHelper.ReadEmbeddedSource(
-                Constants.SourceFiles.Code.RESOURCELOADER_LOADSINCLUDEDRESOURCES, 
+                Constants.SourceFiles.Code.ResourceLoaderLoadsIncludedResources, 
                 EmbeddedResourceHelper.EmbeddedResourceType.Code));
 
         testDataBuilder.AddAdditionalFile((
-            Constants.SourceFiles.AdditionalFile.TEST_TEMPLATE,
+            Constants.SourceFiles.AdditionalFile.TestTemplate,
             EmbeddedResourceHelper.ReadEmbeddedSource(
-                Constants.SourceFiles.AdditionalFile.TEST_TEMPLATE, 
+                Constants.SourceFiles.AdditionalFile.TestTemplate, 
                 EmbeddedResourceHelper.EmbeddedResourceType.AdditionalFiles)));
 
         testDataBuilder.AddGeneratedSource((
             generatorType,
-            Constants.SourceFiles.OutputFileName.RESOURCELOADER_LOADSINCLUDEDRESOURCES,
+            Constants.SourceFiles.OutputFileName.ResourceLoaderLoadsIncludedResources,
              EmbeddedResourceHelper.ReadEmbeddedSource(
-                Constants.SourceFiles.GeneratedCode.RESOURCELOADER_LOADSINCLUDEDRESOURCES,
+                Constants.SourceFiles.GeneratedCode.ResourceLoaderLoadsIncludedResources,
                 EmbeddedResourceHelper.EmbeddedResourceType.GeneratedCode)
         ));
 
@@ -188,14 +188,14 @@ public class MFFGeneratorTestDataGenerator : MFFGeneratorTestDataProviderBase
 
         testDataBuilder.AddSource(
             EmbeddedResourceHelper.ReadEmbeddedSource(
-                Constants.SourceFiles.Code.RESOURCELOADER_LOADSEMBEDDEDRESOURCES, 
+                Constants.SourceFiles.Code.ResourceLoaderLoadsEmbeddedResources, 
                 EmbeddedResourceHelper.EmbeddedResourceType.Code));
 
         testDataBuilder.AddGeneratedSource((
             generatorType,
-            Constants.SourceFiles.OutputFileName.RESOURCELOADER_LOADSEMBEDDEDRESOURCES,
+            Constants.SourceFiles.OutputFileName.ResourceLoaderLoadsEmbeddedResources,
              EmbeddedResourceHelper.ReadEmbeddedSource(
-                Constants.SourceFiles.GeneratedCode.RESOURCELOADER_LOADSEMBEDDEDRESOURCES,
+                Constants.SourceFiles.GeneratedCode.ResourceLoaderLoadsEmbeddedResources,
                 EmbeddedResourceHelper.EmbeddedResourceType.GeneratedCode)
         ));
 
@@ -207,14 +207,14 @@ public class MFFGeneratorTestDataGenerator : MFFGeneratorTestDataProviderBase
 
         testDataBuilder.AddSource(
             EmbeddedResourceHelper.ReadEmbeddedSource(
-                Constants.SourceFiles.Code.CREATE_GENERATOR_CONSTANTS, 
+                Constants.SourceFiles.Code.CreateGeneratorConstants, 
                 EmbeddedResourceHelper.EmbeddedResourceType.Code));
 
         testDataBuilder.AddGeneratedSource((
             generatorType,
-            Constants.SourceFiles.OutputFileName.CREATE_GENERATOR_CONSTANTS,
+            Constants.SourceFiles.OutputFileName.CreateGeneratorConstants,
              EmbeddedResourceHelper.ReadEmbeddedSource(
-                Constants.SourceFiles.GeneratedCode.CREATE_GENERATOR_CONSTANTS,
+                Constants.SourceFiles.GeneratedCode.CreateGeneratorConstants,
                 EmbeddedResourceHelper.EmbeddedResourceType.GeneratedCode)
         ));
 

@@ -35,17 +35,17 @@ namespace MavFiFoundation.SourceGenerators.GeneratorTriggers;
 /// </example>
 public class MFFXmlGeneratorTrigger : MFFFileGeneratorTriggerBase
 {
-    /// <inheritdoc cref="MFFAttributeGeneratorTrigger.DEFAULT_NAME"/>
-    public const string DEFAULT_NAME = nameof(MFFXmlGeneratorTrigger);
+    /// <inheritdoc cref="MFFAttributeGeneratorTrigger.DefaultName"/>
+    public const string DefaultName = nameof(MFFXmlGeneratorTrigger);
 
-    /// <inheritdoc cref="MFFYamlGeneratorTrigger.DEFAULT_FILE_NAME_SUFFIX"/>
-    public const string DEFAULT_FILE_NAME_SUFFIX = ".CodeGen.xml";
+    /// <inheritdoc cref="MFFYamlGeneratorTrigger.DefaultFileNameSuffix"/>
+    public const string DefaultFileNameSuffix = ".CodeGen.xml";
 
     /// <inheritdoc cref="MFFFileGeneratorTriggerBase.MFFFileGeneratorTriggerBase(string, string, IMFFSerializer)" 
     /// path="/param[@name='serializer']"/>
     public MFFXmlGeneratorTrigger(IMFFSerializer serializer) : base(
-        DEFAULT_NAME,
-        DEFAULT_FILE_NAME_SUFFIX,
+        DefaultName,
+        DefaultFileNameSuffix,
         serializer)
     { }
 

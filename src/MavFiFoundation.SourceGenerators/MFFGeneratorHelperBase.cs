@@ -103,7 +103,7 @@ public abstract class MFFGeneratorHelperBase : IMFFGeneratorHelper
                 srcsAndTypesBuilder
                     .AddRange(new MFFTypeSymbolSources
                     (
-                        MFFGeneratorConstants.Generator.COMPILING_PROJECT, 
+                        MFFGeneratorConstants.Generator.CompilingProject, 
                         selfTypeBuilder.ToImmutable()
                     ));
 
@@ -148,14 +148,14 @@ public abstract class MFFGeneratorHelperBase : IMFFGeneratorHelper
 
         var embeddedProvider = initContext.SyntaxProvider
             .ForAttributeWithMetadataName(
-                MFFGeneratorConstants.Generator.EMBEDDED_RESOURCE_ATTRIBUTE_NAME,
+                MFFGeneratorConstants.Generator.EmbeddedResourceAttributeName,
                 static (syntaxNode, cancellationToken) => syntaxNode is TypeDeclarationSyntax,
                 static (context, cancellationToken) =>
             {
                 var type = context.TargetSymbol.ContainingType;
                 var resource = type.GetMembers()
                                     .OfType<IFieldSymbol>()
-                                    .FirstOrDefault(m => m.Name == "RESOURCE");
+                                    .FirstOrDefault(m => m.Name.ToLower() == "resource");
 
                 var text = resource.ConstantValue as string;
 
@@ -183,11 +183,11 @@ public abstract class MFFGeneratorHelperBase : IMFFGeneratorHelper
                                 if (type.GetAttributes()
                                     .FirstOrDefault(t=>t.AttributeClass?
                                         .ToDisplayString() == MFFGeneratorConstants.Generator
-                                            .EMBEDDED_RESOURCE_ATTRIBUTE_NAME) is not null)
+                                            .EmbeddedResourceAttributeName) is not null)
                                 {
                                     var resource = type.GetMembers()
                                         .OfType<IFieldSymbol>()
-                                        .FirstOrDefault(m => m.Name == "RESOURCE");
+                                        .FirstOrDefault(m => m.Name.ToLower() == "resource");
 
                                     var text = resource.ConstantValue as string;
 

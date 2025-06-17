@@ -1,4 +1,5 @@
-using System;
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright 2025, MavFi Foundation and the MavFiFoundation.SourceGenerators contributors
 
 namespace MavFiFoundation.SourceGenerators.TestSupport;
 
@@ -8,90 +9,90 @@ public static class Constants
     {
         public static class Code
         {
-            public const string MFFATTRIBUTEGENERATORTRIGGER_INCLUDEDTYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS = 
+            public const string MFFAttributeGeneratorTriggerIncludedTypeLocatorScribanBuilderGeneratesClass = 
                 "MFFAttributeGeneratorTrigger_IncludedTypeLocator_ScribanBuilder_GeneratesClass_Code.cs";
-            public const string MFFATTRIBUTEGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS_ATTRIBUTE = 
+            public const string MFFAttributeGeneratorTriggerAttributeTypeLocatorScribanBuilderGeneratesClassAttribute = 
                 "MFFAttributeGeneratorTrigger_AttributeTypeLocator_ScribanBuilder_GeneratesClass_Attribute.cs";
-            public const string MFFATTRIBUTEGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS_GENERATE = 
+            public const string MFFAttributeGeneratorTriggerAttributeTypeLocatorScribanBuilderGeneratesClassGenerate = 
                 "MFFAttributeGeneratorTrigger_AttributeTypeLocator_ScribanBuilder_GeneratesClass_Generate.cs";
-            public const string MFFATTRIBUTEGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS_SOURCE = 
+            public const string MFFAttributeGeneratorTriggerAttributeTypeLocatorScribanBuilderGeneratesClassSource = 
                 "MFFAttributeGeneratorTrigger_AttributeTypeLocator_ScribanBuilder_GeneratesClass_Source.cs";
 
-            public const string MFFJSONGENERATORTRIGGER_DYNAMICLINQTYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS_ATTRIBUTE = 
+            public const string MFFJsonGeneratorTriggerDynamicLinqTypeLocatorLiquidBuilderGeneratesClassAttribute = 
                 "MFFJsonGeneratorTrigger_DynamicLinqTypeLocator_LiquidBuilder_GeneratesClass_Attribute.cs";
-            public const string MFFJSONGENERATORTRIGGER_DYNAMICLINQTYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS_SOURCE = 
+            public const string MFFJsonGeneratorTriggerDynamicLinqTypeLocatorLiquidBuilderGeneratesClassSource = 
                 "MFFJsonGeneratorTrigger_DynamicLinqTypeLocator_LiquidBuilder_GeneratesClass_Source.cs";
-            public const string MFFXMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS_ATTRIBUTE = 
+            public const string MFFXmlGeneratorTriggerAttributeTypeLocatorScribanBuilderGeneratesClassAttribute = 
                 "MFFXmlGeneratorTrigger_AttributeTypeLocator_ScribanBuilder_GeneratesClass_Attribute.cs";
-            public const string MFFXMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS_SOURCE = 
+            public const string MFFXmlGeneratorTriggerAttributeTypeLocatorScribanBuilderGeneratesClassSource = 
                 "MFFXmlGeneratorTrigger_AttributeTypeLocator_ScribanBuilder_GeneratesClass_Source.cs";
-            public const string MFFYAMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS_ATTRIBUTE = 
+            public const string MFFYamlGeneratorTriggerAttributeTypeLocatorLiquidBuilderGeneratesClassAttribute = 
                 "MFFYamlGeneratorTrigger_AttributeTypeLocator_LiquidBuilder_GeneratesClass_Attribute.cs";
-            public const string MFFYAMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS_SOURCE = 
+            public const string MFFYamlGeneratorTriggerAttributeTypeLocatorLiquidBuilderGeneratesClassSource = 
                 "MFFYamlGeneratorTrigger_AttributeTypeLocator_LiquidBuilder_GeneratesClass_Source.cs";
-            public const string RESOURCELOADER_LOADSINCLUDEDRESOURCES = "ResourceLoader_LoadsIncludedResources.cs";
+            public const string ResourceLoaderLoadsIncludedResources = "ResourceLoader_LoadsIncludedResources.cs";
 
-            public const string RESOURCELOADER_LOADSEMBEDDEDRESOURCES = "ResourceLoader_LoadsEmbeddedResources.cs";
+            public const string ResourceLoaderLoadsEmbeddedResources = "ResourceLoader_LoadsEmbeddedResources.cs";
 
-            public const string CREATE_GENERATOR_CONSTANTS = "CreateGeneratorConstants.cs";
+            public const string CreateGeneratorConstants = "CreateGeneratorConstants.cs";
 
-            public const string TEST_EMBEDDED_RESOURCE = "TestEmbeddedResource.cs";
+            public const string TestEmbeddedResource = "TestEmbeddedResource.cs";
 
-            public const string TEST_EMBEDDED_RESOURCE_CLASS = "TestEmbeddedResource";
+            public const string TestEmbeddedResourceClass = "TestEmbeddedResource";
 
         }
 
        public static class AdditionalFile
         {
-            public const string TEST_TEMPLATE = "Test.scriban-cs";
-            public const string MFFJSONGENERATORTRIGGER_DYNAMICLINQTYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS_GENERATE = 
+            public const string TestTemplate = "Test.scriban-cs";
+            public const string MFFJsonGeneratorTriggerDynamicLinqTypeLocatorLiquidBuilderGeneratesClassGenerate = 
                 "MFFJsonGeneratorTrigger_DynamicLinqTypeLocator_LiquidBuilder_GeneratesClass.CodeGen.json";
-            public const string MFFXMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS_GENERATE = 
+            public const string MFFXmlGeneratorTriggerAttributeTypeLocatorScribanBuilderGeneratesClassGenerate = 
                 "MFFXmlGeneratorTrigger_AttributeTypeLocator_ScribanBuilder_GeneratesClass.codegen.xml";
-            public const string MFFYAMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS_GENERATE = 
+            public const string MFFYamlGeneratorTriggerAttributeTypeLocatorLiquidBuilderGeneratesClassGenerate = 
                 "MFFYamlGeneratorTrigger_AttributeTypeLocator_LiquidBuilder_GeneratesClass.codegen.yAml";
         }
 
         public static class GeneratedCode
         {
-            public const string MFFATTRIBUTEGENERATORTRIGGER_INCLUDEDTYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS = 
+            public const string MFFAttributeGeneratorTriggerIncludedTypeLocatorScribanBuilderGeneratesClass = 
                 "MFFAttributeGeneratorTrigger_IncludedTypeLocator_ScribanBuilder_GeneratesClass_Code_Generated.cs";
-            public const string MFFATTRIBUTEGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS = 
+            public const string MFFAttributeGeneratorTriggerAttributeTypeLocatorScribanBuilderGeneratesClass = 
                 "MFFAttributeGeneratorTrigger_AttributeTypeLocator_ScribanBuilder_GeneratesClass_Source_Generated.cs";
-            public const string MFFJSONGENERATORTRIGGER_DYNAMICLINQTYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS = 
+            public const string MFFJsonGeneratorTriggerDynamicLinqTypeLocatorLiquidBuilderGeneratesClass = 
                 "MFFJsonGeneratorTrigger_DynamicLinqTypeLocator_LiquidBuilder_GeneratesClass_Source_Generated.cs";
-            public const string MFFXMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS = 
+            public const string MFFXmlGeneratorTriggerAttributeTypeLocatorScribanBuilderGeneratesClass = 
                 "MFFXmlGeneratorTrigger_AttributeTypeLocator_ScribanBuilder_GeneratesClass_Source_Generated.cs";
-            public const string MFFYAMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS = 
+            public const string MFFYamlGeneratorTriggerAttributeTypeLocatorLiquidBuilderGeneratesClass = 
                 "MFFYamlGeneratorTrigger_AttributeTypeLocator_LiquidBuilder_GeneratesClass_Source_Generated.cs";
-            public const string RESOURCELOADER_LOADSINCLUDEDRESOURCES = "ResourceLoader_LoadsIncludedResources_Generated.cs";
-            public const string RESOURCELOADER_LOADSEMBEDDEDRESOURCES = "ResourceLoader_LoadsEmbeddedResources_Generated.cs";
-            public const string CREATE_GENERATOR_CONSTANTS = "MFFGeneratorConstants.g.cs";
+            public const string ResourceLoaderLoadsIncludedResources = "ResourceLoader_LoadsIncludedResources_Generated.cs";
+            public const string ResourceLoaderLoadsEmbeddedResources = "ResourceLoader_LoadsEmbeddedResources_Generated.cs";
+            public const string CreateGeneratorConstants = "MFFGeneratorConstants.g.cs";
 
         }
 
         public static class OutputFileName
         {
-            public const string MFFATTRIBUTEGENERATORTRIGGER_INCLUDEDTYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS = 
+            public const string MFFAttributeGeneratorTriggerIncludedTypeLocatorScribanBuilderGeneratesClass = 
                 "MFFAttributeGeneratorTrigger_IncludedTypeLocator_ScribanBuilder_GeneratesClass_Code_Generated.g.cs";
 
-            public const string MFFATTRIBUTEGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS = 
+            public const string MFFAttributeGeneratorTriggerAttributeTypeLocatorScribanBuilderGeneratesClass = 
                 "MFFAttributeGeneratorTrigger_AttributeTypeLocator_ScribanBuilder_GeneratesClass_Source_Generated.g.cs";
 
-            public const string MFFJSONGENERATORTRIGGER_DYNAMICLINQTYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS = 
+            public const string MFFJsonGeneratorTriggerDynamicLinqTypeLocatorLiquidBuilderGeneratesClass = 
                 "MFFJsonGeneratorTrigger_DynamicLinqTypeLocator_LiquidBuilder_GeneratesClass_Source_Generated.g.cs";
 
-            public const string MFFXMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_SCRIBANBUILDER_GENERATESCLASS = 
+            public const string MFFXmlGeneratorTriggerAttributeTypeLocatorScribanBuilderGeneratesClass = 
                 "MFFXmlGeneratorTrigger_AttributeTypeLocator_ScribanBuilder_GeneratesClass_Source_Generated.g.cs";
 
-            public const string MFFYAMLGENERATORTRIGGER_ATTRIBUTETYPELOCATOR_LIQUIDBUILDER_GENERATESCLASS = 
+            public const string MFFYamlGeneratorTriggerAttributeTypeLocatorLiquidBuilderGeneratesClass = 
                 "MFFYamlGeneratorTrigger_AttributeTypeLocator_LiquidBuilder_GeneratesClass_Source_Generated.g.cs";
 
-            public const string RESOURCELOADER_LOADSINCLUDEDRESOURCES = "ResourceLoader_LoadsIncludedResources_Generated.g.cs";
+            public const string ResourceLoaderLoadsIncludedResources = "ResourceLoader_LoadsIncludedResources_Generated.g.cs";
 
-            public const string RESOURCELOADER_LOADSEMBEDDEDRESOURCES = "ResourceLoader_LoadsEmbeddedResources_Generated.g.cs";
+            public const string ResourceLoaderLoadsEmbeddedResources = "ResourceLoader_LoadsEmbeddedResources_Generated.g.cs";
 
-            public const string CREATE_GENERATOR_CONSTANTS = "MFFGeneratorConstants.g.cs";
+            public const string CreateGeneratorConstants = "MFFGeneratorConstants.g.cs";
         }
 
     }

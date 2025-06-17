@@ -2,12 +2,9 @@
 // Copyright 2025, MavFi Foundation and the MavFiFoundation.SourceGenerators contributors
 
 using System.Collections.Immutable;
-
 using MavFiFoundation.SourceGenerators.GeneratorTriggers;
 using MavFiFoundation.SourceGenerators.Models;
-
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace MavFiFoundation.SourceGenerators;
 
@@ -85,6 +82,15 @@ public class MFFGeneratorPluginBase : IMFFGeneratorPlugin
         }
     }
 
+    /// Adds a <see cref="MFFCodeAction"/> to the specified collection of code actions.
+    /// </summary>
+    /// <param name="codeActions">
+    /// A reference to the collection of <see cref="MFFCodeAction"/> instances to which the new action will be added.
+    /// If <c>null</c>, a new collection will be created containing the specified <paramref name="codeAction"/>.
+    /// </param>
+    /// <param name="codeAction">
+    /// The <see cref="MFFCodeAction"/> to add to the collection.
+    /// </param>
     protected void AddCodeAction(ref IEnumerable<MFFCodeAction>? codeActions, MFFCodeAction codeAction)
     {
         if (codeActions is null)
@@ -97,6 +103,15 @@ public class MFFGeneratorPluginBase : IMFFGeneratorPlugin
         }
     }
 
+    /// Adds the specified code actions to the existing collection of code actions.
+    /// </summary>
+    /// <param name="codeActions">
+    /// A reference to the current collection of <see cref="MFFCodeAction"/> objects. 
+    /// If <c>null</c>, it will be set to <paramref name="codeActions2Add"/>.
+    /// </param>
+    /// <param name="codeActions2Add">
+    /// The collection of <see cref="MFFCodeAction"/> objects to add to <paramref name="codeActions"/>.
+    /// </param>
     protected void AddCodeActions(ref IEnumerable<MFFCodeAction>? codeActions, IEnumerable<MFFCodeAction> codeActions2Add)
     {
         if (codeActions is null)

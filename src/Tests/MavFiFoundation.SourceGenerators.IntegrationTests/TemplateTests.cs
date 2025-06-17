@@ -17,7 +17,7 @@ public class TemplateTests
 
 
     [Theory] 
-    [InlineData(Constants.SourceFiles.AdditionalFile.TEST_TEMPLATE)]  
+    [InlineData(Constants.SourceFiles.AdditionalFile.TestTemplate)]  
     public static async Task Parse_EmbeddedTestTemplate_ReturnsWithHasErrorsFalse(string templateName)
     {
         // Arrange
@@ -29,7 +29,7 @@ public class TemplateTests
     }
 
     [Theory] 
-    [InlineData(MFFGeneratorConstants.Generator.CREATE_GENERATOR_CONSTANTS_TEMPLATE_NAME)]  
+    [InlineData(MFFGeneratorConstants.Generator.CreateGeneratorConstantsTemplateName)]  
     public static async Task Parse_EmbeddedGeneratorTemplate_ReturnsWithHasErrorsFalse(string templateName)
     {
         // Arrange

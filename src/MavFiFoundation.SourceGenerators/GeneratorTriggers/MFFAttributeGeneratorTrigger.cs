@@ -63,36 +63,36 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
     #region Constants
     #region Class Constants
     /// <summary>
-    /// Default name used to identify the generator
+    /// Default name used to identify the generator plugin.
     /// </summary>
-    public const string DEFAULT_NAME = nameof(MFFAttributeGeneratorTrigger);
+    public const string DefaultName = nameof(MFFAttributeGeneratorTrigger);
 
     /// <summary>
     /// Default attribute name used to locate triggering types and store generator
     /// configuration information.
     /// </summary>
-    public const string DEFAULT_ATTRIBUTE_NAME = "MavFiFoundation.SourceGenerators.MFFGenerateSourceAttribute";
+    public const string DefaultAttributeName = "MavFiFoundation.SourceGenerators.MFFGenerateSourceAttribute";
 
 
     /// <summary>
     /// Attribute constructor property name for srcLocatorType property
     /// </summary>
-    protected const string CTOR_ARG_SRCLOCATORTYPE = "srcLocatorType";
+    protected const string CtorArgSrcLocatorType = "srcLocatorType";
 
     /// <summary>
     /// Attribute constructor property name for srcLocatorInfo property
     /// </summary>
-    protected const string CTOR_ARG_SRCLOCATORINFO = "srcLocatorInfo";
+    protected const string CtorArgSrcLocatorInfo = "srcLocatorInfo";
 
     /// <summary>
     /// Attribute constructor property name for useSymbolForLocatorInfo property.
     /// </summary>
-    protected const string CTOR_ARG_USESYMBOLFORLOCATORINFO = "useSymbolForLocatorInfo";
+    protected const string CtorArgUseSymbolForLocatorInfo = "useSymbolForLocatorInfo";
 
     /// <summary>
     /// Attribute constructor property name for outputInfo property
     /// </summary>
-    protected const string CTOR_ARG_OUTPUTINFO = "outputInfo";
+    protected const string CtorArgOutputInfo = "outputInfo";
 
     #endregion
     #region Diagnostic Constants
@@ -185,8 +185,8 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
         IMFFGeneratorPluginsProvider pluginsProvider,
         IMFFSerializer serializer)
         : this(
-            DEFAULT_NAME,
-            DEFAULT_ATTRIBUTE_NAME,
+            DefaultName,
+            DefaultAttributeName,
             pluginsProvider,
             serializer)
     {
@@ -254,7 +254,7 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
                 .CreateBuilder<MFFGeneratorInfoRecord?>();
 
         var selfSource = allTypes
-            .Where(s => s.Source == MFFGeneratorConstants.Generator.COMPILING_PROJECT)
+            .Where(s => s.Source == MFFGeneratorConstants.Generator.CompilingProject)
             .FirstOrDefault();
 
         if (selfSource is not null)
@@ -279,6 +279,20 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
 
     }
 
+    /// Extracts generator information from a specific attribute applied to the given type symbol.
+    /// </summary>
+    /// <param name="srcType">
+    /// The <see cref="MFFTypeSymbolRecord"/> representing the source type from which to extract attribute information.
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A <see cref="CancellationToken"/> to observe while performing the operation.
+    /// </param>
+    /// <returns>
+    /// An instance of <see cref="MFFGeneratorInfoModel"/> populated with information from the attribute.
+    /// </returns>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown if the expected attribute is not found on the source type.
+    /// </exception>
     protected MFFGeneratorInfoModel GetGeneratorInfoFromAttribute(
         MFFTypeSymbolRecord srcType,
         CancellationToken cancellationToken)
@@ -296,20 +310,20 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
 
             switch (attProp.Name)
             {
-                case CTOR_ARG_SRCLOCATORTYPE:
+                case CtorArgSrcLocatorType:
                     sourceInfo.SrcLocatorType = (string?)attProp.Value;
                     break;
-                case CTOR_ARG_SRCLOCATORINFO:
+                case CtorArgSrcLocatorInfo:
                     sourceInfo.SrcLocatorInfo = (string?)attProp.Value;
                     break;
-                case CTOR_ARG_USESYMBOLFORLOCATORINFO:
+                case CtorArgUseSymbolForLocatorInfo:
                     var useSymbol = attProp.Value == null ? false : (bool)attProp.Value;
                     if (useSymbol)
                     {
                         sourceInfo.SrcLocatorInfo = srcType;
                     }
                     break;
-                case CTOR_ARG_OUTPUTINFO:
+                case CtorArgOutputInfo:
                     var outputInfo = (string?)attProp.Value;
                     if (outputInfo is not null)
                     {
@@ -332,6 +346,7 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
         supportedDiagnoticsBuilder.Add(NoOutputsRule);
     }
 
+    /// <inheritdoc/>
     public override void AddFixableDiagnosticIds(ImmutableArray<string>.Builder fixableDiagnosticIdsBuilder)
     {
         base.AddFixableDiagnosticIds(fixableDiagnosticIdsBuilder);
@@ -381,7 +396,7 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
                     !PluginsProvider.TypeLocators.ContainsKey(genInfo.SrcLocatorType))
                 {
                     var srcLocatorTypeParam = att.AttributeConstructor?.Parameters
-                        .Where(p => p.Name == CTOR_ARG_SRCLOCATORTYPE)
+                        .Where(p => p.Name == CtorArgSrcLocatorType)
                         .FirstOrDefault();
 
                     if (srcLocatorTypeParam is not null)

@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright 2025, MavFi Foundation and the MavFiFoundation.SourceGenerators contributors
+
 using MavFiFoundation.SourceGenerators.GeneratorTriggers;
 using MavFiFoundation.SourceGenerators.Models;
 using MavFiFoundation.SourceGenerators.ResourceLoaders;
@@ -9,11 +12,11 @@ namespace MavFiFoundation.SourceGenerators.UnitTests.GeneratorTriggers;
 
 public class MFFFileGeneratorTriggerBaseTestClass : MFFFileGeneratorTriggerBase
 {
-    public const string TEST_NAME = "TestFileGenerator";
-    public const string TEST_FILE_NAME_SUFFIX = ".CodeGen.test";
+    public const string TestName = "TestFileGenerator";
+    public const string TestFileNameSuffix = ".CodeGen.test";
 
     public MFFFileGeneratorTriggerBaseTestClass(IMFFSerializer serializer)
-        : base(TEST_NAME, TEST_FILE_NAME_SUFFIX, serializer)
+        : base(TestName, TestFileNameSuffix, serializer)
     {
 
     }
