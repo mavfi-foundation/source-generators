@@ -18,10 +18,10 @@ public class MFFGeneratorHelper : MFFGeneratorHelperBase, IMFFGeneratorHelper
         IMFFGeneratorPluginsProvider pluginsProvider)
     {
         var constantsTemplate = ReadEmbeddedTemplate(
-            MFFGeneratorConstants.Generator.CREATE_GENERATOR_CONSTANTS_TEMPLATE_NAME);
+            MFFGeneratorConstants.Generator.CreateGeneratorConstantsTemplateName);
 
         var pipeline = initContext.SyntaxProvider.ForAttributeWithMetadataName(
-            fullyQualifiedMetadataName: MFFGeneratorConstants.Generator.CREATE_GENERATOR_CONSTANTS_ATTRIBUTE_NAME,
+            fullyQualifiedMetadataName: MFFGeneratorConstants.Generator.CreateGeneratorConstantsAttributeName,
             predicate: static (syntaxNode, cancellationToken) => syntaxNode is TypeDeclarationSyntax,
             transform: (context, cancellationToken) =>
             {
@@ -52,15 +52,15 @@ public class MFFGeneratorHelper : MFFGeneratorHelperBase, IMFFGeneratorHelper
 
                     var sourceInfo = new MFFGeneratorInfoModel(){
                         ContainingNamespace = symbol.ContainingNamespace.ToString(),
-                        SrcLocatorType = MFFIncludedTypeLocator.DEFAULT_NAME,
+                        SrcLocatorType = MFFIncludedTypeLocator.DefaultName,
                         SrcLocatorInfo = namedTypeSymbol.GetTypeSymbolRecord(),
                         SrcOutputInfos = [ 
                             new MFFBuilderModel() 
                             {
-                                SourceBuilderType = MFFScribanBuilder.DEFAULT_NAME,
+                                SourceBuilderType = MFFScribanBuilder.DefaultName,
                                 SourceBuilderInfo = constantsTemplate,
                                 AdditionalOutputInfos = additionalBuilderInfo,
-                                FileNameBuilderInfo = MFFGeneratorConstants.Generator.CREATE_GENERATOR_CONSTANTS_OUTPUT_NAME
+                                FileNameBuilderInfo = MFFGeneratorConstants.Generator.CreateGeneratorConstantsOutputName
                             }
                         ]
                     };

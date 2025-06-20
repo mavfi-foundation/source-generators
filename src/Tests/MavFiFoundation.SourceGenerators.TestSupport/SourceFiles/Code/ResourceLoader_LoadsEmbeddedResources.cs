@@ -6,14 +6,14 @@ using MavFiFoundation.SourceGenerators.TestSupport;
 
 namespace TestSpace
 {
-	[MFFGenerateSource(MFFIncludedTypeLocator.DEFAULT_NAME,
+	[MFFGenerateSource(MFFIncludedTypeLocator.DefaultName,
 """
 [
 	{
 		"FileNameBuilderInfo": "{{ srcType.Name }}_Generated.g.cs", 
 """ +
-$"\n		\"SourceBuilderType\": \"{ MFFScribanBuilder.DEFAULT_NAME }\",\n" +
-$"  		\"SourceBuilderInfo\": \"{ MFFResourceLoader.DEFAULT_LOADER_PREFIX + Constants.SourceFiles.Code.TEST_EMBEDDED_RESOURCE_CLASS}\" \n" +
+$"\n		\"SourceBuilderType\": \"{ MFFScribanBuilder.DefaultName }\",\n" +
+$"  		\"SourceBuilderInfo\": \"{ MFFResourceLoader.DefaultLoaderPrefix + Constants.SourceFiles.Code.TestEmbeddedResourceClass}\" \n" +
 """
 	}
 ]

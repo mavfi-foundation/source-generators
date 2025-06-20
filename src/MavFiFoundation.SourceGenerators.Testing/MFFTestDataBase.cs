@@ -43,6 +43,6 @@ public abstract class MFFTestDataBase
     /// <returns>A string containing the scenario name or description.</returns>
     public override string ToString()
     {
-        return $"\"{Scenario}\"";
+        return $"{Scenario}";
     }
 }

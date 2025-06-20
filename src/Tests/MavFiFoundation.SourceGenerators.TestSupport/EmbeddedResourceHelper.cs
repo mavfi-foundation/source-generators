@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright 2025, MavFi Foundation and the MavFiFoundation.SourceGenerators contributors
+
 using System.Reflection;
 using System.Text;
 
@@ -5,7 +8,7 @@ namespace MavFiFoundation.SourceGenerators.TestSupport;
 
 public static class EmbeddedResourceHelper
 {
-	public const string EMBEDDED_SOURCE_FOLDER_NAME = "SourceFiles";
+	public const string EmbeddedSourceFolderName = "SourceFiles";
 
 	public enum EmbeddedResourceType
 	{
@@ -40,13 +43,13 @@ public static class EmbeddedResourceHelper
 
 	public static async Task<string> ReadEmbeddedSourceAsync(string name, EmbeddedResourceType resType)
 	{		
-		var resName = $"{EMBEDDED_SOURCE_FOLDER_NAME}.{resType.ToString()}.{name}";
+		var resName = $"{EmbeddedSourceFolderName}.{resType.ToString()}.{name}";
 		return await ReadEmbeddedSourceAsync(resName);
 	}
 
 	public static string ReadEmbeddedSource(string name, EmbeddedResourceType resType)
 	{		
-		var resName = $"{EMBEDDED_SOURCE_FOLDER_NAME}.{resType.ToString()}.{name}";
+		var resName = $"{EmbeddedSourceFolderName}.{resType.ToString()}.{name}";
 		return ReadEmbeddedSource(resName);
 	}
 

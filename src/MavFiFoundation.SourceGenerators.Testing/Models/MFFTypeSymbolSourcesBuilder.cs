@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright 2025, MavFi Foundation and the MavFiFoundation.SourceGenerators contributors
+
 using System.Collections.Immutable;
 using MavFiFoundation.SourceGenerators.Models;
 
@@ -7,7 +10,7 @@ public class MFFTypeSymbolSourcesBuilder
 {
     #region Constants
 
-    public const string DefaultSource = MFFGeneratorConstants.Generator.COMPILING_PROJECT;
+    public const string DefaultSource = MFFGeneratorConstants.Generator.CompilingProject;
 
     #endregion
 

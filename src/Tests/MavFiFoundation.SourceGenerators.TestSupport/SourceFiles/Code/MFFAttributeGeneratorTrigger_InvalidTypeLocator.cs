@@ -10,7 +10,7 @@ namespace TestSpace
 	{
 		"FileNameBuilderInfo": "{{ srcType.Name }}_Generated.g.cs", 
 """ +
-$"\n		\"SourceBuilderType\": \"{ MFFScribanBuilder.DEFAULT_NAME }\",\n" +
+$"\n		\"SourceBuilderType\": \"{ MFFScribanBuilder.DefaultName }\",\n" +
 """
 		"SourceBuilderInfo": "#nullable enable\n\n
 """ +

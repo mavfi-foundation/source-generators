@@ -83,6 +83,7 @@ public abstract class MFFGeneratorTriggerBase : MFFGeneratorPluginBase
     }
 
 
+    /// <summary>
     /// Generates and adds code actions for existing type locators, either as constants or string literals,
     /// based on the provided <paramref name="PluginsProvider"/>.
     /// </summary>

@@ -23,13 +23,13 @@ public interface IMFFGeneratorPlugin
     /// <summary>
     /// Adds the supported diagnotics used by analyzer implementations.
     /// </summary>
-    /// <param name="supportedDiagnoticsBuilder">The <see cref="ImmutableArray<DiagnosticDescriptor>.Builder"/>  to add supported diagnostics to.</param>
+    /// <param name="supportedDiagnoticsBuilder">The <see cref="ImmutableArray{DiagnosticDescriptor}.Builder"/>  to add supported diagnostics to.</param>
     void AddSupportedAnalyzerDiagnostics(ImmutableArray<DiagnosticDescriptor>.Builder supportedDiagnoticsBuilder);
 
     /// <summary>
     /// Adds the supported code fix diagnotic ids used by code fix implementations.
     /// </summary>
-    /// <param name="fixableDiagnosticIdsBuilder">The <see cref="ImmutableArray<string>.Builder"/>  to add supported code fix diagnostics ids to.</param>
+    /// <param name="fixableDiagnosticIdsBuilder">The <see cref="ImmutableArray{string}.Builder"/>  to add supported code fix diagnostics ids to.</param>
     void AddFixableDiagnosticIds(ImmutableArray<string>.Builder fixableDiagnosticIdsBuilder);
 
     /// <summary>
@@ -39,7 +39,7 @@ public interface IMFFGeneratorPlugin
     /// <param name="source">The <see cref="ISymbol"/> or <see cref="AdditionalText"/> to be validated.</param>
     /// <param name="genInfo">The generator configuration to validate.</param>
     /// <param name="generatorTrigger">The generator trigger that created <paramref name="genInfo"/>.</param>
-    /// <returns><see cref="IEnumerable<Diagnostic>"/> with failed validation or null when no validations failed. </returns>
+    /// <returns><see cref="IEnumerable{Diagnostic}"/> with failed validation or null when no validations failed. </returns>
     IEnumerable<Diagnostic>? Validate(MFFAnalysisContext context,
         object source,
         MFFGeneratorInfoModel genInfo,

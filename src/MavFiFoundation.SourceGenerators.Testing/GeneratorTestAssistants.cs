@@ -36,7 +36,8 @@ public static class GeneratorTestAssistants
     }
 
     /// <inheritdoc cref="GeneratorTestAssistants.RunAsync{T}(IEnumerable{string}, IEnumerable{ValueTuple{Type, string, string}}, IEnumerable{ValueTuple{string, string}}?, IEnumerable{Assembly}?, IEnumerable{DiagnosticResult}?)" />
-    /// <inheritdoc cref="GeneratorTestAssistants.RunAsync{T}(string, ValueTuple{Type, string, string}, IEnumerable{ValueTuple{string, string}}?, IEnumerable{Assembly}?, IEnumerable{DiagnosticResult}?)" />
+    /// <inheritdoc cref="GeneratorTestAssistants.RunAsync{T}(string, ValueTuple{Type, string, string}, IEnumerable{ValueTuple{string, string}}?, IEnumerable{Assembly}?, IEnumerable{DiagnosticResult}?)" 
+    ///     path="/param[@name='code']" />
 	public static async Task RunAsync<T>(string code,
         IEnumerable<(Type, string, string)> generatedSources,
         IEnumerable<(string, string)>? additionalFiles = null,
@@ -48,7 +49,8 @@ public static class GeneratorTestAssistants
     }
 
     /// <inheritdoc cref="GeneratorTestAssistants.RunAsync{T}(IEnumerable{string}, IEnumerable{ValueTuple{Type, string, string}}, IEnumerable{ValueTuple{string, string}}?, IEnumerable{Assembly}?, IEnumerable{DiagnosticResult}?)" />
-    /// <inheritdoc cref="GeneratorTestAssistants.RunAsync{T}(string, ValueTuple{Type, string, string}, IEnumerable{ValueTuple{string, string}}?, IEnumerable{Assembly}?, IEnumerable{DiagnosticResult}?)" />
+    /// <inheritdoc cref="GeneratorTestAssistants.RunAsync{T}(string, ValueTuple{Type, string, string}, IEnumerable{ValueTuple{string, string}}?, IEnumerable{Assembly}?, IEnumerable{DiagnosticResult}?)"
+    ///     path="/param[@name='generatedSource']" />
     public static async Task RunAsync<T>(IEnumerable<string> sources,
         (Type, string, string) generatedSource,
         IEnumerable<(string, string)>? additionalFiles = null,
@@ -68,7 +70,7 @@ public static class GeneratorTestAssistants
     /// <param name="sources">
     /// The collection of input source code strings to be provided to the generator.
     /// </param>
-    /// <param name="generatedSource">
+    /// <param name="generatedSources">
     /// The collection of tuple containing the type, file name, and source code of the expected generated sources.
     /// </param>
     /// <param name="additionalFiles">

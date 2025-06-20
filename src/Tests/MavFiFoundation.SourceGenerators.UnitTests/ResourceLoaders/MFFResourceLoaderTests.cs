@@ -34,7 +34,7 @@ public class MFFResourceLoaderTests
         var resourceText = "Test Text";
         var resourceName = "Test\\File.cs";
         var resourcePath = "C:/Test/File.cs";
-        object? resourceInfo = $"{ MFFResourceLoader.DEFAULT_LOADER_PREFIX }{resourceName}";
+        object? resourceInfo = $"{ MFFResourceLoader.DefaultLoaderPrefix }{resourceName}";
 
         var allResources = new []{
             new MFFResourceRecordBuilder()
@@ -61,7 +61,7 @@ public class MFFResourceLoaderTests
         var resourceText = "Test Text";
         var resourceName = "Test/File.cs";
         var resourcePath = "C:/Test/File.cs";
-        object? resourceInfo = $"{ MFFResourceLoader.DEFAULT_LOADER_PREFIX }{resourceName}";
+        object? resourceInfo = $"{ MFFResourceLoader.DefaultLoaderPrefix }{resourceName}";
 
         var allResources = new []{
             new MFFResourceRecordBuilder()
@@ -88,7 +88,7 @@ public class MFFResourceLoaderTests
         var resourceText = "Test Text";
         var resourceName = "test/file.cs";
         var resourcePath = "C:/Test/File.cs";
-        object? resourceInfo = $"{ MFFResourceLoader.DEFAULT_LOADER_PREFIX }{resourceName}";
+        object? resourceInfo = $"{ MFFResourceLoader.DefaultLoaderPrefix }{resourceName}";
 
         var allResources = new []{
             new MFFResourceRecordBuilder()
@@ -114,7 +114,7 @@ public class MFFResourceLoaderTests
         var resourceText = "Test Text";
         var resourceName = "TestNameSpace.TestClass";
         var resourcePath = "ProjectNamespace.TestNameSpace.TestClass";
-        object? resourceInfo = $"{ MFFResourceLoader.DEFAULT_LOADER_PREFIX }{resourceName}";
+        object? resourceInfo = $"{ MFFResourceLoader.DefaultLoaderPrefix }{resourceName}";
  
         var allResources = new []{
             new MFFResourceRecordBuilder()
@@ -165,7 +165,7 @@ public class MFFResourceLoaderTests
     public void TryLoadResource_UnmatchedResourceWithResourceLoaderPrefix_ThrowsResourceNotFoundException ()
     {
         //Arrange
-        object? resourceInfo = $"{ MFFResourceLoader.DEFAULT_LOADER_PREFIX }Some.Class.Name";
+        object? resourceInfo = $"{ MFFResourceLoader.DefaultLoaderPrefix }Some.Class.Name";
         var origResourceInfo = resourceInfo;
 
         var allResources = Array.Empty<MFFResourceRecord>().ToImmutableArray();

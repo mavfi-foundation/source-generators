@@ -64,7 +64,7 @@ public abstract class MFFLinqTypeLocatorBase<TLocatorInfo> : MFFGeneratorPluginB
                 else
                 {
                     sources2Check = [.. locatorInfo.Assemblies2Search,
-                            MFFGeneratorConstants.Generator.COMPILING_PROJECT];
+                            MFFGeneratorConstants.Generator.CompilingProject];
                 }
 
                 foreach (var source in sources.Where(s => sources2Check.Contains(s.Source)))

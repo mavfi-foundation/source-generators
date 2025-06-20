@@ -4,14 +4,14 @@ using MavFiFoundation.SourceGenerators.TypeLocators;
 
 namespace TestSpace
 {
-	[MFFGenerateSource(MFFAttributeTypeLocator.DEFAULT_NAME,
+	[MFFGenerateSource(MFFAttributeTypeLocator.DefaultName,
 	"TestSpace.MFFAttributeGeneratorTrigger_AttributeTypeLocator_ScribanBuilder_GeneratesClass_AttributeAttribute",
 """
 [
 	{
 		"FileNameBuilderInfo": "{{ srcType.Name }}_Generated.g.cs", 
 """ +
-$"\n		\"SourceBuilderType\": \"{ MFFScribanBuilder.DEFAULT_NAME }\",\n" +
+$"\n		\"SourceBuilderType\": \"{ MFFScribanBuilder.DefaultName }\",\n" +
 """
 		"SourceBuilderInfo": "#nullable enable\n\n
 """ +
