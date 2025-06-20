@@ -41,6 +41,7 @@ public class MFFResourceLoader : MFFGeneratorPluginBase, IMFFResourceLoader
         Prefix = prefix;
     }
 
+    /// <summary>
     /// Attempts to load a resource based on the provided <paramref name="objResourceInfo"/>.
     /// If <paramref name="objResourceInfo"/> is a string that starts with the expected prefix,
     /// it will search for a matching resource in <paramref name="allResources"/>.

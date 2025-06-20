@@ -1,4 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks></TargetFrameworks> <!-- Clear TargetFrameworks from Directory.Build.props -->
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp">
       <NoWarn>NU1608</NoWarn>

@@ -279,6 +279,7 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
 
     }
 
+    /// <summary>
     /// Extracts generator information from a specific attribute applied to the given type symbol.
     /// </summary>
     /// <param name="srcType">

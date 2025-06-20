@@ -4,10 +4,11 @@ using Microsoft.CodeAnalysis.Text;
 using System.Text;
 using MavFiFoundation.SourceGenerators.Models;
 using MavFiFoundation.SourceGenerators.Builders;
+
 namespace MavFiFoundation.SourceGenerators;
 
 /// <summary>
-/// Extendable abstract <see cref="DiagnosticAnalyzer"/> class.
+/// Extendable abstract <see cref="IIncrementalGenerator"/> base class.
 /// </summary>
 public abstract class MFFGeneratorBase : IIncrementalGenerator
 {

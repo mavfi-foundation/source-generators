@@ -8,6 +8,7 @@
     <IsRoslynComponent>true</IsRoslynComponent>
     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
     <Description>Flexible template based Roslyn IncrementalGenerators</Description>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -34,11 +35,6 @@
     <None Include="$(PkgSystem_Linq_Dynamic_Core)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     <None Include="$(PkgScriban)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     <None Include="$(PkgYamlDotNet)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-
-    <!-- Suppress NU5128-->
-    <None Include="_._" Pack="true" PackagePath="lib/netstandard2.0" Visible="false" />
-
-    <!--<None Include="README.md" Pack="true" PackagePath="docs/"/>-->
   </ItemGroup>
 
   <PropertyGroup>

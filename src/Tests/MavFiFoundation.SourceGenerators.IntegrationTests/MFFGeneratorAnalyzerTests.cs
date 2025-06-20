@@ -3,7 +3,10 @@
 
 using MavFiFoundation.SourceGenerators.Testing;
 using MavFiFoundation.SourceGenerators.TestSupport;
+
 using System.Reflection;
+
+using Xunit.Sdk;
 
 namespace MavFiFoundation.SourceGenerators.IntegrationTests;
 
@@ -14,6 +17,14 @@ public class MFFGeneratorAnalyzerTests
     public async Task GenerateSources_AddsExpectedDiagnostic(
         MFFAnalyzerTestData scenario)
     {
+#if NET481
+        if (Helpers.ShouldSkipOnUnSupportedPlatforms())
+        {
+            Console.WriteLine($"\tWarning: Skipping test on Mono. test: {nameof(MFFGeneratorAnalyzerTests)}.{nameof(MFFGeneratorAnalyzerTests.GenerateSources_AddsExpectedDiagnostic)}.{scenario}");
+        }
+        else
+        {
+#endif
         var additionalReferences = new Assembly[]{
                 typeof(MFFGeneratorAnalyzerBase).Assembly,
                 typeof(MFFGenerateSourceAttribute).Assembly,
@@ -30,5 +41,9 @@ public class MFFGeneratorAnalyzerTests
                 scenario.ExpectedDiagnostics,
                 scenario.AdditionalFiles,
                 additionalReferences).ConfigureAwait(true);
+#if NET481
+        }
+#endif
+
     }
 }

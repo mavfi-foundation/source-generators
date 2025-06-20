@@ -24,6 +24,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Scriban" />
+    <PackageReference Include="System.ValueTuple" />
   </ItemGroup>
 
   <ItemGroup>

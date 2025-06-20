@@ -65,8 +65,8 @@ public class MFFGeneratorPluginBase : IMFFGeneratorPlugin
     }
 
     /// <summary>
-    /// Appends a <see cref="Diagnostic"/> to an existing <see cref="IEnumerable<Diagnostic>"/> 
-    /// or creates a new <see cref="IEnumerable<Diagnostic>" with the provided dianostic.
+    /// Appends a <see cref="Diagnostic"/> to an existing <see cref="IEnumerable{Diagnostic}"/> 
+    /// or creates a new <see cref="IEnumerable{Diagnostic}"/> with the provided dianostic.
     /// </summary>
     /// <param name="diagnostics">The diagnostics to append to.</param>
     /// <param name="diagnostic">The diagnostic to be added.</param>
@@ -82,6 +82,7 @@ public class MFFGeneratorPluginBase : IMFFGeneratorPlugin
         }
     }
 
+    /// <summary>
     /// Adds a <see cref="MFFCodeAction"/> to the specified collection of code actions.
     /// </summary>
     /// <param name="codeActions">
@@ -103,6 +104,7 @@ public class MFFGeneratorPluginBase : IMFFGeneratorPlugin
         }
     }
 
+    /// <summary>
     /// Adds the specified code actions to the existing collection of code actions.
     /// </summary>
     /// <param name="codeActions">

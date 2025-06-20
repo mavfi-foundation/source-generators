@@ -11,8 +11,22 @@ namespace MavFiFoundation.SourceGenerators.Testing;
 
 public static class TestDataExtensions
 {
-#if NETSTANDARD2_0
-   public static DiagnosticSeverity ParseDiagnosticSeverity(string? value)
+    private static bool IsNotMono {
+        get {
+                if (!(Environment.Version.Major == 4 &&
+                    (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX)
+                ))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+    public static DiagnosticSeverity ParseDiagnosticSeverity(string? value)
     {
         if (string.IsNullOrEmpty(value))
         {
@@ -35,7 +49,6 @@ public static class TestDataExtensions
             }
         }
     }
-#endif
 
     public static void DeserializeTestData(
         this MFFTestDataBase self,
@@ -44,59 +57,59 @@ public static class TestDataExtensions
         self.Scenario = info.GetValue<string>(nameof(MFFTestDataBase.Scenario));
         self.Sources = info.GetValue<IEnumerable<string>>(nameof(MFFTestDataBase.Sources));
 
-        self.ExpectedDiagnostics = info.GetValue<object?[][]>(nameof(MFFTestDataBase.ExpectedDiagnostics))
-            .Select(ed =>
-            {
-                if (ed is not null && ed.Length > 3)
+        if (IsNotMono)
+        {
+            self.ExpectedDiagnostics = info.GetValue<object?[][]>(nameof(MFFTestDataBase.ExpectedDiagnostics))
+                .Select(ed =>
                 {
-                    var diagnosticId = ed[0]?.ToString() ?? throw new NullReferenceException("ed[0] 'DiagnosticId'");
-                    var diagnosticSeverityString = ed[1]?.ToString() ?? throw new NullReferenceException("ed[1] 'DiagnosticSeverity'");
-
-                    var diagnosticResult = new DiagnosticResult(
-                        diagnosticId,
-#if NETSTANDARD2_0
-                        ParseDiagnosticSeverity(diagnosticSeverityString));
-#else
-                        Enum.Parse<DiagnosticSeverity>(diagnosticSeverityString));
-#endif
-                    if (ed[2] is not null)
+                    if (ed is not null && ed.Length > 3)
                     {
-                        diagnosticResult = diagnosticResult.WithMessage(ed[2]!.ToString());
-                    }
+                        var diagnosticId = ed[0]?.ToString() ?? throw new NullReferenceException("ed[0] 'DiagnosticId'");
+                        var diagnosticSeverityString = ed[1]?.ToString() ?? throw new NullReferenceException("ed[1] 'DiagnosticSeverity'");
 
-                    if (ed[3] is not null)
-                    {
-                        var spans = (ed[3] as object[]) ?? throw new NullReferenceException("ed[3] 'Spans'");
-                        foreach (var span in spans)
+                        var diagnosticResult = new DiagnosticResult(
+                            diagnosticId,
+                            ParseDiagnosticSeverity(diagnosticSeverityString));
+                        if (ed[2] is not null)
                         {
-                            var parts = span?.ToString()?.Split(',');
-                            if (parts is not null && parts.Length > 4)
+                            diagnosticResult = diagnosticResult.WithMessage(ed[2]!.ToString());
+                        }
+
+                        if (ed[3] is not null)
+                        {
+                            var spans = (ed[3] as object[]) ?? throw new NullReferenceException("ed[3] 'Spans'");
+                            foreach (var span in spans)
                             {
-                                diagnosticResult = diagnosticResult.WithSpan(
-                                    parts[0],
-                                    int.Parse(parts[1]),
-                                    int.Parse(parts[2]),
-                                    int.Parse(parts[3]),
-                                    int.Parse(parts[4]));
-                            }
-                            else
-                            {
-                                throw new Exception($"Unable to deserialize Spans. 'parts is null': {parts is null}, parts.Length: {(parts is null ? 0 : parts.Length)}");
+                                var parts = span?.ToString()?.Split(',');
+                                if (parts is not null && parts.Length > 4)
+                                {
+                                    diagnosticResult = diagnosticResult.WithSpan(
+                                        parts[0],
+                                        int.Parse(parts[1]),
+                                        int.Parse(parts[2]),
+                                        int.Parse(parts[3]),
+                                        int.Parse(parts[4]));
+                                }
+                                else
+                                {
+                                    throw new Exception($"Unable to deserialize Spans. 'parts is null': {parts is null}, parts.Length: {(parts is null ? 0 : parts.Length)}");
+                                }
                             }
                         }
+                        return diagnosticResult;
                     }
-                    return diagnosticResult;
-                }
-                else
-                {
-                    throw new Exception($"Unable to deserialize ExpectedDiagnostics. 'ed is null': {ed is null}, ed.Length: {(ed is null ? 0 : ed.Length)}");
-                }
-            }).ToArray();
+                    else
+                    {
+                        throw new Exception($"Unable to deserialize ExpectedDiagnostics. 'ed is null': {ed is null}, ed.Length: {(ed is null ? 0 : ed.Length)}");
+                    }
+                }).ToArray();
+        }
 
         self.AdditionalFiles = info.GetValue<object[][]>(nameof(MFFTestDataBase.AdditionalFiles))
             .Select(af => (af[0].ToString() ?? string.Empty, af[1].ToString() ?? string.Empty)).ToArray();
+
         self.AdditionalReferences = info.GetValue<IEnumerable<string>>(nameof(MFFTestDataBase.AdditionalReferences))
-            .Select(ar => Assembly.Load(ar));
+            .Select(ar => Assembly.Load(ar)).ToArray();
     }
 
     public static void SerializeTestData(
@@ -106,16 +119,20 @@ public static class TestDataExtensions
         info.AddValue(nameof(MFFTestDataBase.Scenario), self.Scenario);
         info.AddValue(nameof(MFFTestDataBase.Sources), self.Sources);
 
-        if (self.ExpectedDiagnostics is not null)
+        if (IsNotMono)
         {
-            info.AddValue(nameof(MFFTestDataBase.ExpectedDiagnostics), self.ExpectedDiagnostics
-                .Select(ed => new object?[] { ed.Id, ed.Severity.ToString(), ed.Message,
+
+            if (self.ExpectedDiagnostics is not null)
+            {
+                info.AddValue(nameof(MFFTestDataBase.ExpectedDiagnostics), self.ExpectedDiagnostics
+                    .Select(ed => new object?[] { ed.Id, ed.Severity.ToString(), ed.Message,
                 ed.Spans.Select(s => $"{s.Span.Path}," +
                                 $"{s.Span.StartLinePosition.Line + 1}," +
                                 $"{s.Span.StartLinePosition.Character + 1}," +
                                 $"{s.Span.EndLinePosition.Line + 1}," +
                                 $"{s.Span.EndLinePosition.Character + 1}"
             ).ToArray() }).ToArray());
+            }
         }
 
         if (self.AdditionalFiles is not null)
@@ -127,7 +144,7 @@ public static class TestDataExtensions
         if (self.AdditionalReferences is not null)
         {
             info.AddValue(nameof(MFFTestDataBase.AdditionalReferences), self.AdditionalReferences
-                .Select(ar => ar.FullName));
+                .Select(ar => ar.FullName).ToArray());
         }
     }
 
@@ -136,6 +153,7 @@ public static class TestDataExtensions
         IXunitSerializationInfo info)
     {
         self.DeserializeTestData(info);
+
         self.Analyzers = info.GetValue<string[]>(nameof(MFFAnalyzerTestData.Analyzers))
             .Select(a =>
             {
@@ -152,15 +170,16 @@ public static class TestDataExtensions
 
                 throw new Exception($"Unable to create analyzer. type: '{a}'");
             }).ToArray();
-    }
 
+    }
     public static void SerializeAnalyzerTestData(
         this MFFAnalyzerTestData self,
         IXunitSerializationInfo info)
     {
         self.SerializeTestData(info);
+
         info.AddValue(nameof(MFFAnalyzerTestData.Analyzers), self.Analyzers
             .Select(a => a.GetType().AssemblyQualifiedName).ToArray());
-    }
 
+    }
 }

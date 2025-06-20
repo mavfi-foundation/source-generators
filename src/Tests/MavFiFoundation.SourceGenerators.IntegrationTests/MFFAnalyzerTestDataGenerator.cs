@@ -14,9 +14,7 @@ public class MFFAnalyzerTestDataGenerator : MFFAnalyzerTestDataProviderBase
     {
         var testDataBuilder = new AnalyzerTestDataBuilder<MFFAnalyzerXUnitTestData>();
 
-        //var generatorType = typeof(MFFGenerator);
-
-        // NothingIn_NothingOut
+         // NothingIn_NothingOut
         testDataBuilder.BeginTest(
             "NothingIn_NothingOut");
 

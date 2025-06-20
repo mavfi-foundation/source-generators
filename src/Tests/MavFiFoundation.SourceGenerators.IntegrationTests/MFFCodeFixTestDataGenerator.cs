@@ -16,8 +16,6 @@ public class MFFCodeFixTestDataGenerator : MFFCodeFixTestDataProviderBase
     {
         var testDataBuilder = new CodeFixTestDataBuilder<MFFCodeFixXUnitTestData>();
 
-        //var generatorType = typeof(MFFGenerator);
-
         // NothingIn_NothingOut
         testDataBuilder.BeginTest(
             "NothingIn_NothingOut");
