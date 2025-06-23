@@ -27,7 +27,7 @@ public static class ModelExtensions
 
         if (self.AdditionalOutputInfos is not null)
         {
-            additionalOutputInfos = self.AdditionalOutputInfos.Select(a => (Key:a.Key, Value:a.Value)).ToImmutableArray();
+            additionalOutputInfos = self.AdditionalOutputInfos.Select(a => (Key: a.Key, Value: a.Value)).ToImmutableArray();
         }
 
         return new MFFBuilderRecord(
@@ -81,6 +81,21 @@ public static class ModelExtensions
             genOutputInfos,
             srcOutputInfos
         );
+    }
+
+    private static IEnumerable<MFFTypePropertyRecord> AccessibleProperties(
+        IEnumerable<MFFTypePropertyRecord> properties)
+    {
+        return properties.Where(p => p.DeclaredAccessibilty == MFFAccessibilityType.Public);
+        // TODO: Add GetMethod DeclaredAccessibility - includeIfGetIsPublic = true, includeIfSetIsPublic = false
+        //                       .Where(p => !p.IsIndexer && p.GetMethod is not null &&
+        //                           p.GetMethod.DeclaredAccessibility == Accessibility.Public);
+    }
+
+    private static IEnumerable<MFFTypeFieldRecord> AccessibleFields(
+        IEnumerable<MFFTypeFieldRecord> fields)
+    {
+        return fields.Where(p => p.DeclaredAccessibilty == MFFAccessibilityType.Public);
     }
 
 }

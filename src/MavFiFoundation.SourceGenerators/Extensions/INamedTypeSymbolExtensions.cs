@@ -1,16 +1,18 @@
-﻿/**********************************************************************************
+﻿// SPDX-License-Identifier: LGPL-3.0-or-later
+// Copyright 2025, MavFi Foundation and the MavFiFoundation.SourceGenerators contributors
+
+/**********************************************************************************
 *
 * Original code based on AutoDeconstruct generator created by Jason Bock
 * and published in 'Writing Code to Generate Code in C#' article located at
 * https://www.codemag.com/Article/2305061/Writing-Code-to-Generate-Code-in-C#
 * AutoDestruct code was retrieved from https://github.com/JasonBock/AutoDeconstruct
 *
-***********************************************************************************/ 
+***********************************************************************************/
 
 using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
 using  MavFiFoundation.SourceGenerators.Models;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace MavFiFoundation.SourceGenerators;
 
@@ -20,65 +22,155 @@ public static class INamedTypeSymbolExtensions
 		   $"<{string.Join(", ", self.TypeParameters.Select(t => t.Name))}>" :
 		   string.Empty;
 
-	public static MFFTypeSymbolRecord GetTypeSymbolRecord(
-		this INamedTypeSymbol self)
-	{
-        var accessibleProperties = self.GetAccessiblePropertiesRecord();
-        return new MFFTypeSymbolRecord(
-                        self.ContainingNamespace.ToString(), 
-                        self.Name, 
-                        self.GetGenericParameters(), 
-                        self.GetFullyQualifiedName(), 
-                        self.GetConstraints(), 
-                        self.IsValueType, 
-                        accessibleProperties,
-						self.GetAttributesRecord());
-	}
-
-	public static EquatableArray<MFFPropertySymbolRecord> GetAccessiblePropertiesRecord(
-		this INamedTypeSymbol self)
-	{
-		var targetType = self;
-		var accessiblePropertiesBuilder = ImmutableArray.CreateBuilder<MFFPropertySymbolRecord>();
-
-		while (targetType is not null)
+    public static MFFAccessibilityType GetMFFAccessibility(
+         this Accessibility accessibility)
+    {
+        switch (accessibility)
         {
-            accessiblePropertiesBuilder.AddRange(GetAccessibleProperties(targetType)
-				.Select(p => new MFFPropertySymbolRecord(
-					p.Name, 
-					p.Type.GetFullyQualifiedName(),
-					!SymbolEqualityComparer.Default.Equals(targetType, self),
-					p.Type.IsValueType,
-					p.Type.NullableAnnotation == NullableAnnotation.Annotated,
-					p.Type.Name == "ICollection" || p.Type.AllInterfaces.Any(i => i.Name == "ICollection"),
-					p.GetAttributesRecord()
-					)));
+            case Accessibility.NotApplicable:
+                return MFFAccessibilityType.NotApplicable;
+            case Accessibility.Private:
+                return MFFAccessibilityType.Private;
+            case Accessibility.ProtectedAndInternal:
+                return MFFAccessibilityType.ProtectedAndInternal;
+            case Accessibility.Protected:
+                return MFFAccessibilityType.Protected;
+            case Accessibility.Internal:
+                return MFFAccessibilityType.Internal;
+            case Accessibility.ProtectedOrInternal:
+                return MFFAccessibilityType.ProtectedOrInternal;
+            case Accessibility.Public:
+                return MFFAccessibilityType.Public;
+            default:
+                throw new NotSupportedException($"accessibility: {accessibility}");
+        }
+    }
+
+    public static MFFTypeSymbolRecord GetTypeSymbolRecord(
+        this INamedTypeSymbol self)
+    {
+        var properties = self.GetTypePropertyRecords();
+        return new MFFTypeSymbolRecord(
+                        self.ContainingNamespace.ToString(),
+                        self.Name,
+                        self.GetGenericParameters(),
+                        self.GetFullyQualifiedName(),
+                        self.GetConstraints(),
+                        self.IsValueType,
+                        properties,
+                        self.GetAttributesRecord());
+    }
+
+    public static EquatableArray<MFFTypePropertyRecord> GetTypePropertyRecords(
+        this INamedTypeSymbol self)
+    {
+        var targetType = self;
+        var propertiesBuilder = ImmutableArray.CreateBuilder<MFFTypePropertyRecord>();
+
+        while (targetType is not null)
+        {
+            propertiesBuilder.AddRange(GetTypeProperties(targetType)
+                .Select(p => new MFFTypePropertyRecord(
+                    p.Name,
+                    p.Type.GetFullyQualifiedName(),
+                    !SymbolEqualityComparer.Default.Equals(targetType, self),
+                    p.Type.IsValueType,
+                    p.Type.NullableAnnotation == NullableAnnotation.Annotated,
+                    p.Type.Name == "ICollection" || p.Type.AllInterfaces.Any(i => i.Name == "ICollection"),
+                    p.DeclaredAccessibility.GetMFFAccessibility(),
+                    p.GetAttributesRecord()
+                    )));
             targetType = targetType.BaseType;
         }
 
-        return accessiblePropertiesBuilder.ToImmutable();
-	}
-
-    private static IEnumerable<IPropertySymbol> GetAccessibleProperties(INamedTypeSymbol targetType)
-    {
-        return targetType.GetMembers().OfType<IPropertySymbol>()
-                        .Where(p => !p.IsIndexer && p.GetMethod is not null &&
-                            p.GetMethod.DeclaredAccessibility == Accessibility.Public);
+        return propertiesBuilder.ToImmutable();
     }
 
-	public static EquatableArray<MFFAttributeDataRecord> GetAttributesRecord(
-		this ISymbol targetSymbol)
-	{
-		var propertiesBuilder = ImmutableArray.CreateBuilder<MFFAttributeDataRecord>();
+    public static EquatableArray<MFFTypeFieldRecord> GetTypeFieldRecords(
+        this INamedTypeSymbol self)
+    {
+        var targetType = self;
+        var fieldsBuilder = ImmutableArray.CreateBuilder<MFFTypeFieldRecord>();
+
+        while (targetType is not null)
+        {
+            fieldsBuilder.AddRange(GetTypeFields(targetType)
+                .Select(p => new MFFTypeFieldRecord(
+                    p.Name,
+                    p.Type.GetFullyQualifiedName(),
+                    !SymbolEqualityComparer.Default.Equals(targetType, self),
+                    p.Type.IsValueType,
+                    p.Type.NullableAnnotation == NullableAnnotation.Annotated,
+                    p.Type.Name == "ICollection" || p.Type.AllInterfaces.Any(i => i.Name == "ICollection"),
+                    p.DeclaredAccessibility.GetMFFAccessibility(),
+                    p.GetAttributesRecord()
+                    )));
+            targetType = targetType.BaseType;
+        }
+
+        return fieldsBuilder.ToImmutable();
+    }
+
+    /*
+        public static EquatableArray<MFFTypePropertyRecord> GetAccessiblePropertiesRecord(
+            this INamedTypeSymbol self)
+        {
+            var targetType = self;
+            var accessiblePropertiesBuilder = ImmutableArray.CreateBuilder<MFFTypePropertyRecord>();
+
+            while (targetType is not null)
+            {
+                accessiblePropertiesBuilder.AddRange(GetAccessibleProperties(targetType)
+                    .Select(p => new MFFTypePropertyRecord(
+                        p.Name,
+                        p.Type.GetFullyQualifiedName(),
+                        !SymbolEqualityComparer.Default.Equals(targetType, self),
+                        p.Type.IsValueType,
+                        p.Type.NullableAnnotation == NullableAnnotation.Annotated,
+                        p.Type.Name == "ICollection" || p.Type.AllInterfaces.Any(i => i.Name == "ICollection"),
+                        p.DeclaredAccessibility.GetMFFAccessibility(),
+                        p.GetAttributesRecord()
+                        )));
+                targetType = targetType.BaseType;
+            }
+
+            return accessiblePropertiesBuilder.ToImmutable();
+        }
+    */
+
+    private static IEnumerable<IPropertySymbol> GetTypeProperties(INamedTypeSymbol targetType)
+    {
+        return targetType.GetMembers().OfType<IPropertySymbol>()
+                        .Where(p => !p.IsIndexer);
+    }
+
+    private static IEnumerable<IFieldSymbol> GetTypeFields(INamedTypeSymbol targetType)
+    {
+        return targetType.GetMembers().OfType<IFieldSymbol>();
+    }
+
+
+    /*
+        private static IEnumerable<IPropertySymbol> GetAccessibleProperties(INamedTypeSymbol targetType)
+        {
+            return targetType.GetMembers().OfType<IPropertySymbol>()
+                            .Where(p => !p.IsIndexer && p.GetMethod is not null &&
+                                p.GetMethod.DeclaredAccessibility == Accessibility.Public);
+        }
+    */
+    public static EquatableArray<MFFAttributeDataRecord> GetAttributesRecord(
+        this ISymbol targetSymbol)
+    {
+        var propertiesBuilder = ImmutableArray.CreateBuilder<MFFAttributeDataRecord>();
 
         propertiesBuilder.AddRange(targetSymbol.GetAttributes()
-			.Select(a => new MFFAttributeDataRecord(
-				a.AttributeClass?.ToDisplayString() ?? string.Empty,
-				a.GetAttributePropertiesRecord()
-			)));
+            .Select(a => new MFFAttributeDataRecord(
+                a.AttributeClass?.ToDisplayString() ?? string.Empty,
+                a.GetAttributePropertiesRecord()
+            )));
 
         return propertiesBuilder.ToImmutable();
-	}
+    }
 
 	public static EquatableArray<MFFAttributePropertyRecord> GetAttributePropertiesRecord(
 		this AttributeData targetAttribute)

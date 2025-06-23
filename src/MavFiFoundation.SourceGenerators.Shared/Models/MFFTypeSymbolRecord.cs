@@ -17,6 +17,6 @@ public record MFFTypeSymbolRecord
 	string FullyQualifiedName,
 	string Constraints,
 	bool IsValueType,
-	EquatableArray<MFFPropertySymbolRecord> AccessibleProperties,
+	EquatableArray<MFFTypePropertyRecord> Properties,
 	EquatableArray<MFFAttributeDataRecord> Attributes
 );

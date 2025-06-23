@@ -27,7 +27,7 @@ public class MFFTypeSymbolRecordBuilder
 	private string _fullyQualifiedName = DefaultFullyQualifiedName;
 	private string _constraints = DefaultConstraints;
 	private bool _isValueType = DefaultIsValueType;
-	private IEnumerable<MFFPropertySymbolRecord> _accessibleProperties = Array.Empty<MFFPropertySymbolRecord>();
+	private IEnumerable<MFFTypePropertyRecord> _accessibleProperties = Array.Empty<MFFTypePropertyRecord>();
 	private IEnumerable<MFFAttributeDataRecord> _attributes = Array.Empty<MFFAttributeDataRecord>();
 
     #endregion
@@ -71,13 +71,13 @@ public class MFFTypeSymbolRecordBuilder
     }
 
     public MFFTypeSymbolRecordBuilder AccessibleProperties(
-        IEnumerable<MFFPropertySymbolRecord> accessibleProperties)
+        IEnumerable<MFFTypePropertyRecord> accessibleProperties)
     {
         _accessibleProperties = accessibleProperties;
         return this;
     }
 
-    public MFFTypeSymbolRecordBuilder AddAccessiblePropertie(MFFPropertySymbolRecord accessibleProperty)
+    public MFFTypeSymbolRecordBuilder AddAccessiblePropertie(MFFTypePropertyRecord accessibleProperty)
     {
         _accessibleProperties = _accessibleProperties.Append(accessibleProperty);
         return this;
