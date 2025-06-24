@@ -22,13 +22,19 @@ public record MFFTypePropertyRecord : MFFTypeMemberRecord
 
     public bool IsGenericCollection { get; private set; }
 
+    public MFFTypeMethodRecord? GetMethod { get; private set; }
+
+    public MFFTypeMethodRecord? SetMethod { get; private set; }
+
 
     public MFFTypePropertyRecord(
         string typeFullyQualifiedName,
         bool isValueType,
         bool isNullable,
         bool isGenericCollection,
-        MFFTypeMemberRecord typeMemberRecord
+        MFFTypeMemberRecord typeMemberRecord,
+        MFFTypeMethodRecord? getMethod = null,
+        MFFTypeMethodRecord? setMethod = null
         )
         : this(
             typeMemberRecord.Name,
@@ -38,7 +44,9 @@ public record MFFTypePropertyRecord : MFFTypeMemberRecord
             isNullable,
             isGenericCollection,
             typeMemberRecord.DeclaredAccessibilty,
-            typeMemberRecord.Attributes
+            typeMemberRecord.Attributes,
+            getMethod,
+            setMethod
         )
     { }
 
@@ -50,7 +58,9 @@ public record MFFTypePropertyRecord : MFFTypeMemberRecord
         bool isNullable,
         bool isGenericCollection,
         MFFAccessibilityType declaredAccessibilty,
-        EquatableArray<MFFAttributeDataRecord> attributes)
+        EquatableArray<MFFAttributeDataRecord> attributes,
+        MFFTypeMethodRecord? getMethod = null,
+        MFFTypeMethodRecord? setMethod = null)
         : base(
             name,
             isInherited,
@@ -62,5 +72,7 @@ public record MFFTypePropertyRecord : MFFTypeMemberRecord
         IsValueType = isValueType;
         IsNullable = isNullable;
         IsGenericCollection = isGenericCollection;
+        GetMethod = getMethod;
+        SetMethod = setMethod;
     }
 }

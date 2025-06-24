@@ -18,5 +18,7 @@ public record MFFTypeSymbolRecord
 	string Constraints,
 	bool IsValueType,
 	EquatableArray<MFFTypePropertyRecord> Properties,
+	EquatableArray<MFFTypeFieldRecord> Fields,
+	EquatableArray<MFFTypeMethodRecord> Methods,
 	EquatableArray<MFFAttributeDataRecord> Attributes
 );

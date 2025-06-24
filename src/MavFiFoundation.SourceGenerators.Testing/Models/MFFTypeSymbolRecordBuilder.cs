@@ -27,7 +27,9 @@ public class MFFTypeSymbolRecordBuilder
 	private string _fullyQualifiedName = DefaultFullyQualifiedName;
 	private string _constraints = DefaultConstraints;
 	private bool _isValueType = DefaultIsValueType;
-	private IEnumerable<MFFTypePropertyRecord> _accessibleProperties = Array.Empty<MFFTypePropertyRecord>();
+	private IEnumerable<MFFTypePropertyRecord> _properties = Array.Empty<MFFTypePropertyRecord>();
+	private IEnumerable<MFFTypeFieldRecord> _fields = Array.Empty<MFFTypeFieldRecord>();
+	private IEnumerable<MFFTypeMethodRecord> _methods = Array.Empty<MFFTypeMethodRecord>();
 	private IEnumerable<MFFAttributeDataRecord> _attributes = Array.Empty<MFFAttributeDataRecord>();
 
     #endregion
@@ -70,16 +72,42 @@ public class MFFTypeSymbolRecordBuilder
         return this;
     }
 
-    public MFFTypeSymbolRecordBuilder AccessibleProperties(
-        IEnumerable<MFFTypePropertyRecord> accessibleProperties)
+    public MFFTypeSymbolRecordBuilder Properties(
+        IEnumerable<MFFTypePropertyRecord> properties)
     {
-        _accessibleProperties = accessibleProperties;
+        _properties = properties;
         return this;
     }
 
-    public MFFTypeSymbolRecordBuilder AddAccessiblePropertie(MFFTypePropertyRecord accessibleProperty)
+    public MFFTypeSymbolRecordBuilder Fields(
+        IEnumerable<MFFTypeFieldRecord> fields)
     {
-        _accessibleProperties = _accessibleProperties.Append(accessibleProperty);
+        _fields = fields;
+        return this;
+    }
+
+    public MFFTypeSymbolRecordBuilder Methods(
+        IEnumerable<MFFTypeMethodRecord> methods)
+    {
+        _methods = methods;
+        return this;
+    }
+
+    public MFFTypeSymbolRecordBuilder AddProperty(MFFTypePropertyRecord property)
+    {
+        _properties = _properties.Append(property);
+        return this;
+    }
+
+    public MFFTypeSymbolRecordBuilder AddField(MFFTypeFieldRecord field)
+    {
+        _fields = _fields.Append(field);
+        return this;
+    }
+
+    public MFFTypeSymbolRecordBuilder AddMethod(MFFTypeMethodRecord method)
+    {
+        _methods = _methods.Append(method);
         return this;
     }
 
@@ -104,7 +132,9 @@ public class MFFTypeSymbolRecordBuilder
             _fullyQualifiedName, 
             _constraints, 
             _isValueType, 
-            _accessibleProperties.ToImmutableArray(), 
+            _properties.ToImmutableArray(),
+            _fields.ToImmutableArray(),
+            _methods.ToImmutableArray(),
             _attributes.ToImmutableArray());
     }
 

@@ -21,6 +21,13 @@ $"  		\"SourceBuilderInfo\": \"{ MFFResourceLoader.DefaultLoaderPrefix + Constan
 	)]
     public class ResourceLoader_LoadsEmbeddedResources
     {
+        private readonly bool _testField = false;
 
+        public bool TestProperty { get; set; }
+
+        protected bool TestMethod()
+        {
+            return _testField;
+        }
     }
 }

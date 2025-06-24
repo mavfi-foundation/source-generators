@@ -84,12 +84,15 @@ public static class ModelExtensions
     }
 
     private static IEnumerable<MFFTypePropertyRecord> AccessibleProperties(
-        IEnumerable<MFFTypePropertyRecord> properties)
+        IEnumerable<MFFTypePropertyRecord> properties,
+        bool includeIfSetIsPublic = false,
+        bool includeIfGetIsPublic = true)
     {
-        return properties.Where(p => p.DeclaredAccessibilty == MFFAccessibilityType.Public);
-        // TODO: Add GetMethod DeclaredAccessibility - includeIfGetIsPublic = true, includeIfSetIsPublic = false
-        //                       .Where(p => !p.IsIndexer && p.GetMethod is not null &&
-        //                           p.GetMethod.DeclaredAccessibility == Accessibility.Public);
+        return properties.Where(p => p.DeclaredAccessibilty == MFFAccessibilityType.Public &&
+            ((includeIfGetIsPublic && p.GetMethod is not null &&
+                p.GetMethod.DeclaredAccessibilty == MFFAccessibilityType.Public) ||
+            (includeIfSetIsPublic && p.SetMethod is not null &&
+                p.SetMethod.DeclaredAccessibilty == MFFAccessibilityType.Public)));
     }
 
     private static IEnumerable<MFFTypeFieldRecord> AccessibleFields(

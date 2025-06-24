@@ -18,9 +18,12 @@ namespace MavFiFoundation.SourceGenerators;
 
 public static class INamedTypeSymbolExtensions
 {
+    private const string BackingFieldSuffix = "k__BackingField";
+    
+    
    public static string GetGenericParameters(this INamedTypeSymbol self) => self.TypeParameters.Length > 0 ?
-		   $"<{string.Join(", ", self.TypeParameters.Select(t => t.Name))}>" :
-		   string.Empty;
+              $"<{string.Join(", ", self.TypeParameters.Select(t => t.Name))}>" :
+              string.Empty;
 
     public static MFFAccessibilityType GetMFFAccessibility(
          this Accessibility accessibility)
@@ -50,6 +53,9 @@ public static class INamedTypeSymbolExtensions
         this INamedTypeSymbol self)
     {
         var properties = self.GetTypePropertyRecords();
+        var fields = self.GetTypeFieldRecords();
+        var methods = self.GetTypeMethodRecords();
+
         return new MFFTypeSymbolRecord(
                         self.ContainingNamespace.ToString(),
                         self.Name,
@@ -58,7 +64,28 @@ public static class INamedTypeSymbolExtensions
                         self.GetConstraints(),
                         self.IsValueType,
                         properties,
+                        fields,
+                        methods,
                         self.GetAttributesRecord());
+    }
+
+    public static MFFTypePropertyRecord GetTypePropertyRecord(
+        this IPropertySymbol property,
+        INamedTypeSymbol targetType,
+        INamedTypeSymbol self)
+    {
+        return new MFFTypePropertyRecord(
+            property.Name,
+            property.Type.GetFullyQualifiedName(),
+            !SymbolEqualityComparer.Default.Equals(targetType, self),
+            property.Type.IsValueType,
+            property.Type.NullableAnnotation == NullableAnnotation.Annotated,
+            property.Type.Name == "ICollection" || property.Type.AllInterfaces.Any(i => i.Name == "ICollection"),
+            property.DeclaredAccessibility.GetMFFAccessibility(),
+            property.GetAttributesRecord(),
+            property.GetMethod?.GetTypeMethodRecord(targetType, self),
+            property.SetMethod?.GetTypeMethodRecord(targetType, self)
+        );
     }
 
     public static EquatableArray<MFFTypePropertyRecord> GetTypePropertyRecords(
@@ -70,20 +97,28 @@ public static class INamedTypeSymbolExtensions
         while (targetType is not null)
         {
             propertiesBuilder.AddRange(GetTypeProperties(targetType)
-                .Select(p => new MFFTypePropertyRecord(
-                    p.Name,
-                    p.Type.GetFullyQualifiedName(),
-                    !SymbolEqualityComparer.Default.Equals(targetType, self),
-                    p.Type.IsValueType,
-                    p.Type.NullableAnnotation == NullableAnnotation.Annotated,
-                    p.Type.Name == "ICollection" || p.Type.AllInterfaces.Any(i => i.Name == "ICollection"),
-                    p.DeclaredAccessibility.GetMFFAccessibility(),
-                    p.GetAttributesRecord()
-                    )));
+                .Select(p =>p.GetTypePropertyRecord(targetType, self)));
             targetType = targetType.BaseType;
         }
 
         return propertiesBuilder.ToImmutable();
+    }
+
+    public static MFFTypeFieldRecord GetTypeFieldRecord(
+        this IFieldSymbol field,
+        INamedTypeSymbol targetType,
+        INamedTypeSymbol self)
+    {
+        return new MFFTypeFieldRecord(
+            field.Name,
+            field.Type.GetFullyQualifiedName(),
+            !SymbolEqualityComparer.Default.Equals(targetType, self),
+            field.Type.IsValueType,
+            field.Type.NullableAnnotation == NullableAnnotation.Annotated,
+            field.Type.Name == "ICollection" || field.Type.AllInterfaces.Any(i => i.Name == "ICollection"),
+            field.DeclaredAccessibility.GetMFFAccessibility(),
+            field.GetAttributesRecord()
+        );
     }
 
     public static EquatableArray<MFFTypeFieldRecord> GetTypeFieldRecords(
@@ -95,48 +130,43 @@ public static class INamedTypeSymbolExtensions
         while (targetType is not null)
         {
             fieldsBuilder.AddRange(GetTypeFields(targetType)
-                .Select(p => new MFFTypeFieldRecord(
-                    p.Name,
-                    p.Type.GetFullyQualifiedName(),
-                    !SymbolEqualityComparer.Default.Equals(targetType, self),
-                    p.Type.IsValueType,
-                    p.Type.NullableAnnotation == NullableAnnotation.Annotated,
-                    p.Type.Name == "ICollection" || p.Type.AllInterfaces.Any(i => i.Name == "ICollection"),
-                    p.DeclaredAccessibility.GetMFFAccessibility(),
-                    p.GetAttributesRecord()
-                    )));
+                .Select(f => f.GetTypeFieldRecord(targetType, self)));
             targetType = targetType.BaseType;
         }
 
         return fieldsBuilder.ToImmutable();
     }
 
-    /*
-        public static EquatableArray<MFFTypePropertyRecord> GetAccessiblePropertiesRecord(
-            this INamedTypeSymbol self)
+    public static MFFTypeMethodRecord GetTypeMethodRecord(
+        this IMethodSymbol method,
+        INamedTypeSymbol targetType,
+        INamedTypeSymbol self)
+    {
+        //TODO Parameters
+        //method.Parameters
+        return new MFFTypeMethodRecord(
+            method.Name,
+            !SymbolEqualityComparer.Default.Equals(targetType, self),
+            method.DeclaredAccessibility.GetMFFAccessibility(),
+            method.GetAttributesRecord()
+        );
+    }
+
+    public static EquatableArray<MFFTypeMethodRecord> GetTypeMethodRecords(
+        this INamedTypeSymbol self)
+    {
+        var targetType = self;
+        var methodsBuilder = ImmutableArray.CreateBuilder<MFFTypeMethodRecord>();
+
+        while (targetType is not null)
         {
-            var targetType = self;
-            var accessiblePropertiesBuilder = ImmutableArray.CreateBuilder<MFFTypePropertyRecord>();
-
-            while (targetType is not null)
-            {
-                accessiblePropertiesBuilder.AddRange(GetAccessibleProperties(targetType)
-                    .Select(p => new MFFTypePropertyRecord(
-                        p.Name,
-                        p.Type.GetFullyQualifiedName(),
-                        !SymbolEqualityComparer.Default.Equals(targetType, self),
-                        p.Type.IsValueType,
-                        p.Type.NullableAnnotation == NullableAnnotation.Annotated,
-                        p.Type.Name == "ICollection" || p.Type.AllInterfaces.Any(i => i.Name == "ICollection"),
-                        p.DeclaredAccessibility.GetMFFAccessibility(),
-                        p.GetAttributesRecord()
-                        )));
-                targetType = targetType.BaseType;
-            }
-
-            return accessiblePropertiesBuilder.ToImmutable();
+            methodsBuilder.AddRange(GetTypeMethods(targetType)
+                .Select(m => m.GetTypeMethodRecord(targetType, self)));
+            targetType = targetType.BaseType;
         }
-    */
+
+        return methodsBuilder.ToImmutable();
+    }
 
     private static IEnumerable<IPropertySymbol> GetTypeProperties(INamedTypeSymbol targetType)
     {
@@ -146,18 +176,15 @@ public static class INamedTypeSymbolExtensions
 
     private static IEnumerable<IFieldSymbol> GetTypeFields(INamedTypeSymbol targetType)
     {
-        return targetType.GetMembers().OfType<IFieldSymbol>();
+        return targetType.GetMembers().OfType<IFieldSymbol>()
+            .Where(f => !f.Name.EndsWith(BackingFieldSuffix));
     }
 
-
-    /*
-        private static IEnumerable<IPropertySymbol> GetAccessibleProperties(INamedTypeSymbol targetType)
-        {
-            return targetType.GetMembers().OfType<IPropertySymbol>()
-                            .Where(p => !p.IsIndexer && p.GetMethod is not null &&
-                                p.GetMethod.DeclaredAccessibility == Accessibility.Public);
-        }
-    */
+    private static IEnumerable<IMethodSymbol> GetTypeMethods(INamedTypeSymbol targetType)
+    {
+        return targetType.GetMembers().OfType<IMethodSymbol>()
+            .Where(m => !m.Name.StartsWith("get_") && !m.Name.StartsWith("set_")); //TODO: Constants
+    }
     public static EquatableArray<MFFAttributeDataRecord> GetAttributesRecord(
         this ISymbol targetSymbol)
     {
