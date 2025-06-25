@@ -5,29 +5,16 @@ namespace MavFiFoundation.SourceGenerators.Models;
 
 public record MFFTypeFieldRecord : MFFTypeMemberRecord
 {
-    public string TypeFullyQualifiedName { get; private set; }
-
-    public bool IsValueType { get; private set; }
-
-    public bool IsNullable { get; private set; }
-
-    public bool IsGenericCollection { get; private set; }
-
-
     public MFFTypeFieldRecord(
-        string typeFullyQualifiedName,
-        bool isValueType,
-        bool isNullable,
-        bool isGenericCollection,
         MFFTypeMemberRecord typeMemberRecord
         )
         : this(
             typeMemberRecord.Name,
-            typeFullyQualifiedName,
+            typeMemberRecord.TypeFullyQualifiedName,
             typeMemberRecord.IsInherited,
-            isValueType,
-            isNullable,
-            isGenericCollection,
+            typeMemberRecord.IsValueType,
+            typeMemberRecord.IsNullable,
+            typeMemberRecord.IsGenericCollection,
             typeMemberRecord.DeclaredAccessibilty,
             typeMemberRecord.Attributes
         )
@@ -44,14 +31,14 @@ public record MFFTypeFieldRecord : MFFTypeMemberRecord
         EquatableArray<MFFAttributeDataRecord> attributes)
         : base(
             name,
+            typeFullyQualifiedName,
             isInherited,
+            isValueType,
+            isNullable,
+            isGenericCollection,
             declaredAccessibilty,
             attributes
         )
     {
-        TypeFullyQualifiedName = typeFullyQualifiedName;
-        IsValueType = isValueType;
-        IsNullable = isNullable;
-        IsGenericCollection = isGenericCollection;
     }
 }

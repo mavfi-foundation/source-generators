@@ -24,8 +24,12 @@ public partial class {{ srcType.Name }}_Generated
         {{- if property.GetMethod }} get;{{ end }}{{ if property.GetMethod }} set;{{ end }} }
 {{- end }}
 {{- for method in srcType.Methods }}
-    {{ if !method.IsInherited && method.Name != ".ctor"}}
-    {{ method.DeclaredAccessibilty | string.downcase }} {{ method.TypeFullyQualifiedName }} {{ method.Name }}
+    {{- if !method.IsInherited && method.Name != ".ctor"}}
+
+    {{ method.DeclaredAccessibilty | string.downcase }} {{ method.TypeFullyQualifiedName }} {{ method.Name }} (
+        {{- for parameter in method.Parameters  }}
+            {{- parameter.TypeFullyQualifiedName }} {{ parameter.Name }}{{ if !for.last }}, {{ end }}
+        {{- end }})
     {
         return false;
     }

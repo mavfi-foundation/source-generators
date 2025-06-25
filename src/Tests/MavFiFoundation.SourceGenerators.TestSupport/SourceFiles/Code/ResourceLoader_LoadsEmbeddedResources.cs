@@ -25,7 +25,7 @@ $"  		\"SourceBuilderInfo\": \"{ MFFResourceLoader.DefaultLoaderPrefix + Constan
 
         public bool TestProperty { get; set; }
 
-        protected bool TestMethod()
+        protected bool TestMethod(bool testParameter1, string testParameter2)
         {
             return _testField;
         }

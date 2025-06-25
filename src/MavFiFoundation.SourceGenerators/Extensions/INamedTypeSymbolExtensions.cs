@@ -16,15 +16,30 @@ using  MavFiFoundation.SourceGenerators.Models;
 
 namespace MavFiFoundation.SourceGenerators;
 
+/// <summary>
+/// Provides extension methods for <see cref="INamedTypeSymbol"/> and related Roslyn symbol types,
+/// enabling extraction and transformation of type, property, field, method, parameter, and attribute metadata
+/// into custom record types for source generation scenarios.
+/// </summary>
 public static class INamedTypeSymbolExtensions
 {
     private const string BackingFieldSuffix = "k__BackingField";
     
     
-   public static string GetGenericParameters(this INamedTypeSymbol self) => self.TypeParameters.Length > 0 ?
+    /// <summary>
+    /// Returns the generic parameter list for the given type symbol, formatted as &lt;T1, T2, ...&gt; if any exist, or an empty string otherwise.
+    /// </summary>
+    /// <param name="self">The type symbol.</param>
+    /// <returns>A string representing the generic parameters.</returns>
+    public static string GetGenericParameters(this INamedTypeSymbol self) => self.TypeParameters.Length > 0 ?
               $"<{string.Join(", ", self.TypeParameters.Select(t => t.Name))}>" :
               string.Empty;
 
+    /// <summary>
+    /// Maps a Roslyn <see cref="Accessibility"/> value to a <see cref="MFFAccessibilityType"/>.
+    /// </summary>
+    /// <param name="accessibility">The accessibility value.</param>
+    /// <returns>The corresponding <see cref="MFFAccessibilityType"/>.</returns>
     public static MFFAccessibilityType GetMFFAccessibility(
          this Accessibility accessibility)
     {
@@ -49,6 +64,11 @@ public static class INamedTypeSymbolExtensions
         }
     }
 
+    /// <summary>
+    /// Creates a <see cref="MFFTypeSymbolRecord"/> representing the given type symbol, including its properties, fields, methods, and attributes.
+    /// </summary>
+    /// <param name="self">The type symbol.</param>
+    /// <returns>A <see cref="MFFTypeSymbolRecord"/> with extracted metadata.</returns>
     public static MFFTypeSymbolRecord GetTypeSymbolRecord(
         this INamedTypeSymbol self)
     {
@@ -69,6 +89,13 @@ public static class INamedTypeSymbolExtensions
                         self.GetAttributesRecord());
     }
 
+    /// <summary>
+    /// Creates a <see cref="MFFTypePropertyRecord"/> for the specified property symbol, including type, accessibility, and attributes.
+    /// </summary>
+    /// <param name="property">The property symbol.</param>
+    /// <param name="targetType">The declaring type symbol.</param>
+    /// <param name="self">The root type symbol for context.</param>
+    /// <returns>A <see cref="MFFTypePropertyRecord"/> with property metadata.</returns>
     public static MFFTypePropertyRecord GetTypePropertyRecord(
         this IPropertySymbol property,
         INamedTypeSymbol targetType,
@@ -88,6 +115,11 @@ public static class INamedTypeSymbolExtensions
         );
     }
 
+    /// <summary>
+    /// Collects all property records for the given type symbol and its base types.
+    /// </summary>
+    /// <param name="self">The type symbol.</param>
+    /// <returns>An <see cref="EquatableArray{MFFTypePropertyRecord}"/> of property records.</returns>
     public static EquatableArray<MFFTypePropertyRecord> GetTypePropertyRecords(
         this INamedTypeSymbol self)
     {
@@ -104,6 +136,13 @@ public static class INamedTypeSymbolExtensions
         return propertiesBuilder.ToImmutable();
     }
 
+    /// <summary>
+    /// Creates a <see cref="MFFTypeFieldRecord"/> for the specified field symbol, including type, accessibility, and attributes.
+    /// </summary>
+    /// <param name="field">The field symbol.</param>
+    /// <param name="targetType">The declaring type symbol.</param>
+    /// <param name="self">The root type symbol for context.</param>
+    /// <returns>A <see cref="MFFTypeFieldRecord"/> with field metadata.</returns>
     public static MFFTypeFieldRecord GetTypeFieldRecord(
         this IFieldSymbol field,
         INamedTypeSymbol targetType,
@@ -121,6 +160,11 @@ public static class INamedTypeSymbolExtensions
         );
     }
 
+    /// <summary>
+    /// Collects all field records for the given type symbol and its base types, excluding compiler-generated backing fields.
+    /// </summary>
+    /// <param name="self">The type symbol.</param>
+    /// <returns>An <see cref="EquatableArray{MFFTypeFieldRecord}"/> of field records.</returns>
     public static EquatableArray<MFFTypeFieldRecord> GetTypeFieldRecords(
         this INamedTypeSymbol self)
     {
@@ -137,21 +181,36 @@ public static class INamedTypeSymbolExtensions
         return fieldsBuilder.ToImmutable();
     }
 
+    /// <summary>
+    /// Creates a <see cref="MFFTypeMethodRecord"/> for the specified method symbol, including return type, parameters, accessibility, and attributes.
+    /// </summary>
+    /// <param name="method">The method symbol.</param>
+    /// <param name="targetType">The declaring type symbol.</param>
+    /// <param name="self">The root type symbol for context.</param>
+    /// <returns>A <see cref="MFFTypeMethodRecord"/> with method metadata.</returns>
     public static MFFTypeMethodRecord GetTypeMethodRecord(
         this IMethodSymbol method,
         INamedTypeSymbol targetType,
         INamedTypeSymbol self)
     {
-        //TODO Parameters
-        //method.Parameters
         return new MFFTypeMethodRecord(
             method.Name,
+            method.ReturnType.GetFullyQualifiedName(),
             !SymbolEqualityComparer.Default.Equals(targetType, self),
+            method.ReturnType.IsValueType,
+            method.ReturnType.NullableAnnotation == NullableAnnotation.Annotated,
+            method.ReturnType.Name == "ICollection" || method.ReturnType.AllInterfaces.Any(i => i.Name == "ICollection"),
             method.DeclaredAccessibility.GetMFFAccessibility(),
+            method.GetMethodParametersRecords(targetType, self),
             method.GetAttributesRecord()
         );
     }
 
+    /// <summary>
+    /// Collects all method records for the given type symbol and its base types, excluding property accessors.
+    /// </summary>
+    /// <param name="self">The type symbol.</param>
+    /// <returns>An <see cref="EquatableArray{MFFTypeMethodRecord}"/> of method records.</returns>
     public static EquatableArray<MFFTypeMethodRecord> GetTypeMethodRecords(
         this INamedTypeSymbol self)
     {
@@ -168,23 +227,88 @@ public static class INamedTypeSymbolExtensions
         return methodsBuilder.ToImmutable();
     }
 
+    /// <summary>
+    /// Creates a <see cref="MFFParameterRecord"/> for the specified parameter symbol, including type, accessibility, and attributes.
+    /// </summary>
+    /// <param name="parameter">The parameter symbol.</param>
+    /// <param name="targetType">The declaring type symbol.</param>
+    /// <param name="self">The root type symbol for context.</param>
+    /// <returns>A <see cref="MFFParameterRecord"/> with parameter metadata.</returns>
+    public static MFFParameterRecord GetMethodRecord(
+        this IParameterSymbol parameter,
+        INamedTypeSymbol targetType,
+        INamedTypeSymbol self)
+    {
+        return new MFFParameterRecord(
+            parameter.Name,
+            parameter.Type.GetFullyQualifiedName(),
+            !SymbolEqualityComparer.Default.Equals(targetType, self),
+            parameter.Type.IsValueType,
+            parameter.Type.NullableAnnotation == NullableAnnotation.Annotated,
+            parameter.Type.Name == "ICollection" || parameter.Type.AllInterfaces.Any(i => i.Name == "ICollection"),
+            parameter.DeclaredAccessibility.GetMFFAccessibility(),
+            parameter.GetAttributesRecord()
+        );
+    }
+
+    /// <summary>
+    /// Collects all parameter records for the given method symbol.
+    /// </summary>
+    /// <param name="method">The method symbol.</param>
+    /// <param name="targetType">The declaring type symbol.</param>
+    /// <param name="self">The root type symbol for context.</param>
+    /// <returns>An <see cref="EquatableArray{MFFParameterRecord}"/> of parameter records.</returns>
+    public static EquatableArray<MFFParameterRecord> GetMethodParametersRecords(
+        this IMethodSymbol method,
+        INamedTypeSymbol targetType,
+        INamedTypeSymbol self)
+    {
+        var methodsBuilder = ImmutableArray.CreateBuilder<MFFParameterRecord>();
+
+        methodsBuilder.AddRange(method.Parameters
+            .Select(p => p.GetMethodRecord(targetType, self)));
+
+        return methodsBuilder.ToImmutable();
+    }
+
+    /// <summary>
+    /// Gets all non-indexer property symbols for the specified type symbol.
+    /// </summary>
+    /// <param name="targetType">The type symbol.</param>
+    /// <returns>An enumerable of <see cref="IPropertySymbol"/>.</returns>
     private static IEnumerable<IPropertySymbol> GetTypeProperties(INamedTypeSymbol targetType)
     {
         return targetType.GetMembers().OfType<IPropertySymbol>()
                         .Where(p => !p.IsIndexer);
     }
 
+    /// <summary>
+    /// Gets all field symbols for the specified type symbol, excluding compiler-generated backing fields.
+    /// </summary>
+    /// <param name="targetType">The type symbol.</param>
+    /// <returns>An enumerable of <see cref="IFieldSymbol"/>.</returns>
     private static IEnumerable<IFieldSymbol> GetTypeFields(INamedTypeSymbol targetType)
     {
         return targetType.GetMembers().OfType<IFieldSymbol>()
             .Where(f => !f.Name.EndsWith(BackingFieldSuffix));
     }
 
+    /// <summary>
+    /// Gets all method symbols for the specified type symbol, excluding property accessors.
+    /// </summary>
+    /// <param name="targetType">The type symbol.</param>
+    /// <returns>An enumerable of <see cref="IMethodSymbol"/>.</returns>
     private static IEnumerable<IMethodSymbol> GetTypeMethods(INamedTypeSymbol targetType)
     {
         return targetType.GetMembers().OfType<IMethodSymbol>()
             .Where(m => !m.Name.StartsWith("get_") && !m.Name.StartsWith("set_")); //TODO: Constants
     }
+
+    /// <summary>
+    /// Collects all attribute data records for the specified symbol.
+    /// </summary>
+    /// <param name="targetSymbol">The symbol to inspect.</param>
+    /// <returns>An <see cref="EquatableArray{MFFAttributeDataRecord}"/> of attribute records.</returns>
     public static EquatableArray<MFFAttributeDataRecord> GetAttributesRecord(
         this ISymbol targetSymbol)
     {
@@ -199,6 +323,11 @@ public static class INamedTypeSymbolExtensions
         return propertiesBuilder.ToImmutable();
     }
 
+    /// <summary>
+    /// Collects all attribute property records for the specified attribute data, including constructor and named arguments.
+    /// </summary>
+    /// <param name="targetAttribute">The attribute data.</param>
+    /// <returns>An <see cref="EquatableArray{MFFAttributePropertyRecord}"/> of attribute property records.</returns>
 	public static EquatableArray<MFFAttributePropertyRecord> GetAttributePropertiesRecord(
 		this AttributeData targetAttribute)
 	{
@@ -224,6 +353,11 @@ public static class INamedTypeSymbolExtensions
         return propertiesBuilder.ToImmutable();
 	}
 
+    /// <summary>
+    /// Gets the value of a <see cref="TypedConstant"/>, handling arrays and single values.
+    /// </summary>
+    /// <param name="typedConstant">The typed constant.</param>
+    /// <returns>The value as an object, or an array of objects if the constant is an array.</returns>
 	public static object? GetValue(
 		this TypedConstant typedConstant)
 	{
@@ -244,6 +378,11 @@ public static class INamedTypeSymbolExtensions
 		return null;
 	}
 
+    /// <summary>
+    /// Returns the generic type parameter constraints for the given type symbol, formatted as C# 'where' clauses.
+    /// </summary>
+    /// <param name="self">The type symbol.</param>
+    /// <returns>A string containing the constraints, or an empty string if none.</returns>
     public static string GetConstraints(this INamedTypeSymbol self)
 	{
 		if (self.TypeParameters.Length == 0)
@@ -270,6 +409,11 @@ public static class INamedTypeSymbolExtensions
 		}
 	}
 
+    /// <summary>
+    /// Returns the constraints for a single type parameter, formatted as a C# 'where' clause.
+    /// </summary>
+    /// <param name="self">The type parameter symbol.</param>
+    /// <returns>A string containing the constraints, or an empty string if none.</returns>
 	private static string GetConstraints(this ITypeParameterSymbol self)
 	{
 		var constraints = new List<string>();
