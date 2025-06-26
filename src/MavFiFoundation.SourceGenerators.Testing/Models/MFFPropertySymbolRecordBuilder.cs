@@ -31,6 +31,8 @@ public class MFFPropertySymbolRecordBuilder
 
     private bool _isNullable = DefaultIsNullable;
 
+    private MFFAccessibilityType _declaredAccessibilty = MFFAccessibilityType.Public;
+
     private bool _isGenericCollection = DefaultIsGenericCollection;
 
 	private IEnumerable<MFFAttributeDataRecord> _attributes = Array.Empty<MFFAttributeDataRecord>();
@@ -75,6 +77,12 @@ public class MFFPropertySymbolRecordBuilder
         return this;
     }
 
+    public MFFPropertySymbolRecordBuilder DeclaredAccessibilty(MFFAccessibilityType accessibility)
+    {
+        _declaredAccessibilty = accessibility;
+        return this;
+    }
+
     public MFFPropertySymbolRecordBuilder Attributes(
         IEnumerable<MFFAttributeDataRecord> attributes)
     {
@@ -88,15 +96,16 @@ public class MFFPropertySymbolRecordBuilder
         return this;
     }
 
-    public MFFPropertySymbolRecord Build()
+    public MFFTypePropertyRecord Build()
     {
-        return new MFFPropertySymbolRecord(
+        return new MFFTypePropertyRecord(
             _name, 
             _typeFullyQualifiedName, 
             _isInherited, 
             _isValueType, 
             _isNullable, 
-            _isGenericCollection, 
+            _isGenericCollection,
+            _declaredAccessibilty,
             _attributes.ToImmutableArray());
     }
 
