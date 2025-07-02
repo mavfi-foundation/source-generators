@@ -15,7 +15,7 @@ public class MFFAttributeGeneratorTriggerTestClass : MFFAttributeGeneratorTrigge
 	public const string ExposedCtorArgSrcLocatorInfo = CtorArgSrcLocatorInfo;
 	public const string ExposedCtorArgUseSymbolForLocatorInfo = CtorArgUseSymbolForLocatorInfo;
 
-	public const string ExposedCtroArgOutoutInfo = CtorArgOutputInfo;
+	public const string ExposedCtroArgOutoutInfo = CtorArgSrcOutputInfo;
 
     public MFFAttributeGeneratorTriggerTestClass(
         IMFFGeneratorPluginsProvider pluginsProvider,

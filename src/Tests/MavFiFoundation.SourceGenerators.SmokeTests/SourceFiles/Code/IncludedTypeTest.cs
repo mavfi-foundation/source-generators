@@ -2,7 +2,7 @@ using MavFiFoundation.SourceGenerators;
 
 namespace TestSpace
 {
-	[MFFGenerateSource(GeneratorConstants.TypeLocator.MFFIncludedTypeLocator,
+	[MFFGenerateSource(GeneratorConstants.TypeLocator.MFFIncludedTypeLocator, null,
 """
 [
 	{

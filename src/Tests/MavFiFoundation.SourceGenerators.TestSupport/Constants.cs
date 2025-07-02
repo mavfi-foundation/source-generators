@@ -57,6 +57,8 @@ public static class Constants
         {
             public const string MFFAttributeGeneratorTriggerIncludedTypeLocatorScribanBuilderGeneratesClass = 
                 "MFFAttributeGeneratorTrigger_IncludedTypeLocator_ScribanBuilder_GeneratesClass_Code_Generated.cs";
+            public const string MFFAttributeGeneratorTriggerIncludedTypeLocatorScribanBuilderGeneratesClass2 = 
+                "MFFAttributeGeneratorTrigger_IncludedTypeLocator_ScribanBuilder_GeneratesClass_Code_Generated2.cs";
             public const string MFFAttributeGeneratorTriggerAttributeTypeLocatorScribanBuilderGeneratesClass = 
                 "MFFAttributeGeneratorTrigger_AttributeTypeLocator_ScribanBuilder_GeneratesClass_Source_Generated.cs";
             public const string MFFJsonGeneratorTriggerDynamicLinqTypeLocatorLiquidBuilderGeneratesClass = 
@@ -76,7 +78,10 @@ public static class Constants
             public const string MFFAttributeGeneratorTriggerIncludedTypeLocatorScribanBuilderGeneratesClass = 
                 "MFFAttributeGeneratorTrigger_IncludedTypeLocator_ScribanBuilder_GeneratesClass_Code_Generated.g.cs";
 
-            public const string MFFAttributeGeneratorTriggerAttributeTypeLocatorScribanBuilderGeneratesClass = 
+            public const string MFFAttributeGeneratorTriggerIncludedTypeLocatorScribanBuilderGeneratesClass2 = 
+                "MFFAttributeGeneratorTrigger_IncludedTypeLocator_ScribanBuilder_GeneratesClass_Code_Generated2.g.cs";
+
+            public const string MFFAttributeGeneratorTriggerAttributeTypeLocatorScribanBuilderGeneratesClass =
                 "MFFAttributeGeneratorTrigger_AttributeTypeLocator_ScribanBuilder_GeneratesClass_Source_Generated.g.cs";
 
             public const string MFFJsonGeneratorTriggerDynamicLinqTypeLocatorLiquidBuilderGeneratesClass = 
