@@ -5,7 +5,7 @@ using MavFiFoundation.SourceGenerators.TypeLocators;
 
 namespace TestSpace;
 
-	[MFFGenerateSource(MFFIncludedTypeLocator.DefaultName,
+	[MFFGenerateSource(MFFIncludedTypeLocator.DefaultName, null,
 """
 [
 	{
@@ -17,6 +17,22 @@ $"\n		\"SourceBuilderType\": \"{ MFFScribanBuilder.DefaultName }\",\n" +
 """ +
 """
 public partial class {{ srcType.Name }}_Generated\n{\n\n}"
+""" + 
+"""
+	}
+]
+""",
+"""
+[
+	{
+		"FileNameBuilderInfo": "{{ srcTypes[0].Name }}_Generated2.g.cs", 
+""" +
+$"\n		\"SourceBuilderType\": \"{ MFFScribanBuilder.DefaultName }\",\n" +
+"""
+		"SourceBuilderInfo": "#nullable enable\n\n
+""" +
+"""
+public partial class {{ srcTypes[0].Name }}_Generated2\n{\n\n}"
 """ + 
 """
 	}

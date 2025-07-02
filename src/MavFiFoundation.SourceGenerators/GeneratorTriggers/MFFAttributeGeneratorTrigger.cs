@@ -90,9 +90,14 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
     protected const string CtorArgUseSymbolForLocatorInfo = "useSymbolForLocatorInfo";
 
     /// <summary>
-    /// Attribute constructor property name for outputInfo property
+    /// Attribute constructor property name for srcOutputInfo property
     /// </summary>
-    protected const string CtorArgOutputInfo = "outputInfo";
+    protected const string CtorArgSrcOutputInfo = "srcOutputInfo";
+
+    /// <summary>
+    /// Attribute constructor property name for genOutputInfo property
+    /// </summary>
+    protected const string CtorArgGenOutputInfo = "genOutputInfo";
 
     #endregion
     #region Diagnostic Constants
@@ -303,6 +308,7 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
         sourceInfo.ContainingNamespace = srcType.ContainingNamespace;
 
         var att = srcType.Attributes.First(a => a.Name == ConfigAttributeName);
+        bool useSymbol = false;
 
         foreach (var attProp in att.Properties
             .Where(p => p.From == MFFAttributePropertyLocationType.Constructor))
@@ -318,22 +324,34 @@ public class MFFAttributeGeneratorTrigger : MFFGeneratorTriggerBase, IMFFGenerat
                     sourceInfo.SrcLocatorInfo = (string?)attProp.Value;
                     break;
                 case CtorArgUseSymbolForLocatorInfo:
-                    var useSymbol = attProp.Value == null ? false : (bool)attProp.Value;
+                    useSymbol = attProp.Value == null ? false : (bool)attProp.Value;
                     if (useSymbol)
                     {
                         sourceInfo.SrcLocatorInfo = srcType;
                     }
                     break;
-                case CtorArgOutputInfo:
-                    var outputInfo = (string?)attProp.Value;
-                    if (outputInfo is not null)
+                case CtorArgSrcOutputInfo:
+                    var srcOutputInfo = (string?)attProp.Value;
+                    if (srcOutputInfo is not null)
                     {
-                        sourceInfo.SrcOutputInfos = Serializer.DeserializeObject<List<MFFBuilderModel>?>(outputInfo);
+                        sourceInfo.SrcOutputInfos = Serializer.DeserializeObject<List<MFFBuilderModel>?>(srcOutputInfo);
+                    }
+                    break;
+                case CtorArgGenOutputInfo:
+                    var genOutputInfo = (string?)attProp.Value;
+                    if (genOutputInfo is not null)
+                    {
+                        sourceInfo.GenOutputInfos = Serializer.DeserializeObject<List<MFFBuilderModel>?>(genOutputInfo);
                     }
                     break;
                 default: //do nothing
                     break;
             }
+        }
+
+        if (useSymbol || sourceInfo.SrcLocatorInfo is null)
+        {
+            sourceInfo.SrcLocatorInfo = srcType;
         }
 
         return sourceInfo;

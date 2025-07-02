@@ -36,6 +36,14 @@ public class MFFGeneratorTestDataGenerator : MFFGeneratorTestDataProviderBase
                 EmbeddedResourceHelper.EmbeddedResourceType.GeneratedCode)
         ));
 
+        testDataBuilder.AddGeneratedSource((
+            generatorType,
+            Constants.SourceFiles.OutputFileName.MFFAttributeGeneratorTriggerIncludedTypeLocatorScribanBuilderGeneratesClass2,
+             EmbeddedResourceHelper.ReadEmbeddedSource(
+                Constants.SourceFiles.GeneratedCode.MFFAttributeGeneratorTriggerIncludedTypeLocatorScribanBuilderGeneratesClass2,
+                EmbeddedResourceHelper.EmbeddedResourceType.GeneratedCode)
+        ));
+
         _data.Add(testDataBuilder.BuildTestData());
 
         // MFFAttributeGeneratorTrigger_AttributeTypeLocator_ScribanBuilder_GeneratesClass

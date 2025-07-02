@@ -6,7 +6,7 @@ using MavFiFoundation.SourceGenerators.TestSupport;
 
 namespace TestSpace
 {
-	[MFFGenerateSource(MFFIncludedTypeLocator.DefaultName,
+	[MFFGenerateSource(MFFIncludedTypeLocator.DefaultName, null,
 """
 [
 	{
