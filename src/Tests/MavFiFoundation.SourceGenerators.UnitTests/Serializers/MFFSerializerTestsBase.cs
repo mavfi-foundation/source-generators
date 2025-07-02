@@ -63,13 +63,25 @@ public partial class {{ srcType.Name }}_Generated
         }
     }
 
-    protected void Serialize_Deserialize_All_MFFGeneratorInfoModel_Properties (IMFFSerializer cut)
+    protected void Serialize_Deserialize_All_MFFGeneratorInfoModel_Properties (
+        IMFFSerializer cut,
+        bool replaceTemplateLineEndings = false)
     {
         //Arrange
         var genInfo = MFFGeneratorInfoModel_Fully_Populated;
 
+        if (replaceTemplateLineEndings)
+        {
+#pragma warning disable CS8602, CS8600 // Dereference of a possibly null reference.
+            genInfo.GenOutputInfos[0].SourceBuilderInfo =
+                ((string)genInfo.GenOutputInfos[0].SourceBuilderInfo).Replace("\n",Environment.NewLine);
+            genInfo.SrcOutputInfos[0].SourceBuilderInfo =
+                ((string)genInfo.SrcOutputInfos[0].SourceBuilderInfo).Replace("\n",Environment.NewLine);
+#pragma warning restore CS8602, CS8600 // Dereference of a possibly null reference.
+        }
+
         //Act
-        var serialized = cut.SerializeObject(genInfo);
+            var serialized = cut.SerializeObject(genInfo);
         var actGenInfo = cut.DeserializeObject(serialized, typeof(MFFGeneratorInfoModel));
 
         actGenInfo.Should().BeEquivalentTo(genInfo);
